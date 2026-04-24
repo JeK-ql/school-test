@@ -19,15 +19,52 @@ export function DifficultyModal({ open, onClose, skillId, skillName }: Props) {
 
   return (
     <SystemModal open={open} onClose={onClose} title={`▶ ${skillName}`}>
-      <p className="text-[11px] tracking-widest text-muted mb-4 uppercase">
+      <p className="font-mono text-[10px] tracking-system text-text-muted mb-5 uppercase">
         SELECT DIFFICULTY
       </p>
-      <div className="space-y-2">
-        <NeonButton size="lg" className="w-full" onClick={() => start('normal')}>
-          NORMAL · 30 SEC / QUESTION
-        </NeonButton>
-        <NeonButton size="lg" variant="danger" className="w-full" onClick={() => start('hardcore')}>
-          HARDCORE · 10 SEC / QUESTION
+      <div className="space-y-2.5">
+        <button
+          onClick={() => start('normal')}
+          className="group w-full text-left border border-accent/40 hover:border-accent hover:shadow-glow hover:bg-[color:var(--accent-color)]/5 p-4 transition-all"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="font-display tracking-system uppercase text-accent text-sm text-glow">
+                ▶ NORMAL
+              </div>
+              <div className="font-mono text-[10px] tracking-system text-text-muted mt-1">
+                30 SEC / QUESTION
+              </div>
+            </div>
+            <span className="font-mono text-[10px] text-text-subtle group-hover:text-accent">
+              STANDARD ◢
+            </span>
+          </div>
+        </button>
+
+        <button
+          onClick={() => start('hardcore')}
+          className="group w-full text-left border border-danger/40 hover:border-danger hover:shadow-[0_0_14px_#FF005C] hover:bg-danger/5 p-4 transition-all"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="font-display tracking-system uppercase text-danger text-sm [text-shadow:0_0_10px_rgba(255,0,92,0.5)]">
+                ◈ HARDCORE
+              </div>
+              <div className="font-mono text-[10px] tracking-system text-text-muted mt-1">
+                10 SEC / QUESTION · NO MERCY
+              </div>
+            </div>
+            <span className="font-mono text-[10px] text-text-subtle group-hover:text-danger">
+              S-RANK ONLY ◢
+            </span>
+          </div>
+        </button>
+      </div>
+
+      <div className="mt-5 flex justify-center">
+        <NeonButton variant="ghost" size="sm" onClick={onClose}>
+          ⎋&nbsp;&nbsp;CANCEL
         </NeonButton>
       </div>
     </SystemModal>

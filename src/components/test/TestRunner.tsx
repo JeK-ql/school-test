@@ -5,6 +5,7 @@ import { loadSkill, type SkillId } from '@/lib/skills-loader';
 import { NeonCard } from '@/components/ui/NeonCard';
 import { HexBadge } from '@/components/ui/HexBadge';
 import { ProgressDots } from '@/components/ui/ProgressDots';
+import { NeonButton } from '@/components/ui/NeonButton';
 import { Timer } from './Timer';
 import { AnswerGrid } from './AnswerGrid';
 import { NoCorrectButton } from './NoCorrectButton';
@@ -103,47 +104,110 @@ export function TestRunner({ skillId, mode }: { skillId: SkillId; mode: Difficul
   });
 
   if (finished) {
+    if (finished.newLevel > finished.previousLevel) return <LevelUpOverlay {...finished} />;
     return (
-      <>
-        {finished.newLevel > finished.previousLevel ? (
-          <LevelUpOverlay {...finished} />
-        ) : (
-          <NeonCard className="text-center">
-            <div className="text-[10px] tracking-widest text-muted uppercase">[ RUN COMPLETE ]</div>
-            <div className="text-2xl tracking-widest text-accent text-glow mt-2">{skillName}</div>
-            <div className="mt-4 text-muted text-[11px] tracking-[2px]">
-              CORRECT: {finished.correct} · WRONG: {finished.wrong} · BONUS: {finished.bonus} · ACCURACY:{' '}
-              {Math.round(finished.accuracy * 100)}%
-            </div>
-            <a href="/dashboard" className="text-accent mt-6 inline-block">◢ RETURN</a>
-          </NeonCard>
-        )}
-      </>
+      <NeonCard variant="hero" className="max-w-2xl mx-auto text-center py-10 animate-scan-in">
+        <div className="font-mono text-[10px] tracking-system text-text-muted uppercase">
+          [ RUN COMPLETE ]
+        </div>
+        <div className="font-display tracking-system uppercase text-3xl text-accent text-glow-lg mt-3">
+          {skillName}
+        </div>
+        <div className="mt-6 grid grid-cols-4 gap-4 max-w-md mx-auto">
+          <Stat label="CORRECT" value={finished.correct} />
+          <Stat label="WRONG" value={finished.wrong} />
+          <Stat label="BONUS" value={finished.bonus} />
+          <Stat label="ACC" value={`${Math.round(finished.accuracy * 100)}%`} />
+        </div>
+        <a href="/dashboard" className="text-accent mt-8 inline-block font-display tracking-system uppercase text-xs hover:text-glow">
+          ◢&nbsp;&nbsp;RETURN TO MATRIX
+        </a>
+      </NeonCard>
     );
   }
 
   const q = state.queue[state.currentIndex];
-  if (!q) return <div className="text-muted">Loading...</div>;
+  if (!q) {
+    return (
+      <div className="text-text-muted font-mono text-xs tracking-system uppercase animate-pulse">
+        ◌&nbsp;&nbsp;LOADING DUNGEON
+        <span className="caret" />
+      </div>
+    );
+  }
 
   return (
-    <NeonCard>
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex gap-3 items-center">
-          <HexBadge rank={difficulty} />
-          <div>
-            <div className="text-[10px] tracking-widest text-muted uppercase">{skillName} · {state.difficulty}</div>
-            <div className="text-accent text-glow">{state.currentIndex + 1} / {state.queue.length}</div>
-          </div>
-        </div>
-        <Timer />
+    <div className="max-w-3xl mx-auto space-y-4 animate-scan-in">
+      <div className="flex items-center gap-2 font-mono text-[10px] tracking-system uppercase text-text-muted">
+        <span className="text-accent">●</span>
+        <span>DUNGEON ACTIVE</span>
+        <span className="text-text-subtle">//</span>
+        <span>{state.difficulty === 'hardcore' ? 'HARDCORE · 10S/Q' : 'NORMAL · 30S/Q'}</span>
       </div>
-      <ProgressDots results={progressDots} />
-      <div className="p-3.5 border-l-2 border-accent bg-[rgba(0,255,133,0.03)] mb-4">{q.question}</div>
-      <AnswerGrid onAnswer={(r) => state.registerAnswer(r)} />
-      <NoCorrectButton onAnswer={(r) => state.registerAnswer(r)} />
-      <ExplanationPanel />
-      <PenaltyOverlay />
-      {error && <div className="text-danger text-xs mt-3">{error}</div>}
-    </NeonCard>
+
+      <NeonCard variant="bracketed" className="relative">
+        <div className="flex justify-between items-start mb-5 gap-4">
+          <div className="flex gap-3 items-center">
+            <HexBadge rank={difficulty} />
+            <div className="min-w-0">
+              <div className="font-mono text-[10px] tracking-system text-text-muted uppercase truncate">
+                {skillName}
+              </div>
+              <div className="font-display text-accent text-glow tracking-system uppercase text-lg leading-tight mt-0.5 tabular-nums">
+                Q.{String(state.currentIndex + 1).padStart(2, '0')}
+                <span className="text-text-subtle"> / {String(state.queue.length).padStart(2, '0')}</span>
+              </div>
+            </div>
+          </div>
+          <Timer />
+        </div>
+
+        <ProgressDots results={progressDots} />
+
+        <div className="relative mt-4 mb-5 p-5 pl-6 border-l-2 border-accent bg-[color:var(--accent-color)]/[0.035] font-body text-[15px] leading-relaxed text-text">
+          <span className="absolute top-2 left-2 font-mono text-[9px] tracking-system text-text-muted uppercase">
+            QUERY
+          </span>
+          <span className="absolute top-2 right-3 font-mono text-[9px] tracking-system text-text-subtle">
+            #{q.id}
+          </span>
+          <div className="mt-5">{q.question}</div>
+        </div>
+
+        <AnswerGrid onAnswer={(r) => state.registerAnswer(r)} />
+        <NoCorrectButton onAnswer={(r) => state.registerAnswer(r)} />
+        <ExplanationPanel />
+        <PenaltyOverlay />
+        {error && (
+          <div className="text-danger font-mono text-[11px] tracking-wider mt-3 border-l-2 border-danger pl-2">
+            ⚠ {error}
+          </div>
+        )}
+      </NeonCard>
+
+      <div className="flex justify-center">
+        <NeonButton
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            if (confirm('Вийти із забігу? Прогрес сесії буде скинутий.')) {
+              state.reset();
+              window.location.href = '/dashboard';
+            }
+          }}
+        >
+          ⎋&nbsp;&nbsp;ABORT RUN
+        </NeonButton>
+      </div>
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div>
+      <div className="text-text-subtle text-[9px] tracking-system font-mono uppercase">{label}</div>
+      <div className="text-accent font-display text-xl leading-none tabular-nums mt-1">{value}</div>
+    </div>
   );
 }

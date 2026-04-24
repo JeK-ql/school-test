@@ -10,19 +10,24 @@ export function NoCorrectButton({ onAnswer }: Props) {
   const set = useRunStore((s) => s.currentAnswerSet);
   const status = useRunStore((s) => s.status);
   if (!set) return null;
+
   function handle() {
     if (status !== 'running') return;
     onAnswer(!set!.hasCorrect ? 'bonus' : 'wrong');
   }
+
   return (
-    <NeonButton
-      variant="dashed-danger"
-      size="md"
-      className="w-full mt-2.5"
-      onClick={handle}
-      disabled={status !== 'running'}
-    >
-      ⚠ ВІРНОЇ ВІДПОВІДІ НЕМАЄ
-    </NeonButton>
+    <div className="mt-3 flex items-center gap-3">
+      <span className="h-px flex-1 bg-danger/25" />
+      <NeonButton
+        variant="dashed-danger"
+        size="md"
+        onClick={handle}
+        disabled={status !== 'running'}
+      >
+        ⚠&nbsp;&nbsp;NO CORRECT ANSWER
+      </NeonButton>
+      <span className="h-px flex-1 bg-danger/25" />
+    </div>
   );
 }

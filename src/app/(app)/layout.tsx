@@ -6,9 +6,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const session = await auth();
   if (!session?.user?.id) redirect('/login');
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="max-w-6xl mx-auto p-6">{children}</main>
+      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-10">{children}</main>
+      <footer className="border-t border-accent/15 px-6 py-3 font-mono text-[9px] tracking-system text-text-subtle uppercase flex justify-between">
+        <span>SHADOW LEVELING // THE SYSTEM v0.1</span>
+        <span>{new Date().getFullYear()} · ARISE</span>
+      </footer>
     </div>
   );
 }
