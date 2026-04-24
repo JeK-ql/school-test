@@ -3,8 +3,33 @@ interface Props {
   size?: number;
 }
 
+const rankFile: Record<string, string> = {
+  'E': 'e-rang',
+  'D': 'd-rang',
+  'C': 'c-rang',
+  'B': 'b-rang',
+  'A': 'a-rang',
+  'S': 's-rang',
+};
+
 export function HexBadge({ rank, size = 40 }: Props) {
   const letter = rank.charAt(0).toUpperCase();
+  const file = rankFile[letter];
+
+  if (file) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={`/icon/${file}.png`}
+        alt={`${letter}-Rank`}
+        title={`${letter}-Rank`}
+        width={size}
+        height={size * 1.15}
+        className="drop-shadow-[0_0_8px_var(--accent-dim)]"
+      />
+    );
+  }
+
   return (
     <div
       className="flex items-center justify-center text-accent font-bold text-glow"

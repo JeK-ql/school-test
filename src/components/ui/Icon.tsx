@@ -1,12 +1,37 @@
 import registry from '@/data/icons-registry.json';
 
 type Entry = { id: string; label: string; purpose: string; status: 'stub' | 'ready' };
+
 const allIcons: Entry[] = [
   ...(registry.categories.navigation as Entry[]),
   ...(registry.categories.gameplay as Entry[]),
   ...(registry.categories.system as Entry[]),
 ];
 const byId = new Map(allIcons.map((e) => [e.id, e]));
+
+// Maps registry id → actual filename in /public/icon/ (without extension).
+// User provided PNGs with mixed casing; we map explicitly to avoid 404s.
+const iconFile: Record<string, string> = {
+  'winged-dagger': 'Winged-Dagger',
+  'open-ancient-book': 'Open-Ancient-Book',
+  'gate-portal': 'Gate-Portal',
+  'trophy-aura': 'Trophy-with-Aura',
+  'stopwatch': 'Stopwatch',
+  'rising-chart': 'Rising-Bar-Chart',
+  'settings-gear': 'Settings-Gear',
+  'mana-potion': 'Crystal-Mana-Potion',
+  'sword-staff': 'Sword-with-staff',
+  'spike-shield': 'Shield-with-Spikes',
+  'glowing-key': 'Glowing-Key',
+  'treasure-chest': 'Treasure-Chest',
+  'shadow-soldier': 'Shadow-Soldier',
+  'lightning-bolt': 'Lightning-Bolt',
+  'question-aura': 'Question-Mark',
+  'glowing-skull': 'Skull',
+  'magic-bell': 'Bell',
+  'flame': 'Flame',
+  'search-magnifier': 'Search-Magnifier',
+};
 
 interface Props {
   name: string;
@@ -17,10 +42,13 @@ interface Props {
 export function Icon({ name, size = 24, className }: Props) {
   const entry = byId.get(name);
   if (!entry) return null;
-  if (entry.status === 'ready') {
+
+  const file = iconFile[entry.id];
+  if (file) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={`/icons/${entry.id}.svg`}
+        src={`/icon/${file}.png`}
         alt={entry.label}
         title={entry.label}
         width={size}
@@ -29,6 +57,7 @@ export function Icon({ name, size = 24, className }: Props) {
       />
     );
   }
+
   const letters = entry.id
     .split('-')
     .map((w) => w.charAt(0).toUpperCase())

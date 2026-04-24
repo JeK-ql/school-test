@@ -5,13 +5,13 @@ export interface DailyTheme {
 }
 
 export const dailyThemes: Record<0 | 1 | 2 | 3 | 4 | 5 | 6, DailyTheme> = {
-  0: { accent: '#4F4F4F', label: 'Rest',     bg: '/bg/sun.svg' },
-  1: { accent: '#00F2FF', label: 'Energy',   bg: '/bg/mon.svg' },
-  2: { accent: '#00FF85', label: 'Growth',   bg: '/bg/tue.svg' },
-  3: { accent: '#FFD600', label: 'Focus',    bg: '/bg/wed.svg' },
-  4: { accent: '#FF7A00', label: 'Pressure', bg: '/bg/thu.svg' },
-  5: { accent: '#FF005C', label: 'Finish',   bg: '/bg/fri.svg' },
-  6: { accent: '#BD00FF', label: 'Magic',    bg: '/bg/sat.svg' },
+  0: { accent: '#4F4F4F', label: 'Rest',     bg: '/bg/sun.png' },
+  1: { accent: '#00F2FF', label: 'Energy',   bg: '/bg/mon.png' },
+  2: { accent: '#00FF85', label: 'Growth',   bg: '/bg/tue.png' },
+  3: { accent: '#FFD600', label: 'Focus',    bg: '/bg/wed.png' },
+  4: { accent: '#FF7A00', label: 'Pressure', bg: '/bg/thu.png' },
+  5: { accent: '#FF005C', label: 'Finish',   bg: '/bg/fri.png' },
+  6: { accent: '#BD00FF', label: 'Magic',    bg: '/bg/sat.png' },
 };
 
 export function getThemeForDay(day: number): DailyTheme {

@@ -10,7 +10,7 @@ describe('dailyThemes', () => {
       const t = dailyThemes[day];
       expect(t.accent).toMatch(/^#[0-9A-F]{6}$/i);
       expect(t.label).toBeTruthy();
-      expect(t.bg).toMatch(/\.(webp|svg)$/);
+      expect(t.bg).toMatch(/\.(webp|svg|png)$/);
     }
   });
 });
