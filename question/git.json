@@ -1,0 +1,18 @@
+{
+  "skill_id": "git",
+  "skill_name": "Git & Version Control",
+  "difficulty": "C-Rank",
+  "questions": [
+    {
+      "id": "git-001",
+      "question": "Яка команда Git переписує історію, об'єднуючи послідовні комміти в один?",
+      "correct_answer": "git rebase -i",
+      "explanation": "Інтерактивний rebase (`git rebase -i`) дозволяє squash / fixup / reorder коммітів у межах гілки.",
+      "fake_answers": [
+        "git merge --squash", "git commit --amend", "git reset --soft", "git cherry-pick",
+        "git revert", "git reflog", "git stash pop", "git clean -fd",
+        "git pull --rebase", "git log --oneline", "git bisect"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "description": "Реєстр іконок Shadow Leveling. Поле `status: 'stub'` означає, що на старті рендериться SVG-заглушка з placeholder-ID. Замінити після отримання фінальних арту. Компонент-споживач: /src/components/ui/Icon.tsx (slot-based, data-icon={id}).",
+  "categories": {
+    "navigation": [
+      { "id": "winged-dagger",     "label": "Winged Dagger",     "purpose": "Профіль користувача / Ранг / Гравці", "status": "stub" },
+      { "id": "open-ancient-book", "label": "Open Ancient Book", "purpose": "Бібліотека знань / Курси / Скіли",    "status": "stub" },
+      { "id": "gate-portal",       "label": "Stylized Gate Portal", "purpose": "Щоденні квести / Початок навчання", "status": "stub" },
+      { "id": "trophy-aura",       "label": "Trophy with Aura",  "purpose": "Досягнення / Зал слави", "status": "stub" },
+      { "id": "stopwatch",         "label": "Stopwatch",         "purpose": "Тести на час / Бліц-квізи", "status": "stub" },
+      { "id": "rising-chart",      "label": "Rising Bar Chart",  "purpose": "Статистика / Прогрес / Левел-ап", "status": "stub" },
+      { "id": "settings-gear",     "label": "Settings Gear",     "purpose": "Налаштування профілю/системи", "status": "stub" },
+      { "id": "mana-potion",       "label": "Crystal Mana Potion", "purpose": "Енергія / Крамниця / Магазин бонусів", "status": "stub" }
+    ],
+    "gameplay": [
+      { "id": "sword-staff",  "label": "Sword crossed with Staff", "purpose": "Режим 'Дуель' / PvP", "status": "stub" },
+      { "id": "spike-shield", "label": "Shield with Spikes", "purpose": "Захист стріку / Бонус безперервності", "status": "stub" },
+      { "id": "glowing-key",  "label": "Glowing Key", "purpose": "Розблокування рівня / Прихований контент", "status": "stub" },
+      { "id": "treasure-chest", "label": "Treasure Chest", "purpose": "Випадкова нагорода / Lootbox", "status": "stub" },
+      { "id": "shadow-soldier", "label": "Stylized Shadow Soldier", "purpose": "Гільдія / Команда / Друзі", "status": "stub" },
+      { "id": "ranked-medals",  "label": "Ranked Medals (E/D/C/B/A/S)", "purpose": "Поточний ліга-статус", "status": "stub" }
+    ],
+    "system": [
+      { "id": "lightning-bolt", "label": "Lightning Bolt",     "purpose": "Швидкі підказки / Бонус швидкості", "status": "stub" },
+      { "id": "question-aura",  "label": "Question Mark with Aura", "purpose": "Складний квіз / Бос-рівень", "status": "stub" },
+      { "id": "glowing-skull",  "label": "Skull with Glowing Eyes", "purpose": "Штраф / Неправильна відповідь", "status": "stub" },
+      { "id": "magic-bell",     "label": "Bell with Magical Soundwave", "purpose": "Сповіщення системи", "status": "stub" },
+      { "id": "flame",          "label": "Flame", "purpose": "Стрік (дні підряд) / Активність", "status": "stub" },
+      { "id": "search-magnifier", "label": "Search Magnifier (neon edge)", "purpose": "Пошук по базі знань", "status": "stub" }
+    ]
+  },
+  "stub_render_strategy": {
+    "component": "<Icon name='winged-dagger' size={24} />",
+    "behavior": "Поки status='stub' — рендериться SVG-коло з першими 2 буквами id та data-icon атрибутом. Tooltip = label. Глоу використовує --accent-color. Підміна: зберегти фінальний SVG як /public/icons/{id}.svg і змінити status на 'ready' у цьому реєстрі.",
+    "example_svg": "<svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='none' stroke='currentColor' stroke-width='1.5' stroke-dasharray='2 2'/><text x='12' y='16' text-anchor='middle' font-size='10' fill='currentColor'>WD</text></svg>"
+  }
+}
