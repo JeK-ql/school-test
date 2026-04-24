@@ -1,0 +1,18 @@
+{
+  "skill_id": "system-design",
+  "skill_name": "System Design",
+  "difficulty": "S-Rank",
+  "questions": [
+    {
+      "id": "sd-001",
+      "question": "Який патерн дозволяє відокремити запис і читання в БД для різного навантаження?",
+      "correct_answer": "CQRS",
+      "explanation": "CQRS (Command Query Responsibility Segregation) розділяє модель запису (Command) і читання (Query), що дозволяє масштабувати їх незалежно.",
+      "fake_answers": [
+        "Sharding", "Replication", "Event Sourcing", "Saga",
+        "Circuit Breaker", "Bulkhead", "Sidecar", "API Gateway",
+        "Service Mesh", "Pub/Sub", "Leader Election"
+      ]
+    }
+  ]
+}

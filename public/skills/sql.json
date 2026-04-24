@@ -1,0 +1,18 @@
+{
+  "skill_id": "sql",
+  "skill_name": "SQL & Databases",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "sql-001",
+      "question": "Яка команда SQL видаляє всі записи з таблиці швидше ніж DELETE і скидає AUTO_INCREMENT?",
+      "correct_answer": "TRUNCATE TABLE",
+      "explanation": "TRUNCATE — DDL-операція, що очищує таблицю без логування кожного рядка і скидає лічильники, на відміну від DELETE (DML).",
+      "fake_answers": [
+        "DELETE FROM", "DROP TABLE", "CLEAR TABLE", "RESET TABLE",
+        "PURGE TABLE", "EMPTY TABLE", "WIPE TABLE", "VACUUM",
+        "ALTER TABLE RESET", "FLUSH TABLE", "REFRESH TABLE"
+      ]
+    }
+  ]
+}

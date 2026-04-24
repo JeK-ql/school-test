@@ -1,0 +1,18 @@
+{
+  "skill_id": "algorithms",
+  "skill_name": "Algorithms & Data Structures",
+  "difficulty": "A-Rank",
+  "questions": [
+    {
+      "id": "algo-001",
+      "question": "Яка часова складність пошуку елемента у збалансованому BST у середньому випадку?",
+      "correct_answer": "O(log n)",
+      "explanation": "У збалансованому бінарному дереві пошуку висота дерева пропорційна log n, тож пошук виконується за O(log n).",
+      "fake_answers": [
+        "O(1)", "O(n)", "O(n log n)", "O(n^2)",
+        "O(2^n)", "O(n!)", "O(sqrt(n))", "O(log log n)",
+        "O(n^3)", "O(n + log n)", "O(k * n)"
+      ]
+    }
+  ]
+}

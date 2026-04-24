@@ -1,0 +1,18 @@
+{
+  "skill_id": "css-layout",
+  "skill_name": "CSS & Layout",
+  "difficulty": "C-Rank",
+  "questions": [
+    {
+      "id": "css-001",
+      "question": "Яка CSS-властивість створює нове stacking context без зміни позиціонування?",
+      "correct_answer": "isolation: isolate",
+      "explanation": "isolation: isolate створює новий stacking context без потреби встановлювати position або z-index.",
+      "fake_answers": [
+        "position: relative", "z-index: 1", "transform: none", "opacity: 1",
+        "will-change: auto", "contain: layout", "display: flex", "overflow: hidden",
+        "filter: none", "mix-blend-mode: normal", "backdrop-filter: none"
+      ]
+    }
+  ]
+}
