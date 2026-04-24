@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent-color: #00FF85;
+  --accent-dim: rgba(0, 255, 133, 0.55);
+}
+
+html, body {
+  background: #0a0a0a;
+  color: #E6F7EE;
+  font-family: ui-monospace, monospace;
+  min-height: 100vh;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 20% -10%, var(--accent-dim) 0%, transparent 50%),
+    linear-gradient(transparent 95%, rgba(255,255,255,0.02) 95%);
+  background-size: auto, 100% 3px;
+  background-attachment: fixed;
+}
+
+@layer utilities {
+  .glow { box-shadow: 0 0 14px var(--accent-dim); }
+  .text-glow { text-shadow: 0 0 8px var(--accent-dim); }
+  .border-glow { border: 1px solid var(--accent-color); box-shadow: 0 0 14px var(--accent-dim); }
+  .scanline { background-image: linear-gradient(transparent 95%, var(--accent-dim) 95%); background-size: 100% 3px; }
+}
