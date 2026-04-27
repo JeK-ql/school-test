@@ -1,0 +1,387 @@
+{
+  "skill_id": "message-brokers",
+  "skill_name": "Message Brokers (Kafka / RabbitMQ)",
+  "difficulty": "A-Rank",
+  "questions": [
+    {
+      "id": "message-brokers-001",
+      "question": "Як Kafka гарантує порядок повідомлень?",
+      "correct_answer": "Порядок гарантується лише в межах однієї партиції, не для всього топіка",
+      "explanation": "Kafka — distributed log. Топік ділиться на партиції, кожна партиція — впорядкований append-only лог. Якщо потрібен порядок для певної сутності — використовуй однаковий ключ (Kafka шле такі повідомлення в одну партицію).",
+      "fake_answers": [
+        "Глобальний порядок у межах усього топіка",
+        "Порядок між топіками однакового prefix",
+        "Порядок гарантується тільки з compression",
+        "Порядок між кластерами через MirrorMaker",
+        "Порядок за timestamp із продюсера",
+        "Порядок лише для idempotent producer",
+        "Порядок між consumer groups",
+        "Порядок при exactly-once delivery",
+        "Порядок при replication factor >= 3",
+        "Порядок при ack=all",
+        "Порядок гарантується брокером через consensus"
+      ]
+    },
+    {
+      "id": "message-brokers-002",
+      "question": "Що таке consumer group у Kafka?",
+      "correct_answer": "Група консьюмерів, між якими партиції топіка розподіляються — кожне повідомлення обробляється лише одним членом групи",
+      "explanation": "Consumer group забезпечує горизонтальне масштабування: N партицій можна обробляти N консьюмерами паралельно. Якщо консьюмерів більше за партиції — зайві простоюватимуть. Різні групи отримують усі повідомлення (pub/sub-like).",
+      "fake_answers": [
+        "Група топіків, що обробляються разом",
+        "Група брокерів-реплік для відмовостійкості",
+        "Кеш повідомлень для швидкого читання",
+        "Список авторизованих клієнтів",
+        "Група партицій під одним лідером",
+        "Колекція схем у Schema Registry",
+        "Cluster балансувальників",
+        "Зашифрована група для безпечних топіків",
+        "Група admin-користувачів",
+        "Список брокерів у ISR",
+        "Група схем версій топіка"
+      ]
+    },
+    {
+      "id": "message-brokers-003",
+      "question": "Що таке ISR (In-Sync Replicas) у Kafka?",
+      "correct_answer": "Підмножина реплік партиції, які повністю синхронні з лідером і можуть стати новим лідером",
+      "explanation": "Кожна партиція має лідера і фоловерів. ISR — фоловери, що встигають підтримувати темп лідера (replica.lag.time.max.ms). При ack=all лідер чекає підтвердження від усіх ISR. Падає поза ISR — не може бути обраний.",
+      "fake_answers": [
+        "Список усіх брокерів кластера",
+        "Реплікаційний журнал транзакцій",
+        "Інтервал між snapshot-ами стану",
+        "Сегменти лога з компакцією",
+        "Спеціальні системні топіки",
+        "Internal Schema Registry",
+        "Index Search Replicas для пошуку",
+        "Internal Stream Repository",
+        "Initial Snapshot Records",
+        "Idle State Replicas",
+        "Inverted Sorted Records"
+      ]
+    },
+    {
+      "id": "message-brokers-004",
+      "question": "Що відбувається при log compaction у Kafka?",
+      "correct_answer": "Зберігається лише останнє значення для кожного ключа в межах партиції; старі значення видаляються",
+      "explanation": "Log compaction — альтернатива retention за часом. Корисна для CDC, snapshot-ів, конфігурацій: топік стає 'таблицею останніх значень за ключем'. Tombstone (значення = null) маркує ключ як видалений.",
+      "fake_answers": [
+        "Дані стискаються алгоритмом GZIP без видалення",
+        "Партиції об'єднуються в одну",
+        "Видаляються повідомлення без ключа",
+        "Зберігаються лише перші повідомлення для кожного ключа",
+        "Видаляються повідомлення старші за 7 днів",
+        "Усі повідомлення архівуються в S3",
+        "Партиції автоматично шардуються",
+        "ISR замінюються свіжими репліками",
+        "Видаляються повідомлення без consumer ack",
+        "Лог дефрагментується без втрати даних",
+        "Видаляються повідомлення з нульовим розміром"
+      ]
+    },
+    {
+      "id": "message-brokers-005",
+      "question": "Який тип exchange у RabbitMQ доставляє повідомлення на ВСІ прив'язані черги без routing key?",
+      "correct_answer": "fanout",
+      "explanation": "fanout — broadcast усім зв'язаним чергам. direct — за точним збігом routing key. topic — за pattern (logs.*, *.error). headers — за заголовками повідомлення. default exchange — direct з routing key = ім'я черги.",
+      "fake_answers": [
+        "direct",
+        "topic",
+        "headers",
+        "default",
+        "broadcast",
+        "multicast",
+        "x-consistent-hash",
+        "x-delayed-message",
+        "x-recent-history",
+        "round-robin",
+        "spread"
+      ]
+    },
+    {
+      "id": "message-brokers-006",
+      "question": "Що таке dead-letter exchange (DLX) у RabbitMQ?",
+      "correct_answer": "Exchange, куди RabbitMQ перенаправляє повідомлення, які були rejected, expired або перевищили max length",
+      "explanation": "DLX налаштовується через x-dead-letter-exchange на черзі. Повідомлення потрапляє в DLX при nack без requeue, перевищенні TTL, або якщо черга переповнена. Звідти зазвичай у DLQ для аналізу/повтору.",
+      "fake_answers": [
+        "Exchange лише для admin-команд",
+        "Exchange, що ігнорує всі повідомлення",
+        "Exchange для shutdown-сигналів",
+        "Exchange для heartbeat між нодами",
+        "Exchange для зашифрованих повідомлень",
+        "Exchange для priority повідомлень",
+        "Exchange для broadcast логів",
+        "Exchange для transactional повідомлень",
+        "Exchange для federation з іншим кластером",
+        "Exchange для retry із expontental backoff",
+        "Exchange для повідомлень з атрибутом delete"
+      ]
+    },
+    {
+      "id": "message-brokers-007",
+      "question": "Що таке prefetch (QoS) у RabbitMQ?",
+      "correct_answer": "Кількість повідомлень, які RabbitMQ доставить consumer без отримання ack — обмежує неподтверджені",
+      "explanation": "channel.prefetch(N) — RabbitMQ не надішле більше N повідомлень без ack. prefetch=1 — round-robin: повільний consumer не отримає більше, ніж справиться. Великий prefetch — швидше, але дисбаланс і ризик OOM.",
+      "fake_answers": [
+        "Кеш повідомлень на стороні брокера",
+        "Pre-loading повідомлень з диска в RAM",
+        "Кількість одночасних з'єднань на consumer",
+        "Розмір буфера для batch-відправки",
+        "Час очікування ack (timeout)",
+        "Кількість retry перед DLX",
+        "Prefetch партицій для consumer group",
+        "Розмір TCP буфера сокета",
+        "Pre-fetched зображення у HTTP API",
+        "Глобальний rate limit для каналу",
+        "Кількість попередньо відкритих каналів"
+      ]
+    },
+    {
+      "id": "message-brokers-008",
+      "question": "Що означає at-least-once delivery?",
+      "correct_answer": "Повідомлення гарантовано буде доставлене, але можуть бути дублікати (consumer має бути ідемпотентним)",
+      "explanation": "At-most-once — може загубитись, без дублів (нема ack). At-least-once — без втрат, але можливі дублікати (ack після обробки + retry). Exactly-once — без втрат і без дублів (складно, дорого, зазвичай через ідемпотентність + dedup).",
+      "fake_answers": [
+        "Гарантія порядку, але повідомлення можуть губитись",
+        "Гарантія від дублікатів, але можливі втрати",
+        "Гарантія exactly один раз доставки",
+        "Гарантія доставки лише консьюмерам в одній групі",
+        "Гарантія доставки на всі шарди",
+        "Гарантія персистентності тільки на disk",
+        "Гарантія доставки лише при ack=all",
+        "Гарантія в межах однієї партиції",
+        "Гарантія TTL не менше за 1 годину",
+        "Гарантія сильної консистентності",
+        "Гарантія доставки лише авторизованим"
+      ]
+    },
+    {
+      "id": "message-brokers-009",
+      "question": "Що таке idempotent producer у Kafka?",
+      "correct_answer": "Продюсер, що завдяки PID і sequence number уникає дублікатів при retry",
+      "explanation": "enable.idempotence=true — producer отримує Producer ID, кожне повідомлення має sequence number у межах PID + партиція. Брокер відкидає повтори. Гарантує exactly-once у межах одного producer-сесії та однієї партиції.",
+      "fake_answers": [
+        "Продюсер, що шифрує повідомлення",
+        "Продюсер, що пише асинхронно з batch",
+        "Продюсер з custom partitioner",
+        "Продюсер, що використовує транзакції на Zookeeper",
+        "Продюсер, що компресує всі повідомлення",
+        "Продюсер з fixed batch size",
+        "Продюсер, що читає acks тільки від лідера",
+        "Продюсер з вбудованим Schema Registry",
+        "Продюсер, що ігнорує дублікати на стороні клієнта",
+        "Продюсер, що шле в декілька кластерів одночасно",
+        "Продюсер з вбудованим caching layer"
+      ]
+    },
+    {
+      "id": "message-brokers-010",
+      "question": "Що таке Schema Registry і навіщо він потрібен?",
+      "correct_answer": "Сервіс зберігання Avro/Protobuf/JSON-схем з контролем сумісності між версіями",
+      "explanation": "Confluent Schema Registry зберігає еволюцію схем. Producer/Consumer спілкуються по ID схеми, серіалізація компактна (без імен полів). Compatibility (BACKWARD/FORWARD/FULL) запобігає поломці консьюмерів при зміні схеми.",
+      "fake_answers": [
+        "Реєстр всіх топіків кластера",
+        "Зберігає consumer offsets",
+        "Кеш повідомлень для повторної доставки",
+        "Менеджер прав доступу (ACL)",
+        "Service discovery для брокерів",
+        "Реєстр consumer groups",
+        "Лог транзакцій producer-ів",
+        "Реєстр partitions і їх лідерів",
+        "Кеш скомпільованих SQL запитів kSQL",
+        "Реєстр доступних compression codecs",
+        "Менеджер реплікацій між кластерами"
+      ]
+    },
+    {
+      "id": "message-brokers-011",
+      "question": "Що таке outbox pattern і яку проблему він вирішує?",
+      "correct_answer": "Записує подію в таблицю outbox у тій же транзакції що й бізнес-дані, окремий процес доставляє її в брокер",
+      "explanation": "Запис у БД + публікація в Kafka — два не транзакційні дії. При збої між ними — або в БД є зміна без події, або подія без зміни. Outbox: записуємо в outbox-таблицю в тій же транзакції, а потім CDC або polling відправляє в брокер.",
+      "fake_answers": [
+        "Pattern для шифрування повідомлень в брокері",
+        "Pattern для рейт-лімітингу на consumer стороні",
+        "Pattern для batch-відправки повідомлень",
+        "Pattern для реплікації між регіонами",
+        "Pattern для debouncing подій",
+        "Pattern для priority queue",
+        "Pattern для дедуплікації на стороні брокера",
+        "Pattern для retry з backoff",
+        "Pattern для logging запитів API",
+        "Pattern для feature toggle через топіки",
+        "Pattern для buffering на стороні producer-а"
+      ]
+    },
+    {
+      "id": "message-brokers-012",
+      "question": "Який модель доставки використовує Kafka — push чи pull?",
+      "correct_answer": "Pull — консьюмери самі тягнуть повідомлення з брокера на свій темп",
+      "explanation": "Kafka pull дозволяє консьюмерам контролювати темп (backpressure). Брокер не перевантажить slow consumer. RabbitMQ — push (з prefetch для контролю). Pull простіше для batch, поганий для low-latency без long polling.",
+      "fake_answers": [
+        "Push — брокер сам пушить повідомлення",
+        "Push для високого пріоритету, pull для решти",
+        "Hybrid — push для нових, pull для retry",
+        "WebSocket bidirectional",
+        "gRPC streaming",
+        "MQTT publish-subscribe",
+        "HTTP long polling за замовчуванням",
+        "Server-Sent Events",
+        "AMQP-style push з ack",
+        "WebRTC для peer-to-peer",
+        "RPC виклики з callback"
+      ]
+    },
+    {
+      "id": "message-brokers-013",
+      "question": "Що таке head-of-line blocking у контексті брокерів?",
+      "correct_answer": "Повільне або проблемне повідомлення на початку черги/партиції блокує обробку всіх наступних",
+      "explanation": "У Kafka партиція оброблюється послідовно — якщо запис не вдається обробити (помилка), порядок порушити не можна. Рішення: DLQ для бракованих, parallel consumer (Confluent), розбиття на дрібніші партиції.",
+      "fake_answers": [
+        "Блокування мережі через TCP head-of-line",
+        "Блокування лідера партиції під час election",
+        "Блокування ZooKeeper під час оновлення метаданих",
+        "Блокування Schema Registry на запис нової версії",
+        "Блокування при достижении ISR порогу",
+        "Блокування ack-ів при високому навантаженні",
+        "Блокування consumer group при rebalance",
+        "Блокування продюсера при retry",
+        "Блокування при log compaction",
+        "Блокування на стороні Kafka Connect",
+        "Блокування при перевищенні quota"
+      ]
+    },
+    {
+      "id": "message-brokers-014",
+      "question": "Що відбувається при rebalance у consumer group Kafka?",
+      "correct_answer": "Партиції перерозподіляються між активними консьюмерами; протягом ребалансу вся група призупиняє обробку",
+      "explanation": "Rebalance триггериться при join/leave консьюмера, додаванні партицій, кризі heartbeat. Stop-the-world — затримка від мс до секунд. Cooperative Sticky Assignor зменшує impact, не забираючи всі партиції одразу.",
+      "fake_answers": [
+        "Брокери перерозподіляють лідерство партицій",
+        "ZooKeeper перерозподіляє метадані",
+        "Replication factor автоматично збільшується",
+        "Compaction перебудовує сегменти лога",
+        "Schema Registry оновлює всі версії",
+        "Партиції автоматично шардуються на дрібніші",
+        "ACL правила переоцінюються",
+        "Quotas перераховуються для всіх клієнтів",
+        "Connect перебалансовує таски",
+        "MirrorMaker запускає повну синхронізацію",
+        "kSQL переоцінює всі стриминг-таблиці"
+      ]
+    },
+    {
+      "id": "message-brokers-015",
+      "question": "Що таке offset у Kafka і де він зберігається?",
+      "correct_answer": "Позиція консьюмера в партиції; зберігається у внутрішньому топіку __consumer_offsets",
+      "explanation": "Кожне повідомлення має offset (sequence number) у партиції. Consumer комітить останній оброблений offset (auto-commit або вручну) у __consumer_offsets. При перезапуску продовжує з committed offset.",
+      "fake_answers": [
+        "Зміщення у мережевому пакеті",
+        "Час між публікацією і доставкою",
+        "Зберігається в ZooKeeper /brokers/offsets",
+        "Зберігається в Schema Registry",
+        "Зберігається на стороні консьюмера в локальному файлі",
+        "Зберігається у Kafka Connect внутрішньому стейті",
+        "Зберігається у Sentry для відстеження",
+        "Зберігається в Redis для швидкого доступу",
+        "Зберігається в журналі продюсера",
+        "Зберігається в MirrorMaker checkpoint",
+        "Зберігається у файлі offsets.log на брокері"
+      ]
+    },
+    {
+      "id": "message-brokers-016",
+      "question": "Коли краще обрати Kafka, а не RabbitMQ?",
+      "correct_answer": "Великі обсяги (мільйони повідомлень/с), потоки подій з історією, аналітика, log aggregation",
+      "explanation": "Kafka — distributed log: throughput, replay, stream processing, event sourcing. RabbitMQ — smart broker: складна маршрутизація (exchanges), priority queue, RPC-style, low-latency tasks. Kafka складніший в експлуатації.",
+      "fake_answers": [
+        "Складна маршрутизація з headers exchange",
+        "RPC pattern із response queue",
+        "Priority queue з різними рівнями",
+        "Маленький throughput з низькою затримкою",
+        "Транзакційне поштове розсилання",
+        "Простий task queue без replay",
+        "Black-list patterns у роутингу",
+        "Інтеграція з legacy AMQP клієнтами",
+        "Federation між невеликими кластерами",
+        "Низьке навантаження з push-моделлю",
+        "Маршрутизація через wildcard topic exchange"
+      ]
+    },
+    {
+      "id": "message-brokers-017",
+      "question": "Що таке replication factor у Kafka?",
+      "correct_answer": "Кількість копій кожної партиції на різних брокерах для відмовостійкості",
+      "explanation": "RF=3 — партиція є на 3 брокерах: 1 лідер + 2 фоловери. Витримує падіння (RF-1) брокерів без втрати даних. min.insync.replicas разом з ack=all визначає, скільки реплік повинно підтвердити запис.",
+      "fake_answers": [
+        "Кількість партицій на топік",
+        "Кількість consumer-ів на партицію",
+        "Множник пропускної здатності кластера",
+        "Швидкість реплікації між кластерами",
+        "Кількість брокерів у кластері",
+        "Кількість Schema Registry replicas",
+        "Кількість ZooKeeper нод у quorum",
+        "Кількість Kafka Connect воркерів",
+        "Кількість MirrorMaker процесів",
+        "Множник партиціонування під час rebalance",
+        "Кількість sequence numbers у idempotent producer"
+      ]
+    },
+    {
+      "id": "message-brokers-018",
+      "question": "Що таке Kafka Connect?",
+      "correct_answer": "Фреймворк для інтеграції Kafka з зовнішніми системами через source/sink конектори",
+      "explanation": "Connect — окремі процеси з конекторами (JDBC, Debezium для CDC, S3, Elasticsearch). Source — тягнуть дані в Kafka, Sink — відправляють з Kafka назовні. Distributed mode дає HA. REST API для управління.",
+      "fake_answers": [
+        "Сервіс для з'єднання клієнтів з кластером",
+        "Балансувальник запитів для брокерів",
+        "Менеджер з'єднань ZooKeeper",
+        "Консольний клієнт для надсилання повідомлень",
+        "Сервіс автентифікації consumer-ів",
+        "Бібліотека для прямих з'єднань Kafka-to-Kafka",
+        "Інструмент моніторингу JMX метрик",
+        "Сервіс service discovery між кластерами",
+        "Утіліта тестування connectivity",
+        "Service mesh proxy для брокерів",
+        "Менеджер схем сумісності"
+      ]
+    },
+    {
+      "id": "message-brokers-019",
+      "question": "Що означає acknowledge (ack) і negative-acknowledge (nack) у RabbitMQ?",
+      "correct_answer": "ack — consumer підтвердив обробку, повідомлення видаляється; nack — відмова, можна requeue або в DLX",
+      "explanation": "ack — basic.ack: видалити з черги. nack — basic.nack/reject: повернути в чергу (requeue=true) або відправити в DLX (requeue=false). Без ручного ack повідомлення задовкло висить як unacked, поки канал живий.",
+      "fake_answers": [
+        "ack — авторизація, nack — відмова в авторизації",
+        "ack — створює повідомлення, nack — видаляє",
+        "ack — реплікує між нодами, nack — ні",
+        "ack — комітить offset, nack — відкочує",
+        "ack — синхронний запис, nack — асинхронний",
+        "ack — для consumer, nack — для producer",
+        "ack — heartbeat, nack — disconnect",
+        "ack — successful commit, nack — rollback transaction",
+        "ack — TLS handshake, nack — TLS error",
+        "ack — durable, nack — transient",
+        "ack — TCP confirmation, nack — TCP retransmit"
+      ]
+    },
+    {
+      "id": "message-brokers-020",
+      "question": "Що таке backpressure і як з нею бореться брокер?",
+      "correct_answer": "Контроль швидкості, коли consumer не встигає за producer — pull-моделі, prefetch, flow control, persistence на диск",
+      "explanation": "У Kafka pull-модель природно дає backpressure: consumer тягне зі своєю швидкістю. RabbitMQ використовує prefetch і connection.blocked при заповненні памяті/диска. У NATS — slow consumer detection і drop.",
+      "fake_answers": [
+        "Producer стискає повідомлення сильніше",
+        "Брокер автоматично шардує партиції",
+        "Брокер скидає старі повідомлення без попередження",
+        "Брокер вимикає TLS для швидкості",
+        "Брокер додає replication factor",
+        "Брокер запускає GC примусово",
+        "Брокер блокує ZooKeeper для пріоритету",
+        "Брокер перетворює all messages на batch",
+        "Брокер примусово завершує consumer-ів",
+        "Брокер запускає rebalance для розподілу",
+        "Брокер дублює повідомлення на іншу партицію"
+      ]
+    }
+  ]
+}

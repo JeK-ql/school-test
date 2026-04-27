@@ -1,0 +1,387 @@
+{
+  "skill_id": "php",
+  "skill_name": "PHP",
+  "difficulty": "C-Rank",
+  "questions": [
+    {
+      "id": "php-001",
+      "question": "Що поверне вираз `0 == '0abc'` у PHP 8?",
+      "correct_answer": "false",
+      "explanation": "У PHP 8 порівняння числа з нечисловим рядком не приводить рядок до 0. У PHP 7 повертало true. Це одна з найвідоміших змін PHP 8 для усунення підступного type juggling.",
+      "fake_answers": [
+        "true",
+        "null",
+        "TypeError",
+        "0",
+        "1",
+        "Notice і true",
+        "Warning і null",
+        "Fatal error",
+        "DeprecationWarning",
+        "Empty string",
+        "ParseError"
+      ]
+    },
+    {
+      "id": "php-002",
+      "question": "Чим === відрізняється від ==?",
+      "correct_answer": "=== перевіряє значення і тип; == робить юстіровку типів",
+      "explanation": "0 == '0' → true, але 0 === '0' → false. === (identity) безпечніше і рекомендоване для уникнення type juggling-багів. Завжди використовуйте === для порівняння з false, null, 0.",
+      "fake_answers": [
+        "=== працює тільки з об'єктами",
+        "=== виконує deep comparison",
+        "=== повертає int, == повертає bool",
+        "=== працює тільки в strict_types",
+        "=== використовується тільки для null",
+        "=== виконується швидше у двічі",
+        "=== не підтримує масиви",
+        "=== ігнорує regular expressions",
+        "=== доступний тільки в PHP 8.2+",
+        "=== обмежений типами int та string",
+        "=== працює тільки в namespace"
+      ]
+    },
+    {
+      "id": "php-003",
+      "question": "Що таке strict_types у PHP?",
+      "correct_answer": "Директива declare(strict_types=1), що вимикає неявне приведення скалярних типів",
+      "explanation": "З declare(strict_types=1); на початку файлу int-параметр не прийме string. Без неї відбувається coercive type binding. Діє per-file, для викликів з цього файлу.",
+      "fake_answers": [
+        "Опція php.ini для всього проєкту",
+        "Декоратор класу @StrictTypes",
+        "Атрибут #[Strict]",
+        "Прапор Composer composer.json",
+        "Опція OPcache",
+        "Прапор у php-fpm.conf",
+        "Метод namespace strict",
+        "Опція namespace в use",
+        "Атрибут параметра функції",
+        "Опція автозавантажувача PSR-4",
+        "Опція Xdebug"
+      ]
+    },
+    {
+      "id": "php-004",
+      "question": "Що повертає `isset($x)` для `$x = null`?",
+      "correct_answer": "false",
+      "explanation": "isset повертає true, лише якщо змінна оголошена і не null. Для $x = null → false. empty($x) для null → true. is_null($x) → true.",
+      "fake_answers": [
+        "true",
+        "null",
+        "Warning",
+        "Notice",
+        "TypeError",
+        "0",
+        "1",
+        "Empty string",
+        "Fatal error",
+        "Залежить від strict_types",
+        "Залежить від namespace"
+      ]
+    },
+    {
+      "id": "php-005",
+      "question": "Який стандарт регулює autoloading класів через namespace і файлову структуру?",
+      "correct_answer": "PSR-4",
+      "explanation": "PSR-4 (PHP Standard Recommendations) визначає мапінг namespace → шлях до файлу. Composer-у PSR-4 декларується в composer.json, generation autoload-карти через composer dump-autoload.",
+      "fake_answers": [
+        "PSR-0",
+        "PSR-1",
+        "PSR-2",
+        "PSR-7",
+        "PSR-12",
+        "PSR-15",
+        "PSR-18",
+        "PSR-3",
+        "PSR-6",
+        "PSR-11",
+        "PSR-17"
+      ]
+    },
+    {
+      "id": "php-006",
+      "question": "Що таке prepared statement у PDO і навіщо потрібен?",
+      "correct_answer": "SQL-запит з параметрами, який запобігає SQL-injection і дозволяє повторне виконання",
+      "explanation": "PDO::prepare + bindValue/bindParam + execute — параметри передаються окремо від SQL, тому драйвер екранує їх. Захищає від SQL-injection і прискорює повторні виконання (один parse plan).",
+      "fake_answers": [
+        "Запит, який кешує результат у файл",
+        "Запит, що компілюється у байткод PHP",
+        "Запит, що виконується тільки під час інсталяції",
+        "Запит з обов'язковим UNION",
+        "Запит, що шифрує всі поля",
+        "Запит, що автоматично робить backup",
+        "Запит для асинхронної реплікації",
+        "Запит, що не використовує WHERE",
+        "Запит, який блокує таблицю на писання",
+        "Запит лише для read-only баз",
+        "Запит, що автоматично робить індекси"
+      ]
+    },
+    {
+      "id": "php-007",
+      "question": "Яка функція рекомендована для гешування паролів?",
+      "correct_answer": "password_hash з PASSWORD_BCRYPT або PASSWORD_DEFAULT",
+      "explanation": "password_hash($pwd, PASSWORD_DEFAULT) використовує bcrypt (з PHP 7.2 — Argon2 опціонально). Перевірка через password_verify. Не використовуйте md5/sha1 — швидко bruteforce-аться на GPU.",
+      "fake_answers": [
+        "md5",
+        "sha1",
+        "sha256",
+        "crc32",
+        "base64_encode",
+        "hash з SHA-512 без солі",
+        "uniqid",
+        "random_bytes",
+        "openssl_encrypt",
+        "mhash",
+        "crypt без явного алгоритму"
+      ]
+    },
+    {
+      "id": "php-008",
+      "question": "Яке нововведення PHP 8 додало іменовані аргументи?",
+      "correct_answer": "Named arguments (виклик: foo(name: 'Jeka', age: 30))",
+      "explanation": "Named arguments дозволяють передати аргумент за іменем параметра, у будь-якому порядку, і пропустити optional. Зручно з функціями з багатьма параметрами (PDO::setAttribute, htmlspecialchars).",
+      "fake_answers": [
+        "Variadic ...$args",
+        "Default values для аргументів",
+        "Spread оператор",
+        "Type hints",
+        "Nullable параметри",
+        "Constructor promotion",
+        "Match expression",
+        "Attributes #[...]",
+        "Enums",
+        "Readonly properties",
+        "Nullsafe operator"
+      ]
+    },
+    {
+      "id": "php-009",
+      "question": "Що таке trait у PHP?",
+      "correct_answer": "Механізм горизонтального переvикористання коду — додавання методів до класу без успадкування",
+      "explanation": "Trait — набір методів і властивостей, які підмішуються в клас через use TraitName;. Розв'язує обмеження одиничного успадкування. Конфлікти імен — через insteadof/as.",
+      "fake_answers": [
+        "Альтернатива інтерфейсу з реалізацією за замовчуванням",
+        "Анотація для DI-контейнера",
+        "Атрибут класу",
+        "Маркер для серіалізації",
+        "Спецтип для emulating multiple inheritance через abstract",
+        "Інструмент для mocking",
+        "Альтернатива namespace",
+        "Метатип для generic",
+        "Об'єднання інтерфейсу і enum",
+        "Декоратор класу",
+        "Альтернатива final class"
+      ]
+    },
+    {
+      "id": "php-010",
+      "question": "Що дозволяє constructor property promotion у PHP 8?",
+      "correct_answer": "Оголошення і присвоєння property прямо в підписі конструктора",
+      "explanation": "public function __construct(private string $name, public int $age) {} — створює і присвоює property без boilerplate. Прибирає тричі дубльоване ім'я (declaration, parameter, assignment).",
+      "fake_answers": [
+        "Автоматичне успадкування від BaseEntity",
+        "Автоматичне створення гетерів і сетерів",
+        "Автоматичне приведення типів аргументів",
+        "Автоматична валідація вхідних даних",
+        "Автоматичне логування викликів",
+        "Автоматичне кешування об'єкта",
+        "Автоматична серіалізація у JSON",
+        "Автоматичне створення міграції БД",
+        "Автоматичне оголошення static factory",
+        "Автоматична десеріалізація з JSON",
+        "Автоматична реєстрація у DI"
+      ]
+    },
+    {
+      "id": "php-011",
+      "question": "Що таке nullsafe operator (?->) у PHP 8?",
+      "correct_answer": "Безпечне звернення до property/методу: повертає null, якщо ланцюжок містить null",
+      "explanation": "$user?->profile?->avatar — якщо $user або profile == null, вираз поверне null без помилки. Аналог ?. у JS/TS, ?. у Kotlin. Зменшує isset/null-перевірки.",
+      "fake_answers": [
+        "Оператор null coalescing assignment",
+        "Оператор spaceship",
+        "Оператор приведення до bool",
+        "Оператор конкатенації, що ігнорує null",
+        "Оператор unset",
+        "Оператор early return",
+        "Оператор примусового приведення до int",
+        "Оператор type juggling",
+        "Оператор регулярних виразів",
+        "Оператор для асинхронних виразів",
+        "Оператор bitwise NOT"
+      ]
+    },
+    {
+      "id": "php-012",
+      "question": "Що таке enum у PHP 8.1?",
+      "correct_answer": "Тип-перерахування з фіксованим набором значень, опціонально backed (int/string)",
+      "explanation": "enum Status: string { case Active = 'active'; case Banned = 'banned'; } — type-safe значення. Backed enum (з типом) має ::from()/::tryFrom(). Підтримує методи й інтерфейси.",
+      "fake_answers": [
+        "Спецсинтаксис для масиву констант",
+        "Альтернатива namespace для констант",
+        "Декоратор класу @Enum",
+        "Атрибут #[Enum] на властивості",
+        "Trait для enum-логіки",
+        "Інтерфейс EnumInterface",
+        "Тип, який автоматично створює таблицю в БД",
+        "Тип, що серіалізується тільки в JSON",
+        "Тип, обмежений 16 значеннями",
+        "Псевдонім для final class з константами",
+        "Тип лише для PSR-7"
+      ]
+    },
+    {
+      "id": "php-013",
+      "question": "Що таке readonly property у PHP 8.1+?",
+      "correct_answer": "Property, яке можна присвоїти лише раз (зазвичай у конструкторі)",
+      "explanation": "public readonly string $id; — можна задати тільки в конструкторі (або при оголошенні). Друга спроба запису кидає Error. У 8.2 додано readonly class. Підвищує безпеку immutable-об'єктів.",
+      "fake_answers": [
+        "Property, що автоматично сериалізується",
+        "Property, доступне тільки з трейтів",
+        "Property з кешуванням значення",
+        "Property, обмежене типом string",
+        "Property тільки для статичних класів",
+        "Property з автоматичним гетером",
+        "Property, що блокує клас від наслідування",
+        "Property, що автоматично логується",
+        "Property тільки для interface",
+        "Property з валідацією через Attribute",
+        "Property, що шифрується автоматично"
+      ]
+    },
+    {
+      "id": "php-014",
+      "question": "Що таке match expression і чим відрізняється від switch?",
+      "correct_answer": "match використовує строге порівняння (===), повертає значення і не має fall-through",
+      "explanation": "match (true) { $x > 0 => 'pos', default => 'neg' }. На відміну від switch: 1) === замість ==, 2) це вираз (повертає значення), 3) немає fall-through, 4) кидає UnhandledMatchError, якщо немає default і немає збігу.",
+      "fake_answers": [
+        "match виконується паралельно",
+        "match доступний тільки в strict_types",
+        "match потребує break після кожного case",
+        "match підтримує тільки int",
+        "match синонім для switch",
+        "match повертає тільки bool",
+        "match використовує == як switch",
+        "match доступний тільки в trait",
+        "match не підтримує default",
+        "match потребує enum",
+        "match завжди тригерить exception"
+      ]
+    },
+    {
+      "id": "php-015",
+      "question": "Що таке генератор у PHP (yield)?",
+      "correct_answer": "Функція, що повертає Iterator і ліниво обчислює значення через yield",
+      "explanation": "function gen() { yield 1; yield 2; } — повертає Generator, який реалізує Iterator. Не зберігає всі значення в пам'яті. Підходить для великих файлів, нескінченних послідовностей, async-flow до Fibers.",
+      "fake_answers": [
+        "Інструмент для генерації UUID",
+        "Декоратор для DI",
+        "Замикання з кешем",
+        "Альтернатива interface",
+        "Магічний метод __yield__",
+        "Скорочення для array_map",
+        "Шаблонізатор як Twig",
+        "Альтернатива namespace",
+        "Інструмент для міграцій",
+        "Spread оператор для масивів",
+        "Альтернатива final method"
+      ]
+    },
+    {
+      "id": "php-016",
+      "question": "Як в PHP оголошується анонімна функція з захопленням змінних з зовнішньої області?",
+      "correct_answer": "Через function() use ($var) {}",
+      "explanation": "PHP не captures автоматично, як JS. Потрібно явно вказати use ($var) — за значенням, або use (&$var) — за посиланням. Arrow functions (fn() => $var) автоматично захоплюють.",
+      "fake_answers": [
+        "Через keyword capture()",
+        "Через include $var",
+        "Через global $var всередині",
+        "Через with ($var)",
+        "Через bind($var)",
+        "Через self::$var",
+        "Через static $var",
+        "Через scope($var)",
+        "Через closure($var)",
+        "Через namespace $var",
+        "Через extract($var)"
+      ]
+    },
+    {
+      "id": "php-017",
+      "question": "Що таке Composer і файл composer.json?",
+      "correct_answer": "Менеджер залежностей PHP; composer.json описує пакети, версії, autoload",
+      "explanation": "Composer (composer install/update) керує залежностями і генерує autoload-карту PSR-4. composer.lock фіксує точні версії. vendor/ — інстальовані пакети. Реєстр — Packagist.",
+      "fake_answers": [
+        "Шаблонізатор для HTML",
+        "ORM для MySQL",
+        "Збирач bundle для frontend",
+        "Менеджер кешу OPcache",
+        "Менеджер процесів PHP-FPM",
+        "Менеджер міграцій БД",
+        "Менеджер сесій",
+        "Менеджер логів",
+        "Інструмент мокування для тестів",
+        "Менеджер віртуальних оточень",
+        "Інструмент бенчмарку"
+      ]
+    },
+    {
+      "id": "php-018",
+      "question": "Що таке OPcache?",
+      "correct_answer": "Розширення, що кешує скомпільований байткод PHP у пам'яті, прискорюючи виконання",
+      "explanation": "OPcache зберігає opcodes після першої компіляції .php-файлу, уникаючи повторного парсингу. Включається в php.ini. Драматично прискорює production. У 7.4+ — preloading.",
+      "fake_answers": [
+        "Розширення для асинхронного I/O",
+        "Кеш HTTP-запитів",
+        "Кеш сесій у Redis",
+        "Кеш результатів MySQL-запитів",
+        "Менеджер обробників сигналів",
+        "Розширення для GraphQL",
+        "Інструмент профілювання як Xdebug",
+        "Інструмент трасування OpenTelemetry",
+        "Заміна PHP-FPM",
+        "Емулятор HHVM",
+        "Розширення для генерації PDF"
+      ]
+    },
+    {
+      "id": "php-019",
+      "question": "Чим відрізняються PHP-FPM і CGI?",
+      "correct_answer": "PHP-FPM — process manager з пулом тривалих процесів; CGI запускає новий процес на кожен запит",
+      "explanation": "CGI fork-ає процес на запит — повільно. PHP-FPM (FastCGI Process Manager) тримає пул worker-ів, що обробляють запити по черзі. Стандарт у production з Nginx (proxy_pass fastcgi).",
+      "fake_answers": [
+        "PHP-FPM — для CLI, CGI — для web",
+        "PHP-FPM — синхронний, CGI — async",
+        "PHP-FPM використовує OPcache, CGI — ні",
+        "CGI швидший у багатопроцесорних системах",
+        "PHP-FPM не підтримує Nginx",
+        "CGI працює тільки на Windows",
+        "PHP-FPM не підтримує сесії",
+        "CGI підтримує WebSocket нативно",
+        "PHP-FPM працює тільки в Docker",
+        "CGI — module Apache, FPM — Nginx",
+        "PHP-FPM не підтримує PSR-7"
+      ]
+    },
+    {
+      "id": "php-020",
+      "question": "Що таке магічний метод __invoke?",
+      "correct_answer": "Викликається при використанні об'єкта як функції: $obj()",
+      "explanation": "class Mul { public function __invoke($a, $b) { return $a*$b; } } $m = new Mul; $m(2,3); — повертає 6. Робить об'єкт callable. Перевірка через is_callable($obj).",
+      "fake_answers": [
+        "Викликається при serialize()",
+        "Викликається при clone",
+        "Викликається при echo $obj",
+        "Викликається при print_r",
+        "Викликається при iteration через foreach",
+        "Викликається при unset()",
+        "Викликається при автозавантаженні класу",
+        "Викликається при isset()",
+        "Викликається при destroy об'єкта",
+        "Викликається при першому доступі до property",
+        "Викликається при var_dump"
+      ]
+    }
+  ]
+}

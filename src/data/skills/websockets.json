@@ -1,0 +1,387 @@
+{
+  "skill_id": "websockets",
+  "skill_name": "WebSockets",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "ws-001",
+      "question": "Як ініціюється WebSocket-з'єднання?",
+      "correct_answer": "Через HTTP-запит з Upgrade: websocket, Connection: Upgrade і Sec-WebSocket-Key; сервер відповідає 101 Switching Protocols і Sec-WebSocket-Accept",
+      "explanation": "Перший байт — звичайний HTTP, тому WebSocket проходить через проксі/файрволи. Sec-WebSocket-Accept = base64(SHA1(client-key + magic-GUID)) — підтверджує, що сервер розуміє протокол. Після 101 з'єднання переходить у full-duplex.",
+      "fake_answers": [
+        "Через DNS-запит зі спеціальним типом WS",
+        "Через TCP SYN з прапором WS=1",
+        "Через UDP-handshake з нонсом",
+        "Через TLS-handshake з ALPN=ws",
+        "Через HTTP-метод WEBSOCKET",
+        "Через HTTP-метод CONNECT",
+        "Через HTTP-метод OPTIONS",
+        "Через окремий порт 81 без HTTP",
+        "Через HTTP/3 і QUIC напряму",
+        "Через POST з JSON-payload",
+        "Через GET без Upgrade — тіло одразу WS"
+      ]
+    },
+    {
+      "id": "ws-002",
+      "question": "Який HTTP-статус сервер повертає при успішному WebSocket-handshake?",
+      "correct_answer": "101 Switching Protocols",
+      "explanation": "101 — рідкісний статус, що означає 'переходимо на інший протокол поверх цього з'єднання'. Після 101 байти більше не є HTTP — це WebSocket-фрейми. Сервер також повертає Sec-WebSocket-Accept і опціонально Sec-WebSocket-Protocol/Extensions.",
+      "fake_answers": [
+        "200 OK",
+        "201 Created",
+        "204 No Content",
+        "100 Continue",
+        "102 Processing",
+        "202 Accepted",
+        "301 Moved Permanently",
+        "426 Upgrade Required",
+        "418 I'm a teapot",
+        "200 з заголовком X-WebSocket-OK",
+        "200 з Content-Type: application/websocket"
+      ]
+    },
+    {
+      "id": "ws-003",
+      "question": "Які типи фреймів є у WebSocket?",
+      "correct_answer": "Data frames (text, binary, continuation) і control frames (close, ping, pong); control-фрейми не можуть бути фрагментовані і коротші 125 байт",
+      "explanation": "Текст — UTF-8. Binary — довільні байти. Continuation — для фрагментованих повідомлень. Ping/Pong — keepalive і latency. Close — graceful shutdown із кодом і опціональним reason.",
+      "fake_answers": [
+        "GET, POST, PUT, DELETE — успадковано від HTTP",
+        "REQUEST і RESPONSE — single-direction",
+        "PUBLISH і SUBSCRIBE — як у MQTT",
+        "ACK і NACK — як у TCP",
+        "OPEN і CLOSE без даних",
+        "JSON і XML — за форматом",
+        "Stream і Datagram — як у QUIC",
+        "Header, Body, Trailer — як у HTTP",
+        "Frame, Packet, Segment — за рівнем OSI",
+        "Init, Continue, Final — за фазою",
+        "Sync, Async, Push — за семантикою"
+      ]
+    },
+    {
+      "id": "ws-004",
+      "question": "Чому фрейми від клієнта до сервера обов'язково маскуються?",
+      "correct_answer": "Захист від cache poisoning через проксі: маскування XOR-ключем робить байти псевдовипадковими, тому проксі не сприйме їх як HTTP-запит",
+      "explanation": "Без маскування зловмисний JS міг би відправити байти, що виглядають як HTTP-запит, через WebSocket. Проксі-кеш міг би обробити це як справжній запит. Маска — 4 байти, нова на кожен фрейм. Сервер -> клієнт не маскується.",
+      "fake_answers": [
+        "Шифрування — заміна TLS",
+        "Стискання даних на льоту",
+        "Контроль цілісності замість checksum",
+        "Аутентифікація фрейму без токена",
+        "Економія bandwidth",
+        "Сумісність з HTTP/1.0",
+        "Виявлення MITM",
+        "Легка серіалізація на клієнті",
+        "Уникання дублікатів у буфері",
+        "Захист від rate-limit",
+        "Підвищення ентропії з'єднання"
+      ]
+    },
+    {
+      "id": "ws-005",
+      "question": "Що таке subprotocol у WebSocket і як його обирає клієнт/сервер?",
+      "correct_answer": "Прикладний протокол поверх WebSocket; клієнт пропонує список через Sec-WebSocket-Protocol, сервер обирає один і повертає в заголовку відповіді",
+      "explanation": "Приклади subprotocols: graphql-ws, wamp, mqtt, soap, stomp. Клієнт: Sec-WebSocket-Protocol: graphql-ws, mqtt. Сервер: Sec-WebSocket-Protocol: graphql-ws. Якщо сервер не підтримує — відповідь без цього заголовка (нормально) або 400.",
+      "fake_answers": [
+        "Лише JSON, обирається автоматично",
+        "Це версія WebSocket (RFC 6455 v13)",
+        "Це алгоритм стискання payload",
+        "Це режим: бінарний чи текстовий",
+        "Це TLS-cipher для шифрування",
+        "Це шар серіалізації між XML і protobuf",
+        "Це протокол стиснення фреймів",
+        "Це enum рейт-лімітів",
+        "Це маршрутизація в Service Mesh",
+        "Це шар автентифікації",
+        "Це порт, на якому слухає сервер"
+      ]
+    },
+    {
+      "id": "ws-006",
+      "question": "Як WebSocket порівнюється зі Server-Sent Events (SSE)?",
+      "correct_answer": "WS — bidirectional, бінарний/текстовий, low-overhead; SSE — server-to-client only, текстовий, поверх HTTP, авто-reconnect, простіша інфраструктура",
+      "explanation": "SSE працює через звичайний HTTP-стрім (Content-Type: text/event-stream). Підходить, коли клієнту потрібні лише сповіщення (нотифікації, тікер курсів). WS — коли потрібна двостороння інтерактивність (чат, гра, спільна редакція).",
+      "fake_answers": [
+        "WS — лише браузер, SSE — лише сервер",
+        "SSE підтримує бінарні фрейми, WS — лише текст",
+        "WS і SSE — повні синоніми",
+        "SSE — bidirectional, WS — тільки server-to-client",
+        "WS вимагає UDP, SSE — TCP",
+        "SSE використовує HTTP/3 ексклюзивно",
+        "WS завжди швидший за SSE на 100%",
+        "SSE не підтримує auto-reconnect",
+        "WS працює лише через HTTP/1.1, SSE — через HTTP/2",
+        "SSE вимагає WebSocket під капотом",
+        "WS не сумісний з HTTPS"
+      ]
+    },
+    {
+      "id": "ws-007",
+      "question": "Як зробити keepalive у WebSocket?",
+      "correct_answer": "Через ping/pong control-фрейми: одна сторона шле ping, інша зобов'язана відповісти pong; це детектує мертве з'єднання і утримує проксі від тайм-ауту",
+      "explanation": "Browser-WS API не дає JS прямого доступу до ping/pong — браузер сам відповідає на ping. На стороні сервера (Node ws, Go gorilla) ping шле сам. Інтервал зазвичай 20-30 секунд (типовий проксі-таймаут).",
+      "fake_answers": [
+        "Слати порожні текстові фрейми кожну секунду",
+        "Перевідкривати з'єднання кожні 60 секунд",
+        "Використати TCP keepalive — інакше ніяк",
+        "Слати random bytes у бінарному фреймі",
+        "Слати HTTP HEAD-запит паралельно",
+        "Слати OPTIONS-preflight",
+        "Лише через cookie heartbeat",
+        "Лише через SSE-канал паралельно",
+        "Через DNS-запит на той самий хост",
+        "WebSocket не має механізму keepalive",
+        "Через TLS renegotiation"
+      ]
+    },
+    {
+      "id": "ws-008",
+      "question": "Як організувати горизонтальне масштабування WebSocket-сервера?",
+      "correct_answer": "Sticky sessions для прив'язки клієнта до інстансу + Redis pub/sub (або інший pub/sub) для розсилки повідомлень між інстансами",
+      "explanation": "WebSocket-з'єднання stateful — після handshake живе на одному інстансі. Якщо клієнт A на сервері 1, а клієнт B на сервері 2, повідомлення між ними йде через шину (Redis, NATS, Kafka). Sticky — через cookie/IP-hash на балансері.",
+      "fake_answers": [
+        "Просто додати більше серверів — auto-balance сам розбере",
+        "Лише через DNS round-robin без sticky",
+        "Зберігати з'єднання в БД для стану",
+        "Через CDN-edge кешування фреймів",
+        "Лише через WebRTC P2P між клієнтами",
+        "Через UDP-broadcast у дата-центрі",
+        "Через GraphQL Federation з Apollo",
+        "Через RDP-проксі на кожен інстанс",
+        "Лише через monolith — масштабувати неможливо",
+        "Лише через WebTransport з QUIC",
+        "Зберігати фрейми в S3 і читати клієнтом"
+      ]
+    },
+    {
+      "id": "ws-009",
+      "question": "Як автентифікувати WebSocket-з'єднання?",
+      "correct_answer": "Передати токен у URL (?token=...) або cookie на handshake; також прийнято — перше повідомлення з токеном перед іншим обміном; стандартного Authorization header браузерний WS API не підтримує",
+      "explanation": "Browser WebSocket API не дозволяє ставити кастомні заголовки, тому Authorization не передаси. Варіанти: ?token у URL (видно у логах), cookie (HttpOnly, але CSRF-ризик), auth-message першим. Subprotocol-trick: Sec-WebSocket-Protocol: token.<jwt>.",
+      "fake_answers": [
+        "Тільки через mTLS, інших способів немає",
+        "Через WS-окремий handshake-extension AuthV2",
+        "Через окремий REST-call з jwt і подальшим WS без auth",
+        "Через DNS TXT-запис",
+        "Через SNI у TLS",
+        "Через User-Agent",
+        "Через Referer",
+        "Через X-Forwarded-For",
+        "Через Sec-WebSocket-Key — він і є токеном",
+        "Через cookie SameSite=None обов'язково з Secure=false",
+        "Через PUT /ws/login перед upgrade"
+      ]
+    },
+    {
+      "id": "ws-010",
+      "question": "Що відбувається при close-handshake WebSocket?",
+      "correct_answer": "Одна сторона шле Close-фрейм з кодом (наприклад 1000 normal, 1001 going away, 1006 abnormal); інша відповідає Close-фреймом і обидві закривають TCP",
+      "explanation": "1000 — normal closure. 1001 — endpoint going away (закриття вкладки). 1002 — protocol error. 1003 — unsupported data. 1006 — abnormal (без close-фрейму). 1011 — server error. 4000-4999 — application-defined.",
+      "fake_answers": [
+        "Просто розрив TCP без фрейма",
+        "FIN-фрейм як у TCP",
+        "ABORT-метод HTTP",
+        "RST-пакет із кодом помилки",
+        "Browser шле DELETE-запит на той самий URL",
+        "Server шле HTTP-response з Connection: close",
+        "TLS Alert close_notify і нічого більше",
+        "Окремий gRPC-call CancelStream",
+        "Server SSE-event 'close'",
+        "Лише через перезавантаження сторінки",
+        "Через SIGKILL процесу клієнта"
+      ]
+    },
+    {
+      "id": "ws-011",
+      "question": "Що таке backpressure у WebSocket?",
+      "correct_answer": "Ситуація, коли продюсер шле фрейми швидше, ніж споживач читає — буфер (на сервері або клієнті) росте і може закінчити пам'ять",
+      "explanation": "Бібліотеки експонують bufferedAmount (browser) або writeBuffer size (server). Стратегії: drop-message, throttle, pause sending, відключити повільного клієнта. У реактивних бібліотеках (RxJS, akka-streams) — explicit backpressure signal.",
+      "fake_answers": [
+        "Двостороннє стиснення фреймів",
+        "Запит на сповільнення з боку клієнта",
+        "TLS-renegotiation під навантаженням",
+        "Скасування з'єднання через CSRF",
+        "Зашумленість каналу через TCP",
+        "Запит з пріоритетом, що перебиває попередній",
+        "Маска фрейму, що вказує на тиск",
+        "Алгоритм пере-маршрутизації трафіку",
+        "Метод стискання binary-фреймів",
+        "Heartbeat зі змінним інтервалом",
+        "Аналог HTTP/2 server push"
+      ]
+    },
+    {
+      "id": "ws-012",
+      "question": "У чому різниця між ws:// і wss://?",
+      "correct_answer": "ws:// — plaintext WebSocket (порт 80 за замовчуванням); wss:// — WebSocket поверх TLS (порт 443); у production обов'язково wss://",
+      "explanation": "wss обов'язковий з https-сторінок (mixed content). ws — лише для локальної розробки. wss проходить через корпоративні проксі краще (вони бачать лише шифрований трафік на 443). Сертифікати — звичайні TLS.",
+      "fake_answers": [
+        "ws — старіша версія, wss — нова",
+        "ws — для браузера, wss — для бекенду",
+        "ws — UDP, wss — TCP",
+        "ws — HTTP/1, wss — HTTP/2",
+        "ws — text-only, wss — binary",
+        "ws — bidirectional, wss — server-to-client",
+        "ws — без маскування, wss — з маскуванням",
+        "wss використовує QUIC замість TCP",
+        "ws — для localhost, wss — лише публічно",
+        "wss використовує власний сертифікат WebSocket-CA",
+        "ws — обов'язково з cookie, wss — без"
+      ]
+    },
+    {
+      "id": "ws-013",
+      "question": "Чи гарантує WebSocket порядок повідомлень і їх доставку?",
+      "correct_answer": "Гарантує порядок (поверх TCP/TLS) у межах однієї сесії, але не гарантує доставку при розриві з'єднання — потрібна власна логіка ack/replay",
+      "explanation": "TCP дає reliable in-order. Але якщо з'єднання розірвалось до прийому ack — повідомлення може загубитись. Для гарантованої доставки — message-level ack (як у MQTT QoS 1/2) і ID для replay. Reconnection з last-seen-id популярний у chat-app.",
+      "fake_answers": [
+        "Гарантує і порядок, і exactly-once завжди",
+        "Не гарантує жодного — лише як UDP",
+        "Гарантує лише за умови wss://",
+        "Гарантує лише в межах одного фрейму",
+        "Гарантує лише в межах одного клієнта",
+        "Гарантує лише при backpressure-pause",
+        "Гарантує лише для control frames",
+        "Гарантує лише для текстових фреймів",
+        "Гарантує тільки коли ввімкнено permessage-deflate",
+        "Гарантує лише з sticky session",
+        "Гарантує лише при HTTP/2"
+      ]
+    },
+    {
+      "id": "ws-014",
+      "question": "Що таке Socket.IO і чим він відрізняється від raw WebSocket?",
+      "correct_answer": "Socket.IO — бібліотека, що додає поверх WS rooms, namespaces, auto-reconnect, fallback на long-polling, ack-callback; не сумісна з чистим WebSocket-клієнтом",
+      "explanation": "Socket.IO має власний wire-протокол (Engine.IO). Це не WebSocket, а абстракція — клієнт ws://... напряму до Socket.IO-сервера не приєднається. Зручний для швидкого старту, але додає overhead і vendor lock-in.",
+      "fake_answers": [
+        "Це псевдонім raw WebSocket",
+        "Це CDN для WebSocket",
+        "Це проксі-сервер між WS і HTTP",
+        "Це REST-fallback для browsers",
+        "Це SDK для gRPC у браузері",
+        "Це стандарт RFC поверх WS",
+        "Це SaaS-платформа для WS",
+        "Це бібліотека лише для Node без клієнта",
+        "Це конвертор між WS і SSE",
+        "Це бібліотека лише для Python",
+        "Це браузерне розширення для дебагу WS"
+      ]
+    },
+    {
+      "id": "ws-015",
+      "question": "Що таке long polling і яка його перевага/недолік порівняно з WebSocket?",
+      "correct_answer": "Клієнт відкриває HTTP-запит, сервер тримає його до події або таймауту і відповідає; працює всюди, де HTTP, але дає вищу латентність і overhead на кожен round-trip",
+      "explanation": "Long polling — fallback там, де WebSocket недоступний (старі проксі, корпоративний фаєрвол). Кожна подія = новий HTTP-запит = TCP/TLS overhead і ризик пропуску події між запитами. WebSocket дає persistent low-latency канал.",
+      "fake_answers": [
+        "Це асинхронний WebSocket з polling-фолбеком",
+        "Це періодичний GET без затримки",
+        "Це HTTP-запит з затримкою у заголовку",
+        "Це stream через HEAD-метод",
+        "Це SSE без auto-reconnect",
+        "Це bidi-streaming gRPC через REST",
+        "Це WebSocket поверх HTTP/3",
+        "Це CDN-кешований WebSocket",
+        "Це reverse-WebSocket з ініціативи сервера",
+        "Це періодичний DNS-запит",
+        "Це підписка через WebHooks"
+      ]
+    },
+    {
+      "id": "ws-016",
+      "question": "Як WebSocket поводиться з NAT і корпоративними проксі?",
+      "correct_answer": "Через wss:// на 443 — проксі бачить лише шифрований трафік і пропускає; NAT тримає TCP-з'єднання поки є трафік (потрібен ping/pong кожні 20-60 сек)",
+      "explanation": "Проблеми: HTTP/1.1-проксі може не розуміти Upgrade і ламати handshake. Старі L7-проксі тайм-аутять idle-з'єднання за 30 секунд. wss проходить як HTTPS і прозорий для них. Пінги тримають TCP-сесію живою.",
+      "fake_answers": [
+        "WebSocket принципово не сумісний з NAT",
+        "Працює лише з відкритим портом 81",
+        "Потрібен власний UDP-tunnel",
+        "Потрібен лише через VPN",
+        "Підтримується лише на L2-комутаторі",
+        "Потребує IPv6 для роботи",
+        "Не сумісний з SSL-inspection",
+        "Працює лише через STUN-сервер",
+        "Працює лише з ICE/SDP",
+        "Заборонений RFC у корпоративних мережах",
+        "Лише через WebRTC можна обійти NAT"
+      ]
+    },
+    {
+      "id": "ws-017",
+      "question": "Як реалізувати reconnection з відновленням стану?",
+      "correct_answer": "Клієнт зберігає last-message-id; при reconnect шле його сервером; сервер replay повідомлень починаючи з цього id (з буфера/БД)",
+      "explanation": "Без replay: клієнт пропускає повідомлення між розривом і reconnect. Сервер тримає кільцевий буфер N останніх або в Redis. Експоненційний backoff із jitter — щоб тисячі клієнтів не штурмували сервер після falldown.",
+      "fake_answers": [
+        "Жодних механізмів — клієнт втрачає все при розриві",
+        "Через TCP fast retransmit",
+        "Лише через HTTP/2 server push",
+        "Лише через SSE як паралельний канал",
+        "Через SyncML протокол",
+        "Лише з Service Worker",
+        "Через QUIC-connection migration",
+        "Через cookie з повним станом сесії",
+        "Через broadcast на всі клієнти",
+        "Через polling раз на 60 секунд",
+        "Через UDP-fallback"
+      ]
+    },
+    {
+      "id": "ws-018",
+      "question": "Що таке permessage-deflate у WebSocket?",
+      "correct_answer": "Розширення для стискання повідомлень DEFLATE на льоту; узгоджується через Sec-WebSocket-Extensions під час handshake",
+      "explanation": "Економить bandwidth на текстових повідомленнях (JSON). Має overhead на CPU. Уразливість CRIME/BREACH актуальна, якщо в payload є секрети. Зазвичай вимикається в high-throughput системах через CPU.",
+      "fake_answers": [
+        "Розширення для шифрування поверх TLS",
+        "Розширення для маскування додатковим ключем",
+        "Розширення для фрагментації великих фреймів",
+        "Розширення для пріоритезації фреймів",
+        "Розширення для multiplexing N з'єднань в одне",
+        "Розширення для трасування distributed",
+        "Розширення для real-time CDN",
+        "Розширення для збереження стану між reconnect",
+        "Розширення для авто-fallback на SSE",
+        "Розширення для сповіщення про backpressure",
+        "Розширення для часткових updates JSON"
+      ]
+    },
+    {
+      "id": "ws-019",
+      "question": "Чому WebSocket-handshake використовує саме HTTP, а не власний протокол?",
+      "correct_answer": "Сумісність з існуючою інфраструктурою: проксі/файрволи пропускають порти 80/443 і HTTP-запити; кастомний протокол блокувався б скрізь",
+      "explanation": "Перший байт WS — звичайний GET, тому будь-який L7-elem пропускає його. Лише після 101 з'єднання стає бінарним. Це й архітектурно красиво: не треба окремих портів і власних handshake.",
+      "fake_answers": [
+        "Бо HTTP швидший за TCP",
+        "Бо HTTP-only підтримується SSL",
+        "Бо HTTP має авто-аутентифікацію",
+        "Бо HTTP підтримує мультиплексування",
+        "Бо HTTP стискає трафік за замовчуванням",
+        "Бо HTTP — обов'язкова частина OSI",
+        "Бо HTTP більш потужний за gRPC",
+        "Бо HTTP підтримує bidirectional за замовчуванням",
+        "Бо HTTP має cookie",
+        "Бо HTTP-handshake швидший за TLS",
+        "Бо HTTP — стандарт IEEE для realtime"
+      ]
+    },
+    {
+      "id": "ws-020",
+      "question": "Коли краще обирати WebSocket, а коли SSE або HTTP/2 streaming?",
+      "correct_answer": "WebSocket — bidirectional realtime (чат, гра, спільна редакція); SSE — server-to-client only feed (нотифікації, тікер); HTTP/2 streaming — gRPC-style RPC або великі стрім-відповіді",
+      "explanation": "Якщо клієнт лише слухає — SSE простіше і дешевше. Якщо потрібен dialog — WebSocket. Для бекенд-bidi беруть gRPC поверх HTTP/2. WebTransport (HTTP/3 + QUIC) — майбутнє, що поєднує bidi datagrams + streams.",
+      "fake_answers": [
+        "WebSocket завжди — універсальне рішення",
+        "SSE завжди — простіше за все",
+        "HTTP/2 streaming завжди швидше",
+        "Лише REST polling — інші ризиковані",
+        "WebSocket для статики, SSE для динаміки",
+        "WebSocket для CDN, SSE для origin",
+        "WebSocket для broadcasts, SSE для unicast",
+        "SSE для P2P, WebSocket для server",
+        "HTTP/2 streaming для browsers, WebSocket для server",
+        "Усе через GraphQL Subscriptions і нічого більше",
+        "Лише WebRTC — інше застаріло"
+      ]
+    }
+  ]
+}

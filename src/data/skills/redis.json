@@ -1,0 +1,387 @@
+{
+  "skill_id": "redis",
+  "skill_name": "Redis",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "redis-001",
+      "question": "Який тип даних Redis підтримує ефективне отримання елементів за рейтингом і за діапазоном score?",
+      "correct_answer": "Sorted Set (ZSet)",
+      "explanation": "Sorted Set зберігає унікальні елементи з числовим score, автоматично відсортовані. Команди ZADD, ZRANGEBYSCORE, ZRANK, ZREVRANGE — ідеально для лідербордів, rate limiting за часовим вікном, пріоритетних черг.",
+      "fake_answers": [
+        "List",
+        "Set",
+        "Hash",
+        "String",
+        "Bitmap",
+        "HyperLogLog",
+        "Stream",
+        "Geo",
+        "PriorityQueue",
+        "ScoredList",
+        "RangeSet"
+      ]
+    },
+    {
+      "id": "redis-002",
+      "question": "У чому головна різниця між RDB і AOF persistence?",
+      "correct_answer": "RDB — періодичний snapshot всіх даних, AOF — журнал кожної операції запису",
+      "explanation": "RDB компактний, швидкий restore, але можна втратити дані з останніх хвилин. AOF записує кожну команду, fsync (always/everysec/no), безпечніший, але файл більший і повільніший restore. Часто використовують обидва.",
+      "fake_answers": [
+        "RDB зберігає у текстовому форматі, AOF — у бінарному",
+        "RDB реплікується автоматично, AOF — лише вручну",
+        "RDB підтримує транзакції, AOF — ні",
+        "AOF — це snapshot, RDB — журнал",
+        "RDB шифрує дані, AOF — ні",
+        "AOF потребує більше CPU, RDB — більше RAM",
+        "RDB лише для cluster, AOF — для standalone",
+        "AOF підтримує eviction policies, RDB — ні",
+        "RDB пишеться на SSD, AOF — на HDD",
+        "AOF підтримує compression, RDB — ні",
+        "RDB використовує WAL, AOF — checkpoints"
+      ]
+    },
+    {
+      "id": "redis-003",
+      "question": "Яка eviction policy буде видаляти ключі з найменш недавнім доступом?",
+      "correct_answer": "allkeys-lru",
+      "explanation": "LRU — Least Recently Used, видаляє давно не вживані. LFU — Least Frequently Used, рідко вживані. allkeys-* працює з усіма ключами, volatile-* лише з тими, хто має TTL. noeviction — нові записи відхиляються при заповненні памяті.",
+      "fake_answers": [
+        "noeviction",
+        "allkeys-random",
+        "volatile-ttl",
+        "allkeys-lfu",
+        "volatile-random",
+        "volatile-lru",
+        "volatile-lfu",
+        "fifo",
+        "lifo",
+        "round-robin",
+        "least-recently-modified"
+      ]
+    },
+    {
+      "id": "redis-004",
+      "question": "Що таке Redis Cluster і як він розподіляє дані?",
+      "correct_answer": "Шардований режим, дані розподіляються по 16384 hash slots між master nodes",
+      "explanation": "Redis Cluster — горизонтальне масштабування. CRC16(key) mod 16384 визначає slot. Кожен master тримає діапазон slots. Hash tags {tag} дозволяють примусово покласти ключі в один slot. Мінімум 3 master для quorum.",
+      "fake_answers": [
+        "Master-replica реплікація на одному hostі",
+        "Pub/Sub між кількома Redis серверами",
+        "Sentinel для моніторингу і failover",
+        "Балансувальник навантаження перед Redis",
+        "Pipeline команд для batch обробки",
+        "Розподіл по 8192 partitions між nodes",
+        "Розподіл за consistent hashing на 1024 buckets",
+        "Distributed lock через Redlock",
+        "MapReduce обробка ключів",
+        "Розподіл за range partitioning",
+        "Реплікація master-master через CRDT"
+      ]
+    },
+    {
+      "id": "redis-005",
+      "question": "Що робить Redis Sentinel?",
+      "correct_answer": "Моніторить master і replicas, виконує автоматичний failover при падінні master",
+      "explanation": "Sentinel — окремий процес, що стежить за здоров'ям нод, оголошує новий master при збої, повідомляє клієнтів про зміну топології. Мінімум 3 sentinel для quorum при failover. Не плутати з Cluster — Sentinel це HA для одного master.",
+      "fake_answers": [
+        "Шардує дані по нодах кластера",
+        "Кешує запити перед Redis сервером",
+        "Балансує запити між replicas",
+        "Зберігає бекапи у S3",
+        "Моніторить лише сповільнення запитів",
+        "Виконує defragmentation памяті",
+        "Шифрує трафік TLS між нодами",
+        "Імплементує rate limiting",
+        "Веде audit log усіх команд",
+        "Виконує rolling upgrade кластера",
+        "Збирає метрики для Prometheus"
+      ]
+    },
+    {
+      "id": "redis-006",
+      "question": "Що таке pipelining у Redis?",
+      "correct_answer": "Відправка кількох команд без очікування відповіді на кожну, з отриманням усіх відповідей разом",
+      "explanation": "Pipelining зменшує round-trip time: замість N RTT для N команд — один. Не плутати з транзакціями (MULTI/EXEC) — pipelining не дає атомарності, лише оптимізує мережу. Приріст швидкодії в 5-10 разів типовий.",
+      "fake_answers": [
+        "Розгалуження запиту по кількох replicas",
+        "Атомарне виконання групи команд",
+        "Кешування відповідей сервера",
+        "Розподіл навантаження між shards",
+        "Автоматичний retry при помилках",
+        "Стиснення трафіку між клієнтом і сервером",
+        "Шифрування з'єднання TLS",
+        "Перенаправлення запитів на правильний shard",
+        "Балансування між master і replicas",
+        "Підписка на pub/sub канал",
+        "Транзакція з оптимістичним блокуванням"
+      ]
+    },
+    {
+      "id": "redis-007",
+      "question": "Чим WATCH у Redis-транзакціях відрізняється від звичайного MULTI/EXEC?",
+      "correct_answer": "WATCH забезпечує оптимістичне блокування: EXEC не виконається, якщо watched-ключ був змінений іншим клієнтом",
+      "explanation": "MULTI/EXEC просто виконує команди атомарно. WATCH key + MULTI + ... + EXEC реалізує check-and-set: якщо хтось змінив key між WATCH і EXEC — транзакція скасовується (повертає nil). Корисно для безпечного increment.",
+      "fake_answers": [
+        "WATCH блокує ключ для інших клієнтів (песимістично)",
+        "WATCH автоматично робить retry при конфлікті",
+        "WATCH створює snapshot ключа на час транзакції",
+        "WATCH шифрує значення ключа",
+        "WATCH тільки для pub/sub каналів",
+        "WATCH дублює команди на replicas",
+        "WATCH логує доступ до ключа в audit",
+        "WATCH вмикає TTL на ключ під час транзакції",
+        "WATCH працює лише в Redis Cluster",
+        "WATCH перетворює транзакцію на Lua скрипт",
+        "WATCH ставить ключ у чергу обробки"
+      ]
+    },
+    {
+      "id": "redis-008",
+      "question": "Чому KEYS pattern небезпечно використовувати на production?",
+      "correct_answer": "KEYS блокує сервер під час сканування всіх ключів — на великих БД це сотні мс затримки для всіх клієнтів",
+      "explanation": "Redis однопотоковий: KEYS * на мільйонах ключів блокує сервер. Замість нього — SCAN з cursor, який повертає ключі частинами без блокування. SCAN ідемпотентний для ключів, що були під час сканування.",
+      "fake_answers": [
+        "KEYS не підтримує glob-шаблони",
+        "KEYS використовує забагато памяті на клієнті",
+        "KEYS працює лише з Redis Cluster",
+        "KEYS не повертає ключі з TTL",
+        "KEYS пропускає ключі на replicas",
+        "KEYS не сумісний з pipelining",
+        "KEYS повертає ключі в випадковому порядку",
+        "KEYS вимагає окремого права доступу",
+        "KEYS повільніший за SCAN на 5%",
+        "KEYS не працює з Lua скриптами",
+        "KEYS не підтримує binary-safe ключі"
+      ]
+    },
+    {
+      "id": "redis-009",
+      "question": "Що таке cache-aside pattern?",
+      "correct_answer": "Додаток сам читає з кешу; при miss — читає з БД і кладе у кеш",
+      "explanation": "Cache-aside (lazy loading): код перевіряє Redis, якщо немає — йде в БД і пише результат у кеш з TTL. Write-through: пише одночасно в кеш і БД. Write-behind: пише у кеш, асинхронно скидає в БД (швидко, але ризик втрати).",
+      "fake_answers": [
+        "Кеш автоматично читає з БД при miss",
+        "БД сама пише у кеш після зміни",
+        "Кеш реплікується як master-master з БД",
+        "Кеш шардується разом з БД",
+        "Кеш синхронізується через CDC",
+        "Кеш зберігає лише метадані запиту",
+        "Кеш має той самий TTL що й БД",
+        "Кеш є на стороні клієнта (browser)",
+        "Кеш ділиться на read і write copies",
+        "Кеш живе тільки під час одного запиту",
+        "Кеш зберігається в RAM застосунку, не в Redis"
+      ]
+    },
+    {
+      "id": "redis-010",
+      "question": "Що таке Redlock і навіщо він потрібен?",
+      "correct_answer": "Алгоритм розподіленого блокування на кількох незалежних Redis нодах для надійності",
+      "explanation": "Lock на одному Redis вразливий до failover (lock може загубитись). Redlock бере lock на N (зазвичай 5) незалежних master, успіх якщо отримано на більшості за час, менший за TTL. Контроверсійний (Martin Kleppmann критикував), але широко вживаний.",
+      "fake_answers": [
+        "Алгоритм шифрування ключів Redis",
+        "Реплікація master-master між регіонами",
+        "Алгоритм консенсусу для cluster",
+        "Бекап Redis на кілька дисків одночасно",
+        "Балансувальник запитів для cluster",
+        "Авторизація запитів через ACL",
+        "Розподіл навантаження по shards",
+        "Атомарна транзакція через MULTI/EXEC",
+        "Locking при WATCH у транзакції",
+        "Quorum для голосування в Sentinel",
+        "Алгоритм партиціонування Cluster"
+      ]
+    },
+    {
+      "id": "redis-011",
+      "question": "Команда INCR на ключі — атомарна?",
+      "correct_answer": "Так, Redis однопотоковий, INCR гарантує атомарне інкрементування без race condition",
+      "explanation": "Однопотокова модель Redis робить операції на одному ключі атомарними. INCR/DECR/INCRBY ідеально підходять для лічильників, rate limiting, генерації ID. Не потрібні MULTI/EXEC — все атомарно за визначенням.",
+      "fake_answers": [
+        "Ні, потрібно обгортати в MULTI/EXEC",
+        "Ні, потрібен WATCH перед INCR",
+        "Ні, потрібен Redlock на кластері",
+        "Атомарна лише в Redis Cluster",
+        "Атомарна лише з AOF persistence",
+        "Атомарна лише на master, не на replica",
+        "Атомарна лише до 64 bit",
+        "Атомарна лише при увімкненому fsync",
+        "Атомарна лише при ACL дозволі",
+        "Атомарна лише в Lua скрипті",
+        "Атомарна лише при наявності TTL"
+      ]
+    },
+    {
+      "id": "redis-012",
+      "question": "Що поверне команда EXPIRE key 60 на ключ, який не існує?",
+      "correct_answer": "0 (невдача — ключа немає, TTL не встановлений)",
+      "explanation": "EXPIRE повертає 1 при успіху, 0 якщо ключ не існує. Аналогічно PERSIST скидає TTL і повертає 1/0. TTL key повертає -2 (немає ключа), -1 (без TTL), або секунди до закінчення. PEXPIRE — у мілісекундах.",
+      "fake_answers": [
+        "1 — створить ключ і встановить TTL",
+        "Помилку — ключ не існує",
+        "nil — невизначений результат",
+        "-1 — без TTL",
+        "-2 — ключ не існує (як TTL)",
+        "60 — повертає встановлений TTL",
+        "OK — як SET",
+        "true — операція виконана",
+        "false — операція не виконана",
+        "PONG — як PING",
+        "Empty string — порожня відповідь"
+      ]
+    },
+    {
+      "id": "redis-013",
+      "question": "Чому Lua-скрипти у Redis виконуються атомарно?",
+      "correct_answer": "Redis однопотоковий і не виконує інші команди, поки скрипт не завершиться",
+      "explanation": "EVAL/EVALSHA блокує Redis на час виконання скрипта. Інші клієнти чекають. Тому скрипт має бути швидким — інакше всі клієнти зависнуть. Атомарність дає можливість реалізувати складну логіку як одну операцію.",
+      "fake_answers": [
+        "Lua використовує власний LuaLock механізм",
+        "Скрипт обгортається в MULTI/EXEC",
+        "Lua VM блокує конкретні ключі",
+        "Кожен скрипт виконується в окремому потоці",
+        "Lua використовує optimistic concurrency",
+        "Lua копіює дані в snapshot перед виконанням",
+        "Атомарність гарантується тільки в Cluster",
+        "Lua скрипти кешуються і запускаються паралельно",
+        "Атомарність лише при увімкненому AOF",
+        "Lua використовує CAS на рівні CPU",
+        "Атомарність лише в межах одного hash slot"
+      ]
+    },
+    {
+      "id": "redis-014",
+      "question": "Що таке HyperLogLog у Redis?",
+      "correct_answer": "Структура для приблизного підрахунку унікальних елементів за дуже малу пам'ять (12 KB на ~2^64 елементів)",
+      "explanation": "HLL дає кардинальність (кількість унікальних) з похибкою ~0.81%. PFADD додає, PFCOUNT повертає оцінку. Використовується для лічильників унікальних відвідувачів, IP, сесій, де точність не критична, а пам'ять обмежена.",
+      "fake_answers": [
+        "Логарифмічна структура для сортування",
+        "Hash таблиця з мінімальним колізіями",
+        "Bloom filter для перевірки наявності",
+        "Skip list для Sorted Set",
+        "Probabilistic counter для подій",
+        "Trie для пошуку префіксів",
+        "Histogram для метрик",
+        "Geo index для координат",
+        "Compressed Set для unique values",
+        "Цикл лога для time-series даних",
+        "Approximate hash для дедуплікації"
+      ]
+    },
+    {
+      "id": "redis-015",
+      "question": "Чим Redis Streams відрізняються від Pub/Sub?",
+      "correct_answer": "Streams персистентні і дозволяють consumer groups з confirmation; Pub/Sub — fire-and-forget без історії",
+      "explanation": "Pub/Sub: повідомлення доставляється лише активним підписникам, без зберігання, без ack. Streams: повідомлення зберігаються (можна читати з історії), є consumer groups (як Kafka), XACK для підтвердження, retry через PEL.",
+      "fake_answers": [
+        "Streams швидші, Pub/Sub надійніші",
+        "Streams тільки для бінарних даних",
+        "Pub/Sub підтримує транзакції, Streams — ні",
+        "Streams працюють лише в Cluster",
+        "Pub/Sub зберігає історію, Streams — ні",
+        "Streams не підтримують pattern subscription",
+        "Pub/Sub потребує консьюмер групи",
+        "Streams блокуючі, Pub/Sub неблокуючі",
+        "Pub/Sub потребує AOF, Streams — ні",
+        "Streams лише для геоданих",
+        "Pub/Sub можна шардувати, Streams — ні"
+      ]
+    },
+    {
+      "id": "redis-016",
+      "question": "Який підхід найкраще підходить для rate limiting за вікном часу в Redis?",
+      "correct_answer": "INCR з EXPIRE на ключі типу 'rl:user:123:60s' або Sorted Set із ZADD timestamp",
+      "explanation": "Простий fixed window: INCR rl:user:123:minute, EXPIRE 60. Sliding window — Sorted Set, де score = timestamp, ZREMRANGEBYSCORE прибирає старі, ZCARD рахує. Token bucket — Lua скрипт із INCRBYFLOAT і метаданими.",
+      "fake_answers": [
+        "Окремий ключ для кожного запиту з TTL 1 секунда",
+        "Pub/Sub підписка на канал rate-limit",
+        "Lua скрипт із поллінгом часу із зовнішнього API",
+        "Bloom filter для дедуплікації запитів",
+        "HyperLogLog для підрахунку унікальних запитів",
+        "WATCH/MULTI на лічильнику без TTL",
+        "Hash із полем для кожного користувача без TTL",
+        "List з LPUSH і LTRIM до фіксованого розміру",
+        "Geo команди для відстеження IP розподілу",
+        "Stream з XADD на кожен запит",
+        "SET з NX і EX без подальших перевірок"
+      ]
+    },
+    {
+      "id": "redis-017",
+      "question": "Що таке SETNX (SET if Not eXists)?",
+      "correct_answer": "Атомарно встановлює ключ лише якщо він не існує — повертає 1 при успіху, 0 якщо вже існував",
+      "explanation": "SETNX — основа простих lock-ів: SET lock value NX EX 30 — поставити лок з TTL 30s, якщо нікого немає. Сучасний синтаксис: SET key value NX PX milliseconds. NX — Not eXists, XX — навпаки лише якщо існує.",
+      "fake_answers": [
+        "SET без передачі по мережі (X-press)",
+        "Set з шифруванням значення",
+        "SET для ключа що автоматично видалиться",
+        "SET з no-expire (без TTL)",
+        "SET для бінарних даних з base64",
+        "SET у наступний слот кластера",
+        "SET у X-номер реплік",
+        "SET з noscript флагом",
+        "SET для ключів типу Set (множина)",
+        "SET через next хеш",
+        "SET з noticed_change прапором"
+      ]
+    },
+    {
+      "id": "redis-018",
+      "question": "У чому різниця між LPUSH і RPUSH?",
+      "correct_answer": "LPUSH додає на початок (head/left) списку, RPUSH — у кінець (tail/right)",
+      "explanation": "Redis List — двосторонній deque. LPUSH+RPOP реалізує FIFO чергу. LPUSH+BRPOP — блокуючий consumer. LRANGE 0 -1 повертає всі. LLEN — довжина. BLPOP/BRPOP блокують з таймаутом, поки елемент не з'явиться.",
+      "fake_answers": [
+        "LPUSH додає лише унікальні, RPUSH — всі",
+        "LPUSH повертає індекс, RPUSH — значення",
+        "LPUSH працює асинхронно, RPUSH — синхронно",
+        "LPUSH тільки для бінарних, RPUSH — для рядків",
+        "LPUSH тригерить pub/sub, RPUSH — ні",
+        "LPUSH блокує клієнта, RPUSH — ні",
+        "LPUSH вимагає TTL, RPUSH — ні",
+        "LPUSH замінює елемент, RPUSH — додає",
+        "LPUSH працює лише на master, RPUSH — на replica",
+        "LPUSH створює ключ, RPUSH — ні",
+        "LPUSH для Sorted Set, RPUSH для List"
+      ]
+    },
+    {
+      "id": "redis-019",
+      "question": "Що відбувається з ключами при maxmemory-policy = noeviction коли пам'ять заповнена?",
+      "correct_answer": "Нові команди запису повертають помилку, читання продовжує працювати",
+      "explanation": "noeviction — Redis не видаляє ключі автоматично. Команди запису (SET, INCR, LPUSH...) фейляться з OOM error. Підходить, коли важлива гарантія, що дані не зникнуть. Для кешу краще allkeys-lru/lfu.",
+      "fake_answers": [
+        "Redis автоматично видаляє ключі без TTL",
+        "Redis перезапускається і очищає всі дані",
+        "Redis скидає на диск і видаляє з памяті",
+        "Redis видаляє випадкові ключі",
+        "Redis видаляє ключі з найбільшим TTL",
+        "Нові ключі тихо ігноруються без помилки",
+        "Redis видаляє найстаріші ключі (FIFO)",
+        "Старі ключі автоматично переходять на replica",
+        "Redis вмикає write-through до диска",
+        "Усі команди починають повертати nil",
+        "Redis викликає GC і звільнює фрагментовану памʼять"
+      ]
+    },
+    {
+      "id": "redis-020",
+      "question": "Чому Redis такий швидкий, попри однопотокову модель?",
+      "correct_answer": "Усі дані в RAM, неблокуючий I/O multiplexing, прості структури даних і відсутність контекст-світчів",
+      "explanation": "Redis використовує epoll/kqueue для асинхронного I/O в одному потоці. Відсутність блокувань, мьютексів, локів. Дані в памяті — не йдуть на диск під час запиту. Прості O(1)/O(log N) операції. Bottleneck — мережа і CPU, не диск.",
+      "fake_answers": [
+        "Redis використовує GPU для обчислень",
+        "Redis шифрує дані апаратно",
+        "Redis працює лише з SSD дисками",
+        "Redis має JIT-компіляцію команд",
+        "Redis виконує команди в kernel space",
+        "Redis використовує DPDK для мережі",
+        "Redis pre-allocates всі структури",
+        "Redis має зворотну індексацію всіх ключів",
+        "Redis робить всі команди batched в kernel",
+        "Redis використовує колоночне зберігання",
+        "Redis працює тільки з Linux io_uring"
+      ]
+    }
+  ]
+}

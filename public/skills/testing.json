@@ -1,0 +1,387 @@
+{
+  "skill_id": "testing",
+  "skill_name": "Testing",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "te-001",
+      "question": "Що описує testing pyramid (піраміда тестів)?",
+      "correct_answer": "Багато швидких unit-тестів унизу, менше integration-тестів посередині, найменше повільних E2E-тестів зверху",
+      "explanation": "Mike Cohn. Unit — швидко, дешево, ізольовано. E2E — повільно, крихко, але дають впевненість у user flow. Перевернута піраміда (більше E2E) призводить до повільного CI та flaky тестів.",
+      "fake_answers": [
+        "Багато E2E внизу, менше unit зверху",
+        "Однакова кількість unit, integration та E2E завжди",
+        "Лише E2E важливі — інші зайві",
+        "Лише unit-тести — інтеграційні і E2E застарілі",
+        "Структура з 7 рівнів за SDLC-фазами",
+        "Розподіл тестів за командами розробки",
+        "Розподіл за днями тижня",
+        "Кількість тестів дорівнює рядкам коду",
+        "Піраміда означає, що тестів не повинно бути більше за features",
+        "Лише snapshot-тести на всіх рівнях",
+        "Розподіл тестів за мовами програмування"
+      ]
+    },
+    {
+      "id": "te-002",
+      "question": "Чим відрізняються mock, stub, spy, fake та dummy?",
+      "correct_answer": "Dummy — заглушка-плейсхолдер; Stub — повертає фіксовані відповіді; Spy — записує виклики; Mock — перевіряє очікувані виклики; Fake — спрощена робоча реалізація",
+      "explanation": "Класифікація Gerard Meszaros. Stub — для state-based тестування. Mock — для interaction-based (assertCalledWith). Fake — наприклад, in-memory DB замість реальної. Spy — як stub + tracking.",
+      "fake_answers": [
+        "Це синоніми — той самий концепт",
+        "Mock — для backend, stub — для frontend",
+        "Fake — це інша назва для mock",
+        "Spy існує лише в Jest",
+        "Stub і dummy — повністю еквівалентні",
+        "Mock працює лише з class методами",
+        "Spy перевіряє typescript-типи",
+        "Fake обов'язково використовує справжню БД",
+        "Stub завжди викидає помилку",
+        "Dummy — це найпотужніший mock з повною логікою",
+        "Mock не записує виклики"
+      ]
+    },
+    {
+      "id": "te-003",
+      "question": "Що означає TDD-цикл red-green-refactor?",
+      "correct_answer": "Red — написати падаючий тест; Green — мінімальний код, що проходить тест; Refactor — покращити код без зміни поведінки",
+      "explanation": "Test-Driven Development змушує думати про API/інтерфейс перед реалізацією. Малі цикли (хвилини) тримають фокус. Refactor крок використовує тести як safety net — змінюємо без страху.",
+      "fake_answers": [
+        "Red — продакшен впав, Green — пофіксили, Refactor — переписали все",
+        "Red — пиши код, Green — тестуй вручну, Refactor — комітимо",
+        "Red — рев'ю, Green — деплой, Refactor — моніторинг",
+        "Red — design, Green — implement, Refactor — document",
+        "Це не цикл, а назви ролей у скрамі",
+        "Red — assert, Green — act, Refactor — arrange",
+        "Red — компіляція, Green — лінтинг, Refactor — форматування",
+        "Red — manual, Green — automated, Refactor — performance",
+        "Red — security, Green — feature, Refactor — UX",
+        "Red — backend, Green — frontend, Refactor — БД",
+        "Red — Docker, Green — Kubernetes, Refactor — CI"
+      ]
+    },
+    {
+      "id": "te-004",
+      "question": "Що описує AAA pattern у тестах?",
+      "correct_answer": "Arrange (підготуй), Act (виконай дію), Assert (перевір результат) — три фази для структури тесту",
+      "explanation": "Кожен тест чітко розділений: setup даних/моків, виклик одного методу, перевірка результату. Підвищує читабельність — будь-який розробник зрозуміє намір тесту за 10 секунд.",
+      "fake_answers": [
+        "Async-Await-Assert",
+        "Authentication-Authorization-Audit",
+        "Apply-Apply-Apply",
+        "Action-Acknowledge-Apply",
+        "API-Adapter-Asserter",
+        "Architecture-Algorithm-Application",
+        "Add-Adjust-Annotate",
+        "Allocate-Activate-Adjust",
+        "Append-Aggregate-Annotate",
+        "Awaitable-Async-Atomic",
+        "Application-Adapter-Anchor"
+      ]
+    },
+    {
+      "id": "te-005",
+      "question": "Що означає принцип FIRST для unit-тестів?",
+      "correct_answer": "Fast, Independent, Repeatable, Self-validating, Timely",
+      "explanation": "Fast — мс не секунди. Independent — будь-який порядок. Repeatable — без зовнішньої залежності (день, мережа). Self-validating — pass/fail без ручного аналізу. Timely — пишуть разом з кодом, не пізніше.",
+      "fake_answers": [
+        "Functional, Integration, Regression, System, TDD",
+        "Frontend, Internal, Robust, Server, Type-safe",
+        "Fast, Isolated, Reliable, Structured, Tested",
+        "Final, Immutable, Reactive, Strict, Typed",
+        "Failure, Issue, Recovery, Solution, Test",
+        "Forward, Inverse, Recursive, Stateless, Tail",
+        "First, Initial, Repeatable, Solo, Threaded",
+        "Faster, Inner, Reliable, Simple, Test",
+        "Fixed, Indexed, Random, Sequential, Timed",
+        "Featured, Inherent, Routine, Smoke, Total",
+        "Final, Internal, Read-only, Static, Trivial"
+      ]
+    },
+    {
+      "id": "te-006",
+      "question": "Що таке code coverage і чому 100% не є метою?",
+      "correct_answer": "Метрика частки коду, виконаного під тестами; 100% не гарантує якості — можна виконати рядок без перевірки результату",
+      "explanation": "Coverage показує те, що НЕ протестовано (корисний фільтр), але не якість тестів. Можна assert(true) і мати 100%. Краще 80% з осмисленими тестами, ніж 100% з порожніми. Mutation testing виявляє слабкі тести.",
+      "fake_answers": [
+        "100% coverage = баги неможливі",
+        "Coverage не існує в сучасних фреймворках",
+        "Coverage вимірюється лише в E2E тестах",
+        "100% coverage гарантує performance",
+        "Coverage — це покриття документацією",
+        "Coverage — це лише про CSS-стилі",
+        "Coverage показує, скільки тестів падає",
+        "100% coverage = немає необхідності в code review",
+        "Coverage міряється у відсотках з API uptime",
+        "Coverage — це частка коду в Git",
+        "100% coverage — обов'язкова вимога OWASP"
+      ]
+    },
+    {
+      "id": "te-007",
+      "question": "Що таке flaky тест і які основні причини flaky?",
+      "correct_answer": "Тест, що нестабільно проходить/падає без зміни коду; причини — race conditions, timing/sleep, зовнішні залежності, спільний стан, недетермінізм",
+      "explanation": "Flaky тести руйнують довіру до CI. Часті причини: setTimeout у тестах, спільна in-memory БД між тестами, ordering-залежність, мережа, рандом, поточний час. Лікування: ізоляція, deterministic mocks, retry tracking.",
+      "fake_answers": [
+        "Тест, що проходить лише за певної версії Node",
+        "Тест з помилкою компіляції",
+        "Тест, що використовує snapshot",
+        "Тест без assertions",
+        "Тест, що падає лише в production",
+        "Тест, що написаний junior-розробником",
+        "Тест з coverage менше 50%",
+        "Тест, що повертає only warnings",
+        "Тест, що використовує await без async",
+        "Тест, що не запускається в CI",
+        "Тест без opisu в JSDoc"
+      ]
+    },
+    {
+      "id": "te-008",
+      "question": "Що таке snapshot testing і які його обмеження?",
+      "correct_answer": "Запис вихідного результату (HTML, JSON) і порівняння в наступних запусках; легко створити, але ризик 'auto-update без перевірки' робить тест безглуздим",
+      "explanation": "Корисно для component output, API response. Проблеми: великі snapshot важко читати в diff, легко 'натиснути -u' без розуміння змін, ламаються від косметичних змін. Краще точкові assertions на ключову поведінку.",
+      "fake_answers": [
+        "Тестування БД-снапшотів реплікації",
+        "Тестування лише в staging-environment",
+        "Тестування з ручним натисканням Print Screen",
+        "Тестування лише через Postman",
+        "Snapshot testing завжди заборонений",
+        "Тести, що зберігаються лише в memory",
+        "Тестування за допомогою VM snapshots",
+        "Тестування АРІ через документацію",
+        "Snapshot tests працюють лише з зображеннями",
+        "Snapshot — це лише для performance тестів",
+        "Тестування знімків екрана автоматично"
+      ]
+    },
+    {
+      "id": "te-009",
+      "question": "Що таке contract testing (Pact)?",
+      "correct_answer": "Тестування контрактів між consumer і provider сервісами без потреби у повноцінній інтеграції — consumer описує очікування, provider перевіряє їх відповідність",
+      "explanation": "Consumer-driven contracts: фронт каже 'я очікую таку JSON-відповідь', контракт публікується в Pact Broker, бекенд при білді перевіряє, що його реальні відповіді відповідають. Швидше E2E, надійніше моків.",
+      "fake_answers": [
+        "Тестування юридичних контрактів через unit тести",
+        "Тестування лише через підписані angular-сервіси",
+        "Тестування коду, що написаний у договорах SLA",
+        "Тестування БД-схем на рівні DDL",
+        "Тестування сертифікатів TLS на сумісність",
+        "Тестування лише API-документації",
+        "Інша назва для integration testing",
+        "Тестування контрактів між фронтендом і CSS",
+        "Тестування лише webhook callbacks",
+        "Тестування домовленостей між командами в Jira",
+        "Тестування контрактів через Selenium"
+      ]
+    },
+    {
+      "id": "te-010",
+      "question": "Чим відрізняються Cypress та Playwright?",
+      "correct_answer": "Обидва — E2E фреймворки; Playwright підтримує всі браузери та паралельні контексти, Cypress переважно Chromium-сімейство, але має зручний UI-runner",
+      "explanation": "Playwright (MS): Chromium/Firefox/WebKit, multi-tab, mobile emulation, кращий для cross-browser. Cypress (older): зручний debug-UI, time-travel, але обмеження архітектури (один таб). Обидва кращі за legacy Selenium.",
+      "fake_answers": [
+        "Cypress — для backend, Playwright — для frontend",
+        "Це повні синоніми",
+        "Playwright існує лише для Python",
+        "Cypress — лише для unit-тестів",
+        "Playwright не підтримує JavaScript",
+        "Cypress використовує Selenium під капотом",
+        "Playwright працює лише в production",
+        "Cypress — це фреймворк для performance testing",
+        "Playwright — це інша назва для Puppeteer",
+        "Cypress не має UI-режиму",
+        "Playwright не підтримує screenshot"
+      ]
+    },
+    {
+      "id": "te-011",
+      "question": "Що таке mutation testing?",
+      "correct_answer": "Підхід, що змінює (мутує) код (наприклад, > на >=) і перевіряє, чи знайдуть це тести; виявляє слабкі тести з високим coverage",
+      "explanation": "Інструменти: Stryker, PIT. Якщо мутація 'survived' — тест не помітив помилку. Score = killed/total. Дорого по часу, тому використовують вибірково на критичній логіці.",
+      "fake_answers": [
+        "Тестування мутацій ДНК у біоінформатиці",
+        "Тестування мутабельних об'єктів",
+        "Тестування mutation observers у DOM",
+        "Тестування mutations у Vuex/Redux",
+        "Тестування лише з GraphQL mutations",
+        "Тестування на наявність thread-safety",
+        "Тестування в умовах радіаційного фону",
+        "Тестування alphа/beta каналів",
+        "Тестування лише для legacy-коду",
+        "Тестування лише через рандомні вхідні дані",
+        "Тестування шляхом мутації Git-історії"
+      ]
+    },
+    {
+      "id": "te-012",
+      "question": "Як правильно використовувати MSW (Mock Service Worker) у тестах?",
+      "correct_answer": "Перехоплювати HTTP-запити на рівні мережі через service worker (browser) або Node interceptor; дозволяє тестувати реальний код запитів без моків fetch",
+      "explanation": "Замість jest.mock('axios') — MSW перехоплює запит ближче до металу. Один набір handlers працює і в jsdom, і в Storybook, і в Playwright. Тестуєте реальний потік, без знання внутрішньої HTTP-бібліотеки.",
+      "fake_answers": [
+        "MSW — це лише для Microsoft Word",
+        "MSW тільки для Service Workers без тестування",
+        "MSW замінює всю backend-логіку у проді",
+        "MSW працює тільки в Node, не в браузері",
+        "MSW — це база даних для тестів",
+        "MSW — інша назва для Mock Server в Postman",
+        "MSW мутує код під час runtime",
+        "MSW — це Mocking Stress Worker для load testing",
+        "MSW працює лише з GraphQL",
+        "MSW — це частина Mocha-фреймворка",
+        "MSW автоматично генерує тести з OpenAPI"
+      ]
+    },
+    {
+      "id": "te-013",
+      "question": "Що таке property-based testing?",
+      "correct_answer": "Тестування властивостей коду на сотнях автоматично згенерованих вхідних даних замість конкретних прикладів",
+      "explanation": "Замість assert(reverse([1,2,3]) == [3,2,1]) — assert: для будь-якого масиву reverse(reverse(x)) === x. Інструменти: fast-check (JS), Hypothesis (Python). Знаходить edge cases (порожні, NaN, юнікод).",
+      "fake_answers": [
+        "Тестування властивостей CSS у компонентах",
+        "Тестування лише через JSON Schema",
+        "Тестування об'єктних property-типів",
+        "Тестування getter/setter методів",
+        "Тестування властивостей нерухомості",
+        "Тестування лише immutable об'єктів",
+        "Тестування властивостей DOM-елементів",
+        "Тестування з фіксованими прикладами",
+        "Тестування TypeScript readonly-полів",
+        "Тестування лише класів, не функцій",
+        "Тестування властивостей шрифтів"
+      ]
+    },
+    {
+      "id": "te-014",
+      "question": "Що таке smoke test?",
+      "correct_answer": "Швидкий поверхневий тест ключових сценаріїв, щоб переконатися, що система загалом 'не димить' — основні функції працюють",
+      "explanation": "'Чи запускається додаток? Чи відкривається головна? Чи логін проходить?' Запускається перед повним test suite — економить час, якщо щось критично зламано. Назва з електроніки: 'плата не димить — тестуємо далі'.",
+      "fake_answers": [
+        "Тест на витоки пам'яті",
+        "Тест продуктивності під навантаженням",
+        "Тест в умовах задимлення серверної",
+        "Тест безпеки firewall",
+        "Тест лише в production",
+        "Тест, що шукає смокінг-юзерів",
+        "Тест на сумісність з браузером Tor",
+        "Тест електроніки серверів",
+        "Тест шумів Wi-Fi",
+        "Тест анти-спам системи",
+        "Тест мережевого jitter"
+      ]
+    },
+    {
+      "id": "te-015",
+      "question": "У чому різниця між load, stress та spike testing?",
+      "correct_answer": "Load — очікуване навантаження на тривалий час; Stress — за межами норми, шукаємо точку зламу; Spike — раптові короткі піки трафіку",
+      "explanation": "Load: 1000 RPS протягом години — поточна якість. Stress: повільно піднімаємо до краху (10000 RPS) — де ламається. Spike: 100 → 5000 → 100 RPS за хвилину — як система реагує на flash-mob.",
+      "fake_answers": [
+        "Це синоніми",
+        "Load — для backend, stress — для frontend, spike — для мобільних",
+        "Load — для CSS, stress — для JS, spike — для HTML",
+        "Load існує лише в JMeter",
+        "Stress test — це лише про CPU",
+        "Spike — це інша назва для load",
+        "Load — синхронний, stress — паралельний, spike — асинхронний",
+        "Stress — це лише психологічний тест команди",
+        "Spike тестує лише API, load — лише UI",
+        "Це 3 окремі типи unit-тестів",
+        "Load — це лише про database queries"
+      ]
+    },
+    {
+      "id": "te-016",
+      "question": "Що таке React Testing Library підхід?",
+      "correct_answer": "Тестувати UI з точки зору користувача через accessible queries (getByRole, getByLabelText), уникати тестування внутрішнього стану компонента",
+      "explanation": "Замість enzyme-style instance.state() — RTL заохочує userEvent.click(getByRole('button', {name:/save/i})). Тести стійкіші до рефакторингу: зміна реалізації не ламає тест, поки UX той самий.",
+      "fake_answers": [
+        "Тестувати лише snapshot файли",
+        "Тестувати лише через DOM-querySelector",
+        "Тестувати React-internals напряму через рефлексію",
+        "Тестувати лише performance компонентів",
+        "Тестувати лише через Enzyme shallow rendering",
+        "Тестувати CSS-стилі pixel-perfect",
+        "Тестувати лише типи TypeScript",
+        "Тестувати тільки props, не output",
+        "Тестувати лише в production",
+        "Тестувати компоненти лише через E2E",
+        "Тестувати лише helper-функції"
+      ]
+    },
+    {
+      "id": "te-017",
+      "question": "Що таке BDD (Behavior-Driven Development)?",
+      "correct_answer": "Підхід, де тести описують поведінку системи мовою, зрозумілою бізнесу — Given-When-Then сценарії (Cucumber, SpecFlow)",
+      "explanation": "Given (контекст), When (дія), Then (очікуваний результат). Один Gherkin-файл читають PM, QA, dev. Слабкість: overhead на синхронізацію кроків з кодом, перетворюється на 'TDD з зайвими файлами' без правильного процесу.",
+      "fake_answers": [
+        "Big Data Development",
+        "Backend-Driven Design",
+        "Browser-Driven Debugging",
+        "Build-Deploy-Develop цикл",
+        "Boundary-Driven Documentation",
+        "Branch-Driven Deployment",
+        "Black-box Driven Decision",
+        "Bug-Driven Discovery",
+        "Backlog-Driven Development",
+        "Business-Drafted Design — формат специфікацій",
+        "Background-Daemon Driver"
+      ]
+    },
+    {
+      "id": "te-018",
+      "question": "Що таке test fixtures та factories?",
+      "correct_answer": "Fixtures — статичні набори даних для тестів; Factories — функції, що генерують об'єкти з налаштовуваними полями (FactoryBot, fishery)",
+      "explanation": "Fixture: фіксований JSON-файл users.json. Factory: userFactory.build({email:'test@x'}). Factories гнучкіші — менше дублювання, легше створювати варіації, заповнюють розумні defaults.",
+      "fake_answers": [
+        "Fixtures — для backend, factories — для frontend",
+        "Fixtures — для unit, factories — для E2E",
+        "Це синоніми",
+        "Fixtures — це CSS-фрагменти",
+        "Factories існують лише в Java",
+        "Fixtures — це конфіг docker-compose",
+        "Factories — це CI/CD pipelines",
+        "Fixtures зберігаються лише в БД",
+        "Factories генерують HTML",
+        "Fixtures — це Git-хуки",
+        "Factories використовуються лише в integration tests"
+      ]
+    },
+    {
+      "id": "te-019",
+      "question": "Що НЕ варто покривати unit-тестами?",
+      "correct_answer": "Тривіальні гетери/сетери, framework-код, third-party бібліотеки, чисто інтеграційні сценарії (БД, мережа)",
+      "explanation": "Тестуємо свою бізнес-логіку, не Express чи бібліотеку. Інтеграційні шляхи — інтеграційними тестами. Не пишіть тестів задля coverage. Питайте: 'Чи зловлю я регресію цим тестом?'.",
+      "fake_answers": [
+        "Усю бізнес-логіку — це теж зайве",
+        "Лише helper-функції",
+        "Лише публічні API",
+        "Лише новий код у PR",
+        "Лише код, що писав сам — не чужий",
+        "Лише async-функції",
+        "Лише код у server-папці",
+        "Лише класи з більше ніж 100 рядків",
+        "Лише код, що змінювали в останньому коміті",
+        "Усе, що написано до 2020 року",
+        "Лише функції з більше ніж двома аргументами"
+      ]
+    },
+    {
+      "id": "te-020",
+      "question": "Що таке testing trophy і чим він відрізняється від testing pyramid?",
+      "correct_answer": "Модель Kent Dodds: знизу static (TS/lint), потім багато integration, менше unit, трохи E2E; акцент на integration як найвигідніший тип для frontend",
+      "explanation": "Для frontend integration-тести (компонент + мокнуті залежності) дають найкращий ROI. Чисті unit на функціях втрачають менше реальних багів. Trophy ставить integration як основу, на відміну від класичної піраміди.",
+      "fake_answers": [
+        "Trophy і pyramid — це синоніми",
+        "Trophy робить акцент на E2E",
+        "Trophy — лише для backend, pyramid — для frontend",
+        "Trophy не включає static analysis",
+        "Trophy має 7 рівнів",
+        "Trophy робить акцент на manual QA",
+        "Trophy — це для performance testing лише",
+        "Trophy — це лише про code coverage",
+        "Trophy виключає unit-тести зовсім",
+        "Trophy запропонована Mike Cohn",
+        "Trophy працює лише з Cypress"
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { ObjectId } from 'mongodb';
 import { auth } from '@/lib/auth';
 import { getDb } from '@/lib/mongo';
 import { clampXP, levelFromXP, xpScoring } from '@/lib/level';
+import { bumpAccountXP, getOrInitUserStats } from '@/lib/streak';
 
 const bodySchema = z.object({
   skillId: z.string().min(1),
@@ -56,6 +57,9 @@ export async function POST(req: Request) {
   const accuracy = (correct + bonus) / total;
 
   const db = await getDb();
+  // Ensure userStats exists & is backfilled from existing skill progress BEFORE
+  // we apply this run's xpDelta — otherwise the backfill would double-count.
+  await getOrInitUserStats(db, userId);
   const existing = await db.collection('progress').findOne({ userId, skillId: input.skillId });
   const prevXP = existing?.totalXP ?? 0;
   const prevLevel = existing ? levelFromXP(prevXP) : 1;
@@ -88,6 +92,8 @@ export async function POST(req: Request) {
     },
     { upsert: true },
   );
+
+  await bumpAccountXP(db, userId, xpDelta);
 
   return NextResponse.json({
     ok: true,

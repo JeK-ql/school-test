@@ -1,0 +1,387 @@
+{
+  "skill_id": "frontend-patterns",
+  "skill_name": "Frontend Patterns",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "fp-001",
+      "question": "Що таке Container/Presentational pattern у React?",
+      "correct_answer": "Розділення компонентів на 'розумні' (container — стан, дані, логіка) та 'дурні' (presentational — лише рендер пропсів)",
+      "explanation": "Containers тримають state/effects/data fetching і передають у presentational компоненти, які лише відображають пропси. З появою хуків межа стирається, але концепція 'логіка vs UI' лишається корисною.",
+      "fake_answers": [
+        "Розділення між компонентами Docker та React",
+        "Підхід, де всі компоненти зберігають стан у localStorage",
+        "Підхід, де PR-и обов'язково містять презентацію",
+        "Patern, де container — це HTML-тег div",
+        "Розділення на server-only та client-only компоненти",
+        "Container завжди функціональний, presentational — class",
+        "Patern, де container виконує лише API-запити, ніколи не рендерить",
+        "Presentational компоненти завжди підключаються до Redux напряму",
+        "Container компоненти заборонені після React 18",
+        "Розподіл за CSS: container — flex, presentational — grid",
+        "Підхід, де container генерується автоматично з GraphQL-схеми"
+      ]
+    },
+    {
+      "id": "fp-002",
+      "question": "Що таке Higher-Order Component (HOC) у React?",
+      "correct_answer": "Функція, що приймає компонент і повертає новий компонент із додатковою функціональністю",
+      "explanation": "withAuth(Component) повертає Component, обгорнутий перевіркою авторизації. Класичні HOC: connect з Redux, withRouter. У сучасному React переважно замінюють custom hooks.",
+      "fake_answers": [
+        "Компонент, що рендериться вище за інші в DOM",
+        "Компонент з найвищим z-index",
+        "Компонент, що використовує лише React.memo",
+        "Класовий компонент із static методами",
+        "Компонент, що завжди в SSR",
+        "Компонент, у якого більше пропсів за середнє",
+        "Компонент, що рендериться першим у списку",
+        "Компонент з найвищою version у package.json",
+        "Компонент, що має пріоритет у Suspense",
+        "Компонент, що приймає інший компонент як children та клонує його",
+        "Інша назва для context provider"
+      ]
+    },
+    {
+      "id": "fp-003",
+      "question": "Що таке Render Props pattern?",
+      "correct_answer": "Передача функції як пропа, яку компонент викликає для рендеру свого вмісту",
+      "explanation": "<DataFetcher render={data => <List items={data} />} /> — компонент керує логікою, споживач — рендером. Альтернатива HOC. Сьогодні часто витіснений children як функцією або кастомними хуками.",
+      "fake_answers": [
+        "Передача JSX напряму як строки",
+        "Підхід, де props є JSX-елементами",
+        "Patern, де props автоматично рендеряться",
+        "Підхід, де всі props mутабельні",
+        "Передача refs у вигляді функції",
+        "Patern, де children мусять бути одного типу",
+        "Передача стилю через render-функцію",
+        "Підхід, де render викликається синхронно один раз",
+        "Patern, де props компілюються в HTML на сервері",
+        "Передача state через context",
+        "Patern для memoization функцій"
+      ]
+    },
+    {
+      "id": "fp-004",
+      "question": "У чому різниця між controlled та uncontrolled компонентами?",
+      "correct_answer": "Controlled — стан форми зберігається в React і керується через value+onChange; Uncontrolled — стан живе в DOM, доступ через ref",
+      "explanation": "Controlled (<input value={v} onChange={...}/>) — джерело істини React. Uncontrolled (<input defaultValue=... ref={r}/>) — DOM. Controlled зручніше для валідації, conditional UI; uncontrolled — простіше для простих форм/файлів.",
+      "fake_answers": [
+        "Controlled — синхронні, uncontrolled — асинхронні",
+        "Controlled існують лише в Redux, uncontrolled — в Zustand",
+        "Uncontrolled швидші завжди",
+        "Controlled заборонені у Strict Mode",
+        "Uncontrolled не підтримують onChange",
+        "Controlled завжди класові, uncontrolled — функціональні",
+        "Це синоніми",
+        "Controlled працюють лише з input type=text",
+        "Uncontrolled рендеряться на сервері, controlled — на клієнті",
+        "Controlled зберігають стан у sessionStorage",
+        "Uncontrolled завжди використовують useState"
+      ]
+    },
+    {
+      "id": "fp-005",
+      "question": "Що таке prop drilling і які способи його уникнути?",
+      "correct_answer": "Передача пропсів через багато проміжних компонентів, які їх не використовують; вирішення — Context API, state management бібліотеки, composition",
+      "explanation": "Якщо theme передається через 5 рівнів — це prop drilling. Розв'язки: React Context (для глобальних значень), Zustand/Redux (для складного стану), composition (children-pattern, щоб не передавати пропси).",
+      "fake_answers": [
+        "Свердління дірок у DOM для відлагодження",
+        "Передача пропсів лише в одному напрямку — це і є рішення",
+        "Підхід, де props зберігаються в global window",
+        "Помилка React, що зникає в production",
+        "Patern, що означає завжди використовувати Redux",
+        "Передача пропсів через рефлексію",
+        "Drilling props — це назва техніки оптимізації",
+        "Coding-style з обов'язковими 5 рівнями вкладеності",
+        "Patern компресії пропсів у JSON",
+        "Спосіб ін'єкції залежностей через DOM-атрибути",
+        "Помилка типізації в TypeScript"
+      ]
+    },
+    {
+      "id": "fp-006",
+      "question": "Що таке lifting state up?",
+      "correct_answer": "Підняття спільного стану до найближчого спільного предка, щоб кілька компонентів-нащадків могли його розділяти",
+      "explanation": "Якщо два сестринські компоненти мають синхронізувати дані, стан 'піднімають' до батька, який передає його та setter як пропси. Класичний React-патерн до появи глобальних state-libs.",
+      "fake_answers": [
+        "Перенесення стану в localStorage",
+        "Підняття state до global window-об'єкта",
+        "Patern, де state зберігається лише в Redux",
+        "Patern для серверного рендерингу",
+        "Передача стану через props без обмежень глибини",
+        "Patern компресії стану у JSON-серіалізації",
+        "Підняття стану в React Context — єдиний спосіб",
+        "Назва патерну для серверного state",
+        "Перенесення стану з component до hook без батька",
+        "Підхід з обов'язковим useReducer",
+        "Інша назва для context provider"
+      ]
+    },
+    {
+      "id": "fp-007",
+      "question": "Коли треба використовувати React.memo, useMemo та useCallback?",
+      "correct_answer": "Для запобігання непотрібних ре-рендерів/обчислень; коли профайлер показує реальну проблему, не превентивно",
+      "explanation": "React.memo — мемоїзує компонент за пропсами. useMemo — кешує результат обчислення. useCallback — кешує посилання функції. Передчасна мемоїзація може уповільнити, бо порівняння теж коштує. Спочатку profile, потім optimize.",
+      "fake_answers": [
+        "Завжди — кожен компонент має бути memoized",
+        "Лише в class components",
+        "Лише при роботі з Context API",
+        "useMemo та useCallback — синоніми",
+        "useCallback мемоїзує компоненти, React.memo — функції",
+        "Лише в SSR для прискорення",
+        "Лише при використанні Redux",
+        "memo робить компонент immutable назавжди",
+        "useMemo гарантує, що значення обчислиться один раз за весь життєвий цикл додатка",
+        "useCallback не приймає dependency array",
+        "React.memo замінює useState"
+      ]
+    },
+    {
+      "id": "fp-008",
+      "question": "Навіщо потрібні keys у списках React?",
+      "correct_answer": "Допомагають reconciliation алгоритму ідентифікувати, які елементи змінилися/додалися/видалилися, без зайвих ре-рендерів",
+      "explanation": "Без стабільного key React порівнює елементи за позицією — це ламає state дочірніх компонентів при пересортуванні. Використовувати стабільний унікальний ID, не array index (якщо порядок може змінюватися).",
+      "fake_answers": [
+        "Для шифрування списку",
+        "Лише для accessibility — читачі екрану",
+        "Для CSS-селекторів",
+        "Для збереження порядку в localStorage",
+        "key завжди має бути числом",
+        "key потрібен лише в class components",
+        "key — це CSS-атрибут position",
+        "key замінює useState всередині елемента",
+        "key потрібен для роботи Suspense",
+        "key — це обов'язковий пропс будь-якого React-елемента",
+        "key передає унікальний хеш у Redux"
+      ]
+    },
+    {
+      "id": "fp-009",
+      "question": "Що таке Error Boundary у React?",
+      "correct_answer": "Спеціальний клас-компонент із componentDidCatch/getDerivedStateFromError, що ловить помилки в дочірніх компонентах при рендері",
+      "explanation": "Error Boundary показує fallback UI замість падіння всього додатка. Не ловить події (onClick), async-код, SSR. У React 19 з'явилися сучасніші API, але концепція ловлення на межі лишається.",
+      "fake_answers": [
+        "try/catch у JSX",
+        "Лінтер, що знаходить помилки у компонентах",
+        "Інструмент Chrome DevTools",
+        "Hook useError",
+        "Component, що автоматично видаляє помилки з консолі",
+        "Wrapper над window.onerror у браузері",
+        "Підхід, де помилки серверу повертаються в JSX",
+        "ESLint-rule react/no-error",
+        "Спосіб ловити syntax errors у компіляторі",
+        "Catch-блок навколо useEffect",
+        "Component, що ловить помилки async-коду в onClick"
+      ]
+    },
+    {
+      "id": "fp-010",
+      "question": "Що таке code splitting та як його робити в React?",
+      "correct_answer": "Розбиття bundle на менші частини, що завантажуються за потребою; через React.lazy + Suspense або dynamic import()",
+      "explanation": "const Page = React.lazy(() => import('./Page')) + <Suspense fallback={...}>. Зазвичай по маршрутах (route-based splitting) або по важких компонентах (модалки, чарти). Зменшує initial bundle та TTI.",
+      "fake_answers": [
+        "Розбиття CSS на module-файли",
+        "Розподіл коду між розробниками",
+        "Розбиття компонентів на файли по 100 рядків",
+        "Стискання коду через gzip",
+        "Розподіл render на декілька requestAnimationFrame",
+        "Перенесення коду на server",
+        "Видалення dead code тільки",
+        "Розбиття коду між git-гілками",
+        "Розподіл на TypeScript і JavaScript",
+        "Інша назва для tree shaking",
+        "Розподіл на html, css і js файли"
+      ]
+    },
+    {
+      "id": "fp-011",
+      "question": "У чому різниця між SSR, SSG, ISR та CSR?",
+      "correct_answer": "SSR — рендер на сервері на кожен запит; SSG — рендер під час білду; ISR — SSG з фоновим перегенеруванням; CSR — рендер у браузері",
+      "explanation": "CSR (SPA) — порожній HTML + JS, рендер на клієнті. SSR — HTML на кожен запит (дані актуальні, але повільніше). SSG — статичні файли (швидко, добре для контенту). ISR (Next.js) — SSG, що ре-генерується по timestamp/on-demand.",
+      "fake_answers": [
+        "Це одне й те саме під різними назвами",
+        "SSR і CSR — для backend, SSG і ISR — для frontend",
+        "ISR існує лише в Vue",
+        "SSG неможливий у Next.js",
+        "CSR завжди швидший за SSR за TTFB",
+        "SSR заборонений у React 19",
+        "ISR не дозволяє кешування",
+        "SSG обов'язково потребує бази даних",
+        "CSR не індексується пошуковими ботами в принципі",
+        "SSR не підтримує hydration",
+        "ISR — це інша назва для SSR"
+      ]
+    },
+    {
+      "id": "fp-012",
+      "question": "Що таке hydration і яка проблема hydration mismatch?",
+      "correct_answer": "Процес 'оживлення' SSR-HTML на клієнті: React приєднує обробники подій до існуючої DOM; mismatch — коли клієнтський рендер не співпадає із серверним",
+      "explanation": "Hydration mismatch виникає, коли SSR і CSR генерують різний HTML (наприклад, Date.now(), random, window-залежний код). React попереджає в консолі та може повністю перерендерити, ламаючи стан.",
+      "fake_answers": [
+        "Hydration — це назва для CSS-фреймворку",
+        "Hydration зволожує DOM-елементи",
+        "Hydration — це підключення до бази даних",
+        "Mismatch — це помилка TypeScript",
+        "Hydration виконується лише в Suspense",
+        "Mismatch — це різниця версій React на сервері та клієнті",
+        "Hydration — це інша назва для tree shaking",
+        "Hydration працює лише з class components",
+        "Mismatch — це конфлікт CSS class names",
+        "Hydration — це повний ре-рендер додатка щосекунди",
+        "Hydration — це process очищення пам'яті після рендера"
+      ]
+    },
+    {
+      "id": "fp-013",
+      "question": "Що таке Compound Components pattern?",
+      "correct_answer": "Набір компонентів, що працюють разом через спільний неявний стан (часто Context), даючи декларативний API з родинних елементів",
+      "explanation": "Приклад: <Tabs><Tab>...</Tab><TabPanel>...</TabPanel></Tabs>. Зовнішнього API мінімум, споживач компонує сам. Аналог нативного <select><option>. Гнучкість, але треба явно експортувати під-компоненти.",
+      "fake_answers": [
+        "Patern, де всі компоненти зберігаються в одному файлі",
+        "Patern для компонентів із декількома render-функціями",
+        "Patern для merging кількох React-додатків",
+        "Назва для CSS-in-JS бібліотеки",
+        "Patern, де компоненти автоматично з'єднуються через event bus",
+        "Patern, де batch-update компонентів обов'язковий",
+        "Patern для роботи з Web Components",
+        "Patern, де всі підкомпоненти класові",
+        "Patern, де компоненти компонуються через композицію в HOC",
+        "Patern, де props passed через global window",
+        "Patern, де компоненти імпортуються через dynamic import"
+      ]
+    },
+    {
+      "id": "fp-014",
+      "question": "Що таке debouncing та throttling, чим вони різняться?",
+      "correct_answer": "Debounce — виклик функції лише після паузи в подіях; Throttle — виклик не частіше ніж раз на N мс",
+      "explanation": "Debounce: користувач друкує 'react' — пошук викликається після паузи. Throttle: при scroll виклик не частіше 100мс. Debounce — для 'реакції в кінці', throttle — для 'обмеження частоти'.",
+      "fake_answers": [
+        "Це синоніми",
+        "Debounce — для CPU, throttle — для памʼяті",
+        "Throttle існує лише в lodash",
+        "Debounce — серверний, throttle — клієнтський",
+        "Throttle — для async, debounce — для sync",
+        "Debounce обмежує частоту, throttle — затримує одну подію",
+        "Throttle відключає всі handlers після ліміту",
+        "Debounce — це лише для onClick, throttle — для onScroll",
+        "Throttle — це назва для requestIdleCallback",
+        "Debounce виконується лише в SSR",
+        "Throttle вимагає Web Worker"
+      ]
+    },
+    {
+      "id": "fp-015",
+      "question": "Що таке optimistic UI?",
+      "correct_answer": "Підхід, при якому UI одразу показує очікуваний результат дії, до підтвердження сервером, з відкатом при помилці",
+      "explanation": "Користувач лайкає пост — серце червоніє миттєво, не чекаючи API. Якщо запит провалиться — UI відкочується + повідомлення. Дає відчуття швидкості, але вимагає коректної обробки помилок.",
+      "fake_answers": [
+        "UI, що завжди показує позитивні повідомлення",
+        "UI з оптимістичною кольоровою палітрою",
+        "UI, що компілюється з оптимізаціями -O3",
+        "UI, що ніколи не показує помилки",
+        "UI, що завантажує всі дані вперед",
+        "UI, що працює лише з 200 OK",
+        "UI, що не використовує loading-стан",
+        "UI з мінімальним числом DOM-нодів",
+        "UI, що рендериться оптимально під різні екрани",
+        "UI, що завжди буферизує події",
+        "UI, що показує лише skeleton"
+      ]
+    },
+    {
+      "id": "fp-016",
+      "question": "Що таке React Server Components (RSC)?",
+      "correct_answer": "Компоненти, що рендеряться лише на сервері, не відправляють JS у браузер, можуть напряму звертатися до даних/файлів/БД",
+      "explanation": "Default у Next.js App Router. Не мають useState/useEffect. Передають у клієнтські 'use client' компоненти серіалізовані пропси. Зменшують клієнтський bundle, прискорюють завантаження.",
+      "fake_answers": [
+        "Компоненти, що рендеряться лише в браузері з server-data",
+        "Компоненти Express.js",
+        "Компоненти, що використовують лише server-actions",
+        "Компоненти, що працюють у Web Worker",
+        "Компоненти Node.js без зв'язку з React",
+        "Компоненти, що завжди рендеряться двічі",
+        "Компоненти, що мають окремий event loop",
+        "Компоненти, які не можна тестувати",
+        "Компоненти лише для SSG, не для SSR",
+        "Компоненти з обов'язковим GraphQL",
+        "Компоненти, що працюють лише в Bun"
+      ]
+    },
+    {
+      "id": "fp-017",
+      "question": "Що таке Atomic Design?",
+      "correct_answer": "Методологія дизайн-систем, де UI розбивається на atoms → molecules → organisms → templates → pages",
+      "explanation": "Brad Frost. Atoms — базові елементи (Button, Input). Molecules — комбінації (SearchBar = Input + Button). Organisms — секції (Header). Templates — wireframes. Pages — конкретні екземпляри з реальними даними.",
+      "fake_answers": [
+        "Patern для квантових інтерфейсів",
+        "Підхід, де компоненти атомарно мутабельні",
+        "Patern, де atoms — це лише <atom> теги",
+        "Назва для Web Components specification",
+        "Patern лише для CSS Grid layouts",
+        "Patern для атомарних транзакцій у формах",
+        "Patern, що замінює BEM-методологію в CSS повністю",
+        "Patern для атомарних оновлень DOM",
+        "Patern, де компоненти мають однаковий розмір як атом",
+        "Patern, де всі компоненти rotated на 90 градусів",
+        "Patern для тестування атомарних рендерів"
+      ]
+    },
+    {
+      "id": "fp-018",
+      "question": "Що таке forwardRef і коли він потрібен?",
+      "correct_answer": "Утиліта React, що дозволяє функціональному компоненту приймати ref і передавати його далі (зазвичай до DOM-елемента)",
+      "explanation": "За замовчуванням ref не передається через функціональні компоненти. forwardRef((props, ref) => <input ref={ref} ... />). Потрібен для focus(), measure(), інтеграції з бібліотеками. У React 19 ref став звичайним пропсом.",
+      "fake_answers": [
+        "Hook для пересилання refs у Redux",
+        "Метод для перенаправлення HTTP-запитів",
+        "Patern для forward навігації в SPA",
+        "Утиліта для рекурсивних refs",
+        "Метод, що автоматично прокидає всі пропси",
+        "Назва для server-side ref-keeping",
+        "Утиліта, що замінює useRef повністю",
+        "Утиліта для роботи з context API",
+        "Метод для передачі refs між iframe",
+        "Patern для refs у Web Components",
+        "Hook для синхронізації refs між компонентами"
+      ]
+    },
+    {
+      "id": "fp-019",
+      "question": "Що таке Portal у React?",
+      "correct_answer": "Спосіб рендерити дочірні елементи в DOM-вузол поза ієрархією батьківського компонента",
+      "explanation": "createPortal(children, document.getElementById('modal-root')). Корисно для модалок, тултіпів, що мають вирватися з overflow:hidden батька. Події в портал bubble через React-дерево, не DOM.",
+      "fake_answers": [
+        "API для створення мікрофронтендів",
+        "Component для переходу між сторінками",
+        "Hook для портування props між компонентами",
+        "Patern для server-to-client передачі",
+        "Метод для портування коду між React і Vue",
+        "Утиліта для роботи з iframes",
+        "Patern для відкривання нових window.open",
+        "Метод для portage пропсів у Redux",
+        "API для роботи з PostMessage між вкладками",
+        "Patern для імпорту компонентів з npm",
+        "Інша назва для React.lazy"
+      ]
+    },
+    {
+      "id": "fp-020",
+      "question": "Що таке Suspense у React і навіщо він потрібен?",
+      "correct_answer": "Механізм декларативного очікування асинхронних даних/коду з показом fallback-UI під час завантаження",
+      "explanation": "<Suspense fallback={<Spinner/>}><LazyComponent/></Suspense>. Працює з React.lazy, Server Components, та з data-fetching бібліотеками, що інтегруються з Suspense (React Query). Дозволяє позбутися isLoading-bool у коді.",
+      "fake_answers": [
+        "Hook для затримки виконання useEffect",
+        "Метод для зупинки event-handlers",
+        "Утиліта для призупинки render у Strict Mode",
+        "Patern для затримки HTTP-запитів",
+        "Component для блокування користувача напряму",
+        "Patern для зупинки всього React-додатка",
+        "Утиліта для сну в async-функціях",
+        "Інша назва для useDeferredValue",
+        "Component, що рендериться лише в SSR",
+        "Patern для пакетного оновлення state",
+        "Component для блокування onClick подій"
+      ]
+    }
+  ]
+}

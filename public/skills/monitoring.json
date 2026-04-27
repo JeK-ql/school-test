@@ -1,0 +1,387 @@
+{
+  "skill_id": "monitoring",
+  "skill_name": "Monitoring & Observability",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "monitoring-001",
+      "question": "Які три стовпи observability?",
+      "correct_answer": "Logs, Metrics, Traces",
+      "explanation": "Logs — текстові події з контекстом (що сталося). Metrics — числові виміри в часі (скільки/наскільки часто). Traces — шлях запиту через сервіси (де повільно). Разом дають повну картину системи.",
+      "fake_answers": [
+        "Logs, Alerts, Dashboards",
+        "Metrics, Alerts, Reports",
+        "Logs, Metrics, Events",
+        "Health checks, Metrics, Traces",
+        "Tracing, Logging, Profiling",
+        "Latency, Throughput, Errors",
+        "Monitoring, Alerting, Reporting",
+        "Logs, Audits, Traces",
+        "SLI, SLO, SLA",
+        "Latency, Errors, Saturation",
+        "Logs, Snapshots, Profiles"
+      ]
+    },
+    {
+      "id": "monitoring-002",
+      "question": "Які 4 Golden Signals від Google SRE?",
+      "correct_answer": "Latency, Traffic, Errors, Saturation",
+      "explanation": "Latency — час відповіді (p50/p95/p99 окремо для успішних і failed). Traffic — навантаження (RPS, QPS). Errors — частота помилок. Saturation — наскільки заповнена система (CPU, memory, IO, queue).",
+      "fake_answers": [
+        "Logs, Metrics, Traces, Events",
+        "CPU, Memory, Disk, Network",
+        "Rate, Errors, Duration, Saturation",
+        "Utilization, Saturation, Errors, Latency",
+        "Latency, Traffic, Availability, Performance",
+        "Throughput, Errors, Cost, Latency",
+        "Latency, Cost, Errors, Saturation",
+        "RPS, Errors, p99, CPU",
+        "Latency, Traffic, Errors, Memory",
+        "Health, Performance, Errors, Cost",
+        "Throughput, Latency, Cost, Quality"
+      ]
+    },
+    {
+      "id": "monitoring-003",
+      "question": "Що означає метод RED у моніторингу?",
+      "correct_answer": "Rate, Errors, Duration — для request-driven сервісів",
+      "explanation": "RED від Tom Wilkie фокусується на сервісах, що обробляють запити: Rate (запитів/с), Errors (помилок/с або %), Duration (latency розподіл). Простіша альтернатива Golden Signals.",
+      "fake_answers": [
+        "Reliability, Errors, Duration",
+        "Read, Execute, Delete",
+        "Response, Errors, Database",
+        "Rate, Endpoints, Duration",
+        "Resources, Errors, Delay",
+        "Requests, Events, Diagnostics",
+        "Rate, Exceptions, Debugging",
+        "Real-time, Errors, Distribution",
+        "Recovery, Errors, Detection",
+        "Routing, Errors, Direction",
+        "Read, Errors, Duration"
+      ]
+    },
+    {
+      "id": "monitoring-004",
+      "question": "Що означає метод USE від Brendan Gregg?",
+      "correct_answer": "Utilization, Saturation, Errors — для resource-driven систем (CPU, RAM, disk)",
+      "explanation": "USE — для ресурсів. Utilization — % часу зайнятий ресурс. Saturation — скільки роботи в черзі (load average, IO wait). Errors — апаратні/системні помилки. Доповнює RED для повної картини.",
+      "fake_answers": [
+        "Uptime, Speed, Errors",
+        "Usage, Storage, Errors",
+        "Utilization, Speed, Efficiency",
+        "Users, Sessions, Events",
+        "Uptime, Saturation, Endpoints",
+        "Utilization, Statistics, Estimates",
+        "Usage, Storage, Endpoints",
+        "Uniqueness, Speed, Errors",
+        "Updates, Saturation, Events",
+        "Utility, Sync, Errors",
+        "Uptime, Sessions, Errors"
+      ]
+    },
+    {
+      "id": "monitoring-005",
+      "question": "Як Prometheus збирає метрики від сервісів?",
+      "correct_answer": "Pull-модель: Prometheus сам ходить по HTTP до /metrics endpoint кожного target з заданим scrape interval",
+      "explanation": "Pull спрощує service discovery (Kubernetes/Consul), дає health-check (down = недоступний). Сервіс експортує метрики через client library або exporter. Pushgateway використовується лише для batch jobs.",
+      "fake_answers": [
+        "Push: сервіси надсилають метрики у Prometheus",
+        "Через Kafka топіки",
+        "Через шину даних RabbitMQ",
+        "Через UDP пакети statsd",
+        "Через WebSocket з'єднання",
+        "Через gRPC streaming від клієнтів",
+        "Pub/Sub з Redis",
+        "Push через OpenTelemetry Collector",
+        "Pull через SNMP протокол",
+        "Push через syslog",
+        "Через JMX bean polling"
+      ]
+    },
+    {
+      "id": "monitoring-006",
+      "question": "Який тип метрики Prometheus підходить для лічильника, що тільки зростає (запити, помилки)?",
+      "correct_answer": "Counter",
+      "explanation": "Counter — монотонно зростає, скидається до нуля при перезапуску. Запити: rate(http_requests_total[5m]). Gauge — може зростати/спадати (CPU, queue size). Histogram — розподіл (latency). Summary — quantile на стороні клієнта.",
+      "fake_answers": [
+        "Gauge",
+        "Histogram",
+        "Summary",
+        "Meter",
+        "Timer",
+        "Distribution",
+        "Rate",
+        "Accumulator",
+        "Tally",
+        "Increment",
+        "Series"
+      ]
+    },
+    {
+      "id": "monitoring-007",
+      "question": "У чому різниця між histogram і summary у Prometheus?",
+      "correct_answer": "Histogram рахує buckets на сервері (можна агрегувати між інстансами), summary рахує quantile на клієнті (точніше, але неагрегується)",
+      "explanation": "Histogram експортує _bucket{le='...'}, _sum, _count — quantile рахується запитом histogram_quantile. Summary експортує одразу quantile{0.5}, {0.95} — точніше, але неможливо обчислити середнє по кластеру.",
+      "fake_answers": [
+        "Histogram для часу, summary для розміру",
+        "Histogram точніший, summary швидший",
+        "Histogram працює лише з integer, summary з float",
+        "Summary не підтримує quantile, histogram — так",
+        "Histogram persist на диск, summary — в RAM",
+        "Summary компактніший, histogram займає більше місця",
+        "Histogram рахує всі значення, summary — лише останнє",
+        "Histogram працює з push, summary з pull",
+        "Summary потребує AlertManager, histogram — ні",
+        "Histogram є counter, summary — gauge",
+        "Summary шифрує значення, histogram — ні"
+      ]
+    },
+    {
+      "id": "monitoring-008",
+      "question": "Що таке SLI, SLO і SLA?",
+      "correct_answer": "SLI — індикатор (метрика), SLO — внутрішня ціль, SLA — контракт з клієнтом і санкції",
+      "explanation": "SLI: 'успішних запитів за 5 хвилин', '%запитів з latency < 200ms'. SLO: 99.9% запитів < 200ms за 30 днів (внутрішня мета). SLA: контрактна обіцянка з фінансовими наслідками за порушення (зазвичай слабша за SLO).",
+      "fake_answers": [
+        "SLI — інтерфейс, SLO — оператор, SLA — алгоритм",
+        "SLI — лог, SLO — метрика, SLA — трейс",
+        "SLI — incident, SLO — outage, SLA — alert",
+        "SLI — service, SLO — system, SLA — application",
+        "SLI — індекс, SLO — обєкт, SLA — атрибут",
+        "Усі три — синоніми, що означають availability",
+        "SLI — внутрішня мета, SLO — контракт, SLA — індикатор",
+        "SLI — software lifecycle interval, SLO — operations, SLA — agreement",
+        "SLI — security level, SLO — operations, SLA — audit",
+        "SLI — service ID, SLO — orchestration, SLA — automation",
+        "SLI — system load, SLO — outage, SLA — availability"
+      ]
+    },
+    {
+      "id": "monitoring-009",
+      "question": "Що таке error budget?",
+      "correct_answer": "Допустима кількість помилок або downtime у межах SLO — наприклад, 0.1% за місяць",
+      "explanation": "При SLO 99.9% за 30 днів error budget ≈ 43 хвилини downtime. Якщо бюджет вичерпується — командам слід призупинити нові фічі і фокусуватися на надійності. Error budget узгоджує product і SRE.",
+      "fake_answers": [
+        "Бюджет на закупівлю Sentry/DataDog ліцензій",
+        "Допустима кількість тестів, що можуть впасти",
+        "Час, виділений на debug у спринті",
+        "Кількість API ключів для інтеграцій",
+        "Розмір логів за місяць",
+        "Бюджет на зарплати on-call інженерів",
+        "Кількість алертів на день, що команда готова терпіти",
+        "Кількість retry у CI пайплайні",
+        "Розмір traces у Jaeger",
+        "Бюджет на rollback інфраструктури",
+        "Кількість недоступних реплік перед алертом"
+      ]
+    },
+    {
+      "id": "monitoring-010",
+      "question": "Які перцентилі найчастіше використовують для аналізу latency?",
+      "correct_answer": "p50 (median), p95, p99 — для оцінки типового і tail latency",
+      "explanation": "Середнє маскує проблеми (один пік не помітний). p50 — типовий користувач, p95 — більшість, p99 — гірший користувач, p99.9 — tail (особливо важливо для високого RPS, де навіть 0.1% — багато людей).",
+      "fake_answers": [
+        "p10, p20, p30",
+        "p25, p50, p75",
+        "p1, p5, p10",
+        "p33, p66, p99",
+        "min, max, avg",
+        "mean, median, mode",
+        "p100, p200, p500",
+        "p70, p80, p90",
+        "p100, mean, max",
+        "p10, p50, p90",
+        "p0, p50, p100"
+      ]
+    },
+    {
+      "id": "monitoring-011",
+      "question": "Що таке trace і span у distributed tracing?",
+      "correct_answer": "Trace — повний шлях запиту через сервіси; span — окрема операція у trace з parent-child зв'язком",
+      "explanation": "Trace має унікальний trace_id. Кожна операція (HTTP виклик, DB запит) — span зі span_id, parent_id, тривалістю. OpenTelemetry стандартизує формат, Jaeger/Tempo/Zipkin візуалізують.",
+      "fake_answers": [
+        "Trace — лог, span — метрика",
+        "Span — повний запит, trace — частина",
+        "Trace — стек викликів, span — рядок логу",
+        "Trace — alert, span — incident",
+        "Span — метрика, trace — її агрегація",
+        "Trace — період моніторингу, span — точка вимірювання",
+        "Span — контейнер, trace — pod",
+        "Trace — namespace, span — функція",
+        "Trace — версія API, span — endpoint",
+        "Span — дашборд, trace — алерт",
+        "Trace — тестовий сценарій, span — крок"
+      ]
+    },
+    {
+      "id": "monitoring-012",
+      "question": "Що таке structured logging?",
+      "correct_answer": "Логи у машинно-читаному форматі (зазвичай JSON) з полями замість вільного тексту",
+      "explanation": "Замість log.info('User 123 logged in from 1.2.3.4') — { msg: 'login', user_id: 123, ip: '1.2.3.4', ts: '...' }. Дозволяє ефективний пошук, фільтрацію, агрегацію в Loki/Elasticsearch без regex-парсингу.",
+      "fake_answers": [
+        "Логи з ASCII art-форматуванням",
+        "Логи з кольоровими ANSI кодами",
+        "Логи з обов'язковим stack trace",
+        "Логи з ієрархічними рівнями глибини",
+        "Логи з обов'язковим шифруванням",
+        "Логи з фіксованою довжиною рядка",
+        "Логи у бінарному форматі для швидкості",
+        "Логи з обов'язковими timestamps у мс",
+        "Логи з вбудованими стек-трейсами",
+        "Логи з обов'язковими correlation ID без полів",
+        "Логи у форматі XML"
+      ]
+    },
+    {
+      "id": "monitoring-013",
+      "question": "Який рівень логування зазвичай не пишуть у production?",
+      "correct_answer": "DEBUG (вмикається лише при діагностиці)",
+      "explanation": "Стандартні рівні: TRACE < DEBUG < INFO < WARN < ERROR < FATAL. У production — INFO і вище. DEBUG/TRACE створюють шум і навантаження. Можна тимчасово вмикати для конкретного користувача/запиту через sampling.",
+      "fake_answers": [
+        "INFO",
+        "WARN",
+        "ERROR",
+        "FATAL",
+        "NOTICE",
+        "CRITICAL",
+        "EMERGENCY",
+        "ALERT",
+        "Усі рівні пишуться однаково",
+        "PANIC",
+        "VERBOSE"
+      ]
+    },
+    {
+      "id": "monitoring-014",
+      "question": "Що таке alert fatigue і як з нею боротись?",
+      "correct_answer": "Стан, коли алертів так багато, що команда їх ігнорує — лікується зменшенням і пріоритезацією алертів",
+      "explanation": "Кожен алерт має бути actionable — людина мусить щось зробити. Інакше — це не alert, а dashboard. Способи: підняти пороги, групувати, додати inhibition в Alertmanager, відрізнити warning (Slack) від critical (PagerDuty).",
+      "fake_answers": [
+        "Втома сервера від великої кількості метрик",
+        "Перевантаження AlertManager пам'яттю",
+        "Збій webhook через rate limit",
+        "Помилка дедуплікації алертів",
+        "Затримка доставки PagerDuty",
+        "Конфлікт між alerting rules і recording rules",
+        "Падіння Prometheus при високому навантаженні",
+        "Втрата алертів при failover Alertmanager",
+        "Перевантаження Slack каналу",
+        "Затримка доставки SMS",
+        "Помилка cron при щогодинному резюме"
+      ]
+    },
+    {
+      "id": "monitoring-015",
+      "question": "Що таке runbook у контексті on-call?",
+      "correct_answer": "Документ з покроковими діями для діагностики і виправлення конкретного типу інциденту",
+      "explanation": "Runbook прив'язаний до алерту. Має містити: що означає алерт, як підтвердити проблему, які команди запустити, як ескалювати, як зробити rollback. Ціль: будь-який on-call інженер впорається без глибоких знань системи.",
+      "fake_answers": [
+        "Скрипт автоматичного запуску після деплою",
+        "Документ з архітектурою системи",
+        "Список API endpoints і їх власників",
+        "Розклад чергувань on-call",
+        "Реєстр всіх алертів у системі",
+        "План тестування навантаження",
+        "Контактний список для CTO ескалації",
+        "Документ з історією інцидентів",
+        "Конфігурація CI/CD пайплайнів",
+        "Реєстр відповідальних за сервіси",
+        "Список SLI/SLO для дашбордів"
+      ]
+    },
+    {
+      "id": "monitoring-016",
+      "question": "Що таке OpenTelemetry?",
+      "correct_answer": "Стандарт і набір SDK/Collector для збору logs, metrics, traces у вендор-нейтральному форматі (OTLP)",
+      "explanation": "OTel об'єднав OpenTracing і OpenCensus. SDK для багатьох мов автоматично інструментує HTTP/gRPC/DB. Collector приймає OTLP і експортує куди завгодно (Jaeger, Tempo, Prometheus, Datadog) — без переписування коду.",
+      "fake_answers": [
+        "Бібліотека лише для трейсів",
+        "Заміна Prometheus від CNCF",
+        "Альтернатива Grafana для дашбордів",
+        "Менеджер логів від Google",
+        "Сервіс APM від Sentry",
+        "AlertManager від Elastic",
+        "Service mesh від Linkerd",
+        "Stream processing engine",
+        "Менеджер інцидентів",
+        "Профайлер для Java",
+        "Distributed cache для метрик"
+      ]
+    },
+    {
+      "id": "monitoring-017",
+      "question": "Чим recording rules відрізняються від alerting rules у Prometheus?",
+      "correct_answer": "Recording rules pre-обчислюють і зберігають вираз як нову метрику; alerting rules перевіряють умову і генерують алерт",
+      "explanation": "Recording rule (record:) обчислює складний/важкий PromQL заздалегідь, прискорює дашборди. Alerting rule (alert:) тригерить, коли expression true протягом for: тривалості — алерт надсилається в Alertmanager.",
+      "fake_answers": [
+        "Recording для логів, alerting для метрик",
+        "Recording для запису на диск, alerting для повідомлення",
+        "Recording лише на read-only replicas",
+        "Recording тільки для counter, alerting тільки для gauge",
+        "Recording — це snapshot, alerting — diff",
+        "Recording записує SQL, alerting — JavaScript",
+        "Recording для Loki, alerting для Tempo",
+        "Recording лише в Pushgateway",
+        "Recording — це бекап, alerting — restore",
+        "Recording експортує JSON, alerting — YAML",
+        "Recording лише для federation, alerting — для local"
+      ]
+    },
+    {
+      "id": "monitoring-018",
+      "question": "Що таке health check endpoint /health?",
+      "correct_answer": "Endpoint, який повертає статус сервісу (готовий приймати трафік чи ні) — для load balancer та Kubernetes probes",
+      "explanation": "Liveness probe: чи живий процес (рестарт якщо ні). Readiness probe: чи готовий обробляти запити (виключити з балансувальника якщо ні). Startup probe: для повільних стартів. Зазвичай перевіряє БД, кеш, зовнішні залежності.",
+      "fake_answers": [
+        "Endpoint для оновлення версії сервісу",
+        "Endpoint для лог-агрегатора Loki",
+        "Endpoint для відправки метрик у Datadog",
+        "Endpoint для отримання traces",
+        "Endpoint для очищення кешу",
+        "Endpoint для feature flags",
+        "Endpoint для shutdown сервера",
+        "Endpoint для запуску garbage collection",
+        "Endpoint для авторизації запитів",
+        "Endpoint для отримання config",
+        "Endpoint для service discovery"
+      ]
+    },
+    {
+      "id": "monitoring-019",
+      "question": "Що таке Loki і чим відрізняється від Elasticsearch для логів?",
+      "correct_answer": "Loki індексує лише labels (як Prometheus), а не контент логів — дешевше і простіше, але менш потужний пошук",
+      "explanation": "Elasticsearch індексує кожне слово (full-text), потужний, але дорогий. Loki індексує тільки метадані (labels: app, env), сам контент стискається. Запити LogQL схожі на PromQL. Інтеграція з Grafana з коробки.",
+      "fake_answers": [
+        "Loki — це SQL база для логів",
+        "Loki зберігає лише останні 24 години",
+        "Loki потребує окремого індексу на кожен сервіс",
+        "Loki працює лише з структурованими JSON логами",
+        "Elasticsearch швидший для запису, Loki — для читання",
+        "Loki має вбудоване ML для аномалій",
+        "Loki потребує Cassandra як backend",
+        "Loki — це версія Elasticsearch для Kubernetes",
+        "Loki не підтримує labels, лише timestamps",
+        "Loki зберігає логи лише в S3",
+        "Loki — це кешовий шар перед Elasticsearch"
+      ]
+    },
+    {
+      "id": "monitoring-020",
+      "question": "Які поля логів категорично не можна писати у production?",
+      "correct_answer": "Паролі, токени, секрети, повні номери карт — будь-які чутливі дані (PII/credentials)",
+      "explanation": "Логи зазвичай зберігаються довго і доступні багатьом інженерам — secrets/PII у них стають витоком. Маскуй (****1234), хешуй або повністю прибирай. GDPR/PCI-DSS вимагають це юридично.",
+      "fake_answers": [
+        "HTTP метод запиту",
+        "Час обробки запиту",
+        "User-Agent клієнта",
+        "Status code відповіді",
+        "Назву endpoint",
+        "Trace ID для кореляції",
+        "Розмір response body у байтах",
+        "Версію API",
+        "Region обробника запиту",
+        "Назву сервісу",
+        "Назву функції що викликала log"
+      ]
+    }
+  ]
+}

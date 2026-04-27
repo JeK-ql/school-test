@@ -1,0 +1,387 @@
+{
+  "skill_id": "production-pitfalls",
+  "skill_name": "Production Pitfalls",
+  "difficulty": "A-Rank",
+  "questions": [
+    {
+      "id": "prod-001",
+      "question": "Що таке retry storm (thundering herd) і як з ним боротися?",
+      "correct_answer": "Лавина одночасних повторних запитів від багатьох клієнтів після збою downstream-сервісу — додатково перевантажує його; рішення: exponential backoff з jitter (випадковим зсувом), circuit breaker, обмеження concurrent retries, retry budget",
+      "explanation": "Без jitter усі клієнти ретраяться одночасно через 1с, 2с, 4с — створюючи піки. Jitter рандомізує час. Circuit breaker зупиняє ретраї, якщо сервіс \"мертвий\". Idempotency-keys потрібні щоб ретраї не дублювали ефекти.",
+      "fake_answers": [
+        "Це коли блискавка вдаряє у сервер — UPS",
+        "Збій кулера CPU — змінити термопасту",
+        "DDoS-атака — використати Cloudflare",
+        "Збій DNS — поставити вторинний сервер",
+        "Помилка SSL-сертифіката — оновити Let's Encrypt",
+        "Витік токена — обертати JWT",
+        "SQL injection — параметризувати запити",
+        "Memory leak — рестарт сервісу",
+        "GC pause — оновити Java",
+        "Перевищення connection pool — збільшити max",
+        "Збій Redis cluster — додати реплік"
+      ]
+    },
+    {
+      "id": "prod-002",
+      "question": "Що таке N+1 query problem?",
+      "correct_answer": "Антипаттерн: один запит повертає N записів, потім по кожному з них робиться додатковий запит — разом N+1 запитів замість 1-2; рішення: eager loading (JOIN, IN), DataLoader, prefetch, batching",
+      "explanation": "Класика ORM: User.all → for each user → user.posts (окремий SELECT). У SQL: SELECT * FROM posts WHERE user_id IN (...) одним запитом. Латентність зростає лінійно, легко вбити БД на популярних endpoint.",
+      "fake_answers": [
+        "Запит, який вертає на 1 запис більше ніж треба",
+        "Помилка пагінації при offset",
+        "Race condition між INSERT і SELECT",
+        "Дублювання первинних ключів",
+        "Помилка в LIMIT — повертає N+1",
+        "Конфлікт індексу і первинного ключа",
+        "Збій CONCAT функції",
+        "Помилка в GROUP BY",
+        "Зайвий ORDER BY",
+        "Конфлікт unique constraint",
+        "Помилка JOIN, що вертає декартів добуток"
+      ]
+    },
+    {
+      "id": "prod-003",
+      "question": "Що таке connection pool exhaustion?",
+      "correct_answer": "Закінчуються вільні підключення до БД (всі pool slots зайняті), наступні запити чекають або падають з timeout; причини: leak з'єднань, повільні запити, замала ємність pool, відсутність timeout на checkout",
+      "explanation": "Симптоми: timeout на отримання connection, падіння latency, growth thread/coroutine count. Профілактика: завжди закривати connections (try-finally, with), розумні pool sizes (часто менше = краще через PgBouncer), statement timeout, pool monitoring.",
+      "fake_answers": [
+        "Закінчилися IP-адреси у DHCP",
+        "Перевантажений роутер мережі",
+        "Вичерпались VPN-сесії",
+        "Перевантажений CDN",
+        "Закінчились WebSocket з'єднання браузера (макс 6)",
+        "Вичерпано quota Redis pub/sub",
+        "Закінчились Kafka partition slots",
+        "Перевантажений K8s ingress",
+        "Вичерпано quota S3 PUT operations",
+        "Закінчились free slots у Lambda concurrency",
+        "Перевантажений Apigateway"
+      ]
+    },
+    {
+      "id": "prod-004",
+      "question": "Чим відрізняються optimistic і pessimistic locking?",
+      "correct_answer": "Pessimistic — блокування рядка/таблиці перед читанням (SELECT FOR UPDATE), безпечно але серіалізує доступ; Optimistic — без блокування, перед UPDATE перевіряємо version/timestamp — якщо не змінилось, оновлюємо; рідкісний conflict — ретрай",
+      "explanation": "Optimistic краще для read-heavy з рідкими конфліктами (UI-форми редагування). Pessimistic — для частих конфліктів (банківські операції, inventory). Optimistic може спричинити storm of retries при високому contention.",
+      "fake_answers": [
+        "Optimistic — для frontend, pessimistic — для backend",
+        "Це абсолютні синоніми",
+        "Optimistic блокує таблицю, pessimistic — рядок",
+        "Pessimistic не використовує транзакції, optimistic використовує",
+        "Optimistic лише у NoSQL, pessimistic у SQL",
+        "Pessimistic — це SELECT, optimistic — UPDATE",
+        "Optimistic — це SQL, pessimistic — Redis",
+        "Pessimistic не підтримує index",
+        "Optimistic заборонено у production",
+        "Pessimistic працює лише з master-slave",
+        "Optimistic — це eventual consistency завжди"
+      ]
+    },
+    {
+      "id": "prod-005",
+      "question": "Чому варто завжди зберігати час у UTC?",
+      "correct_answer": "UTC не залежить від часових зон, переходів на літній/зимовий час, законодавчих змін DST; конвертація у локальну зону відбувається на presentation layer — арифметика і порівняння працюють коректно, легше міграції між регіонами",
+      "explanation": "DST створює неоднозначність: 2:30 AM під час переходу — два рази або не існує. Зберігання локального часу + зони — мінне поле. Виняток — recurring user-time events (нагадування о 9 ранку щодня) можуть зберігатися як local time + tz.",
+      "fake_answers": [
+        "UTC швидший за інші зони на CPU",
+        "UTC займає менше місця на диску",
+        "UTC шифрується автоматично",
+        "UTC індексується БД краще",
+        "Це вимога GDPR",
+        "Це вимога ISO 9001",
+        "UTC підтримується тільки PostgreSQL",
+        "UTC сумісний лише з Linux",
+        "UTC прискорює replication",
+        "UTC — це формат HTTP",
+        "UTC обов'язковий лише для логів"
+      ]
+    },
+    {
+      "id": "prod-006",
+      "question": "Що таке memory leak і як його виявити у Node.js/Python?",
+      "correct_answer": "Витік пам'яті — об'єкти не звільняються GC, бо тримаються посилання (event listeners, closures, timers, глобальні мапи); виявлення: heap snapshots (Chrome DevTools, py-spy, memory_profiler), порівняння двох snapshot, моніторинг RSS/heap",
+      "explanation": "Класика Node.js: setInterval з замиканням, addEventListener без removeEventListener, кеш без обмежень. Python: глобальні структури з accumulating refs, circular refs з __del__. WeakMap/weakref допомагають. Перезапускати ≠ виправити.",
+      "fake_answers": [
+        "Це коли користувач запам'ятовує паролі — рішення MFA",
+        "Збій SSD — замінити диск",
+        "Помилка swap файлу — збільшити swap",
+        "Перевантаження ОЗУ ОС — додати RAM",
+        "Витік TCP buffer — оновити kernel",
+        "Збій ECC RAM — замінити модуль",
+        "Перевантаження файлової системи — змінити на ext4",
+        "Витік DNS-кешу — flushdns",
+        "Збій ARP-таблиці — рестарт мережі",
+        "Перевантаження TLB CPU — оновити driver",
+        "Витік паролів через memory dump"
+      ]
+    },
+    {
+      "id": "prod-007",
+      "question": "Що таке circuit breaker pattern?",
+      "correct_answer": "Паттерн стабільності: коли downstream-сервіс падає, після N помилок \"breaker\" розмикається і запити одразу відхиляються (без виклику), захищаючи downstream від навантаження; через timeout пробує \"half-open\" — якщо ОК, закривається",
+      "explanation": "Стани: closed (нормально), open (швидко падаємо), half-open (пробний запит). Бібліотеки: Hystrix (deprecated), resilience4j, opossum (Node), polly (.NET). Працює разом з timeout, retry, fallback. Без CB caller продовжує бомбити мертвий сервіс.",
+      "fake_answers": [
+        "Електричний запобіжник у дата-центрі",
+        "UPS, що відключає сервер при перенапрузі",
+        "VPN, що переривається при втраті пакетів",
+        "Брандмауер, що блокує підозрілий трафік",
+        "TLS-handshake з обмеженням часу",
+        "DNS round-robin перемикання",
+        "Балансувальник з drop неактивних бекендів",
+        "API rate limiter за IP",
+        "WAF з blocking правилами",
+        "DDoS-захист Cloudflare",
+        "Health check Kubernetes probe"
+      ]
+    },
+    {
+      "id": "prod-008",
+      "question": "Чому floating point не можна використовувати для грошей?",
+      "correct_answer": "IEEE 754 не може точно представити багато десяткових дробів (0.1 + 0.2 ≠ 0.3); накопичуються округлення — у фінансах це втрата центів; рішення: цілі числа у мінімальній одиниці (cents/копійки) або decimal/numeric типи",
+      "explanation": "У Postgres — NUMERIC(precision, scale). У Java — BigDecimal. У Python — decimal.Decimal. У JS — числа лише до 2^53, для грошей — bigint або бібліотеки (currency.js, dinero.js). Завжди використовуйте Banker's rounding для фінансових операцій.",
+      "fake_answers": [
+        "Float повільніший за integer на CPU",
+        "Float займає більше місця у БД",
+        "Це вимога PCI DSS — лише integer",
+        "Float не підтримується PostgreSQL",
+        "Float не серіалізується у JSON правильно",
+        "Float не підтримує негативні числа",
+        "Float не індексується у БД",
+        "Float не сумісний з REST API",
+        "Float має обмеження 32 біти у JS",
+        "Float не підтримує валюту",
+        "Це вимога GDPR"
+      ]
+    },
+    {
+      "id": "prod-009",
+      "question": "Що таке idempotency і чому вона важлива при retry?",
+      "correct_answer": "Властивість операції: багаторазове виконання має той самий ефект, що й одне; критично при retry: без idempotency повторний платіж = подвійне списання; реалізація: idempotency-key, унікальні ID, conditional updates (UPDATE WHERE state=...)",
+      "explanation": "GET, PUT, DELETE — ідемпотентні за HTTP-семантикою. POST — ні (стандартно). Idempotency-Key header (Stripe-стиль): сервер пам'ятає результат запиту з цим ключем певний час. Без idempotency мережеві timeout стають мінним полем.",
+      "fake_answers": [
+        "Це коли запит виконується ідентично на всіх серверах",
+        "Властивість шифрування з тим самим ciphertext",
+        "Гарантія однакового JSON output байт-в-байт",
+        "Властивість TLS-handshake",
+        "Це коли API повертає завжди 200",
+        "Гарантія однакового латенсі",
+        "Властивість stateless архітектури",
+        "Гарантія сумісності API версій",
+        "Це коли БД завжди відповідає однаково",
+        "Властивість WebSocket-з'єднання",
+        "Гарантія однакового UUID"
+      ]
+    },
+    {
+      "id": "prod-010",
+      "question": "Чому небезпечні breaking schema migrations і як їх правильно робити?",
+      "correct_answer": "Старий код може зламатися на новій схемі під час deploy/rollback; правильно: backward-compatible migrations у кілька кроків (expand-contract): додати новий стовпець → подвійний запис → переключити читання → видалити старий",
+      "explanation": "Drop column, rename column, change column type — ризики downtime. ALTER TABLE на великих таблицях блокує — використовуйте pt-online-schema-change, gh-ost, pg_repack. Завжди мати rollback plan. Тестувати міграції на staging-копії prod.",
+      "fake_answers": [
+        "Міграції завжди безпечні — БД сама розбереться",
+        "Достатньо backup перед міграцією — все OK",
+        "Робити лише вночі — у будні небезпечно",
+        "Лише на staging — у production не треба",
+        "Достатньо ALTER TABLE з force",
+        "Достатньо створити нову БД і скопіювати дані",
+        "Робити мануально через psql/mysql прямо у production",
+        "Завжди робити DROP TABLE спочатку",
+        "Не робити міграцій взагалі — створювати нові колонки",
+        "Достатньо downtime у 1 годину",
+        "Виключати backups для пришвидшення"
+      ]
+    },
+    {
+      "id": "prod-011",
+      "question": "Що таке head-of-line blocking?",
+      "correct_answer": "Затримка обробки наступних запитів через зависання першого у черзі; HTTP/1.1 TCP, single-threaded event loops, послідовні черги — типові місця; рішення: HTTP/2 multiplexing, паралельні воркери, окремі черги, timeout на голову",
+      "explanation": "У event loop (Node.js, Python asyncio) одна синхронна операція блокує всі інші. У БД connection pool один повільний запит тримає підключення. У Kafka партиції — один повільний consumer може блокувати offset commit.",
+      "fake_answers": [
+        "Заголовок HTTP, що блокує тіло",
+        "TLS-проблема з SNI",
+        "Збій DNS першого запиту",
+        "Cookie session, що блокує запити",
+        "CSRF-токен, що зависає",
+        "JWT-токен з простроченим exp",
+        "OAuth callback, що зависає",
+        "WebSocket close handshake",
+        "CORS preflight OPTIONS",
+        "DNS NXDOMAIN на головному домені",
+        "TCP RST пакет на header"
+      ]
+    },
+    {
+      "id": "prod-012",
+      "question": "Що таке alert fatigue і як з нею боротися?",
+      "correct_answer": "Перевантаження команди надмірною кількістю алертів (часто false-positive або low-priority), через що справжні критичні алерти ігноруються; рішення: тюнінг порогів, alert grouping/deduplication, severity levels, runbook на кожен алерт, on-call rotation",
+      "explanation": "Принципи: алертити лише на actionable події. Кожен алерт має runbook. Регулярний review алертів (квартально). SLO-based alerting (error budget burn rate) краще ніж threshold per-metric. Severity ladder: P1 (page) → P4 (FYI).",
+      "fake_answers": [
+        "Втома GPU від обробки сповіщень",
+        "Закінчення SMS-кредитів у Twilio",
+        "Перевантаження email-черги",
+        "Збій webhook у Slack",
+        "Втрата мобільного зв'язку on-call",
+        "Перевантаження APNs-сервера",
+        "Витік токена PagerDuty",
+        "Збій інтеграції з OpsGenie",
+        "Перевантаження Telegram-бота",
+        "Збій SSO у моніторинговому стеку",
+        "Витік webhook-ключа"
+      ]
+    },
+    {
+      "id": "prod-013",
+      "question": "Що таке runbook і чому він критичний для on-call?",
+      "correct_answer": "Документований покроковий гайд відповіді на конкретний інцидент/алерт: що це означає, як діагностувати, як виправити, ескалація; критично щоб on-call міг швидко реагувати без знань усього коду",
+      "explanation": "Кожен алерт повинен мати link на runbook. Постійно оновлюється після post-mortems. Альтернативи/доповнення: playbooks (загальні процедури), wiki, ChatOps automation. Без runbook on-call перетворюється на полювання у темряві.",
+      "fake_answers": [
+        "Скрипт автоматичного запуску після boot",
+        "Книга з історії компанії",
+        "Лог запусків CI/CD",
+        "Логи виконаних SQL-запитів",
+        "Бенчмарк швидкості системи",
+        "Документ з результатами load testing",
+        "Скрипт для running tests",
+        "Логи git history",
+        "Інструкція з компіляції коду",
+        "Документ з benchmarks конкурентів",
+        "Профайл CPU під навантаженням"
+      ]
+    },
+    {
+      "id": "prod-014",
+      "question": "Чому небезпечно зберігати секрети у коді/логах і альтернативи?",
+      "correct_answer": "Витік через git history (навіть після видалення), case study breaches; логи можуть потрапити у third-party (Sentry, Datadog); рішення: secrets manager (Vault, AWS Secrets Manager, GCP Secret Manager), env vars з .env у .gitignore, секретне сканування у CI",
+      "explanation": "Якщо секрет потрапив у git — обов'язково ротувати (не лише видалити). Tools: git-secrets, trufflehog, gitleaks. Для логів — фільтри/redaction (Authorization, password, token поля). Заборонити логування цілих request bodies без sanitization.",
+      "fake_answers": [
+        "Зберігати секрети як .txt поряд з кодом — норма",
+        "Хардкодити у production-код — швидше",
+        "Зберігати у git, але приватному репозиторії — безпечно",
+        "У public git у base64 — це шифрування",
+        "У комментах коду — безпечно, бо ніхто не читає",
+        "У README.md — для зручності onboarding",
+        "У логах з префіксом SECRET: — щоб моніторинг ловив",
+        "У JIRA-тікетах — приватно для команди",
+        "У Slack DM — захищено E2E",
+        "У бонус-полях БД як plain text",
+        "У cookie з httpOnly — безпечно"
+      ]
+    },
+    {
+      "id": "prod-015",
+      "question": "Що таке single point of failure (SPOF) і приклади?",
+      "correct_answer": "Компонент, відмова якого зупиняє всю систему; приклади: одна БД-master без реплік, один load balancer без HA-pair, один DNS-провайдер, один cloud region, один SSL-сертифікат на одному сервері, один deploy-скрипт у голові одного інженера",
+      "explanation": "Боротьба: redundancy (multi-AZ, multi-region), automated failover, regular DR drills, документація. Часто SPOF — людський (bus factor 1). Архітектурне правило: \"all hardware fails, all networks partition, all software has bugs\".",
+      "fake_answers": [
+        "Точка зустрічі всіх юзерів — landing page",
+        "Точка входу мережі — gateway завжди безпечний",
+        "Endpoint API, найбільш популярний",
+        "Helper-функція, що використовується всюди",
+        "Файл .env у корені",
+        "Master-гілка у git",
+        "Production database — завжди безпечна",
+        "API key, що використовується всюди",
+        "Webhook URL, що приймає всі події",
+        "Logger, до якого пишуть усі сервіси",
+        "Cron-завдання, що виконується щохвилини"
+      ]
+    },
+    {
+      "id": "prod-016",
+      "question": "Що таке chaos engineering і навіщо?",
+      "correct_answer": "Дисципліна свідомого внесення збоїв у production-like середовище для виявлення слабких місць раніше за реальний інцидент: вбивати процеси, дропати мережу, додавати latency; інструменти: Chaos Monkey, Gremlin, Litmus",
+      "explanation": "Принципи Netflix: hypothesis (система переживе), blast radius (контрольований), experiment (внести збій), measure (як відреагувала). Spectacular failure модельовано: cascading через timeouts, runaway retries, exhausted resources.",
+      "fake_answers": [
+        "Інженерія без планування — як вийде",
+        "Розробка без code review",
+        "Деплой без тестів — швидко у production",
+        "Архітектура без документації",
+        "Кодування без комітів — лише фіналізація",
+        "Тестування лише у production — швидше",
+        "DevOps без CI/CD — мануально",
+        "Робота з secret management — guess and pray",
+        "Розробка лише у git без бекапів",
+        "Інженерія, де всі команди не спілкуються",
+        "Робота з legacy-кодом без тестів"
+      ]
+    },
+    {
+      "id": "prod-017",
+      "question": "Що таке backup, який не тестувався, і чому це проблема?",
+      "correct_answer": "Backup, з якого ніколи не відновлювали — фактично відсутній: можуть бути corruption, missing files, неправильний формат, забуті залежності, непрацюючі credentials, missed schemas; правило: untested backup = no backup",
+      "explanation": "DR drill — регулярне тестування відновлення на тестовому середовищі. Метрики: RTO (recovery time), RPO (recovery point — допустимий обсяг втрати даних). Backup має бути offsite (3-2-1 правило), encrypted, versioned, immutable (захист від ransomware).",
+      "fake_answers": [
+        "Backup, який не зашифрований",
+        "Backup, що зберігається лише локально",
+        "Backup, у якому немає logs",
+        "Backup без compression",
+        "Backup без timestamp",
+        "Backup, який старший за 1 годину",
+        "Backup у форматі плоского текстового файлу",
+        "Backup, що містить лише схему БД",
+        "Backup, що не оновлювався протягом дня",
+        "Backup без документації",
+        "Backup, який не реплікується у CDN"
+      ]
+    },
+    {
+      "id": "prod-018",
+      "question": "Що таке observability і чим відрізняється від monitoring?",
+      "correct_answer": "Monitoring — спостерігаємо відомі метрики (CPU, memory, error rate); Observability — здатність відповісти на нові питання про систему через 3 pillars: logs, metrics, traces — розслідувати unknown unknowns",
+      "explanation": "Monitoring = pre-defined dashboards/alerts. Observability = exploration. Distributed tracing (OpenTelemetry, Jaeger) — критично для мікросервісів. Structured logs замість текстових. High-cardinality metrics (Honeycomb-стиль). Без observability складні bugs неможливо знайти.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "Observability — для frontend, monitoring — для backend",
+        "Monitoring — це старе слово, observability — нове, без різниці",
+        "Observability — лише для Kubernetes",
+        "Monitoring використовує тільки Prometheus, observability — Datadog",
+        "Observability — це лише для AI",
+        "Monitoring — це platform, observability — open-source",
+        "Observability — це частина ITIL, monitoring — DevOps",
+        "Monitoring — для production, observability — staging",
+        "Observability — лише через manual tools",
+        "Monitoring — це дашборд, observability — алерт"
+      ]
+    },
+    {
+      "id": "prod-019",
+      "question": "Що таке timeout и чому критично мати його скрізь?",
+      "correct_answer": "Обмеження часу очікування відповіді від downstream; без timeout повільний/мертвий сервіс блокує caller безкінечно — резерви виснажуються (threads, connections, file descriptors), каскадить як cascading failure",
+      "explanation": "Mantra: ВСЕ має timeout — HTTP-клієнти (default Inf!), DB queries, locks, queues. Timeout < ніж у caller (інакше caller вже здався). Statement timeout у БД. ALWAYS_REMOVE_INFINITE_DEFAULTS. Failed timeout = unbounded queue = OOM.",
+      "fake_answers": [
+        "Це таймер, що автоматично логаутить юзерів",
+        "Cookie expiration",
+        "JWT exp claim",
+        "TLS-сесія тайм-аут",
+        "OAuth token expiry",
+        "Cache TTL у Redis",
+        "Session storage cleanup",
+        "CRON-завдання за розкладом",
+        "DNS TTL",
+        "Browser cache expiry",
+        "Cloudfront cache invalidation"
+      ]
+    },
+    {
+      "id": "prod-020",
+      "question": "Що таке cascading failure і як її попередити?",
+      "correct_answer": "Збій одного сервісу спричиняє збій залежних, які додатково навантажують ще здорові — лавиноподібно валиться вся система; запобігання: timeout, circuit breaker, bulkhead (ізоляція ресурсів), backpressure, graceful degradation, fallback, load shedding",
+      "explanation": "Класичний сценарій: повільна БД → блок connections → web-сервіс не відповідає → клієнти ретраяться → ще більше навантаження на БД → повний відмов. Bulkhead — окремі pool на критичні vs некритичні запити, як перегородки у кораблі.",
+      "fake_answers": [
+        "Каскадне CSS-стилі, що ламають верстку",
+        "Каскадне видалення FK у БД — DELETE CASCADE",
+        "Cascading dropdowns у формі",
+        "Каскадні waterfall-діаграми у Gantt",
+        "Каскадне завантаження зображень",
+        "Каскадні запити в GraphQL",
+        "Каскадний rebase у git",
+        "Каскадні merge у gitflow",
+        "Каскадні layers у Docker",
+        "Каскадні trigger у БД",
+        "Cascading style для button hover"
+      ]
+    }
+  ]
+}

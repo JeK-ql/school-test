@@ -1,0 +1,387 @@
+{
+  "skill_id": "golang",
+  "skill_name": "Go (Golang)",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "go-001",
+      "question": "Що таке goroutine?",
+      "correct_answer": "Легковісний потік виконання, керований Go runtime поверх OS-потоків (M:N модель)",
+      "explanation": "Goroutines мультиплексуються на OS-потоки за моделлю M:N (many-to-many). Стартовий стек ~2 KB, динамічно росте. Запускається через go func(). GOMAXPROCS контролює паралелізм.",
+      "fake_answers": [
+        "Окремий процес ОС",
+        "OS-потік без GIL",
+        "Coroutine з обов'язковим await",
+        "Зелений потік без планувальника",
+        "Потік на основі fork()",
+        "Контейнер як namespace",
+        "WebWorker у Go-коді",
+        "Кооперативний actor з mailbox",
+        "Lambda-функція AWS",
+        "Hot reload thread",
+        "Системний демон systemd"
+      ]
+    },
+    {
+      "id": "go-002",
+      "question": "Що станеться при відправці в nil-канал?",
+      "correct_answer": "Goroutine заблокується назавжди",
+      "explanation": "Send/receive на nil-каналі блокує goroutine forever (deadlock, якщо це єдина goroutine). Використовується у select для вимкнення гілки. close(nil) — panic.",
+      "fake_answers": [
+        "Panic з runtime error",
+        "Повертає zero value одразу",
+        "Створює новий канал автоматично",
+        "Виконується неблокуюче",
+        "Викидає nil pointer dereference",
+        "Повертає false без блокування",
+        "Чекає 30 секунд і повертає timeout",
+        "Кидає exception у defer",
+        "Конвертується в close(channel)",
+        "Викликає init() каналу",
+        "Виконує send у дефолтний канал runtime"
+      ]
+    },
+    {
+      "id": "go-003",
+      "question": "У чому різниця між buffered і unbuffered каналом?",
+      "correct_answer": "Unbuffered блокує send до моменту прийому; buffered блокує лише при заповненому буфері",
+      "explanation": "make(chan T) — unbuffered, синхронний rendezvous. make(chan T, N) — buffered ємністю N, send блокує лише коли len==cap, receive блокує коли len==0.",
+      "fake_answers": [
+        "Buffered завжди потокобезпечний, unbuffered — ні",
+        "Unbuffered підтримує close, buffered — ні",
+        "Buffered — FIFO, unbuffered — LIFO",
+        "Unbuffered копіює дані, buffered — лише посилання",
+        "Buffered працює тільки з примітивами",
+        "Unbuffered автоматично закривається",
+        "Buffered використовує global lock",
+        "Unbuffered — для int, buffered — для struct",
+        "Buffered ігнорує context",
+        "Unbuffered обмежений 1024 елементами",
+        "Buffered не підтримує select"
+      ]
+    },
+    {
+      "id": "go-004",
+      "question": "Що робить defer?",
+      "correct_answer": "Відкладає виконання функції до повернення з поточної функції (LIFO порядок)",
+      "explanation": "defer виконується при return або panic у LIFO порядку. Аргументи обчислюються в момент defer, тіло — пізніше. Класичне застосування: закриття ресурсів, recover, профілювання.",
+      "fake_answers": [
+        "Запускає функцію в окремій goroutine",
+        "Виконує функцію з затримкою у мс",
+        "Кешує результат функції",
+        "Запускає функцію перед main()",
+        "Реєструє хук у runtime",
+        "Виконує функцію тільки при panic",
+        "Виконує функцію перед першим return",
+        "Виконує всі defer паралельно",
+        "Виконує функцію після GC",
+        "Запускає функцію у окремому процесі",
+        "Виконує перед init()"
+      ]
+    },
+    {
+      "id": "go-005",
+      "question": "Як в Go реалізовано наслідування?",
+      "correct_answer": "Через композицію (embedding структур та інтерфейсів)",
+      "explanation": "Go не має класичного наслідування. Embedding структури promote поля та методи. Інтерфейси реалізуються неявно (duck typing) — будь-який тип з потрібними методами автоматично задовольняє інтерфейс.",
+      "fake_answers": [
+        "Через ключове слово extends",
+        "Через ключове слово inherits",
+        "Через generic типи",
+        "Через метакласи",
+        "Через __proto__ як у JS",
+        "Через trait як у Rust",
+        "Через abstract class",
+        "Через mixin із декоратором",
+        "Через protocol declaration",
+        "Через subclass-маркер у тегах",
+        "Через interface { extends X }"
+      ]
+    },
+    {
+      "id": "go-006",
+      "question": "У чому різниця між value receiver і pointer receiver?",
+      "correct_answer": "Value отримує копію; pointer працює з оригіналом і може мутувати стан",
+      "explanation": "func (s S) M() — копія S; func (s *S) M() — посилання, можна змінити поля. Pointer receiver обов'язковий для мутацій і ефективніший для великих структур. Узгодженість receivers важлива.",
+      "fake_answers": [
+        "Pointer receiver не реалізує інтерфейси",
+        "Value receiver не може повертати помилку",
+        "Pointer receiver працює тільки з map",
+        "Value receiver обов'язковий для generic",
+        "Pointer receiver автоматично потокобезпечний",
+        "Value receiver швидший для будь-якого розміру",
+        "Pointer receiver обмежений приватними полями",
+        "Value receiver не підтримує defer",
+        "Pointer receiver вимагає sync.Mutex",
+        "Value receiver не може приймати nil",
+        "Pointer receiver працює тільки в init()"
+      ]
+    },
+    {
+      "id": "go-007",
+      "question": "Як обробляються помилки в Go ідіоматично?",
+      "correct_answer": "Повернення error як останнього значення з функції, перевірка через if err != nil",
+      "explanation": "Go використовує error як значення (interface). Обгортання через fmt.Errorf(\"...: %w\", err), розпаковка errors.Is/As. panic/recover — лише для exceptional ситуацій (programmer errors).",
+      "fake_answers": [
+        "Через try/catch блоки",
+        "Через throw/catch як у Java",
+        "Через panic/recover скрізь",
+        "Через global ErrorHandler",
+        "Через async-result type",
+        "Через Optional<T>",
+        "Через checked exceptions",
+        "Через signal-handlers",
+        "Через annotations @throws",
+        "Через monad Either",
+        "Через hooks runtime.OnError"
+      ]
+    },
+    {
+      "id": "go-008",
+      "question": "Що таке slice і як він влаштований всередині?",
+      "correct_answer": "Header з pointer на масив, len і cap; кілька slice-ів можуть шарити підлеглий масив",
+      "explanation": "Slice header: {ptr, len, cap}. append може створити новий backing array при cap-перевищенні. Через спільний backing array модифікація одного slice може впливати на інший.",
+      "fake_answers": [
+        "Linked list з вузлами",
+        "Хеш-таблиця з відкритою адресацією",
+        "Tree з балансуванням",
+        "Двозв'язний список",
+        "Ring buffer фіксованого розміру",
+        "Immutable persistent vector",
+        "Bitmap-індексований масив",
+        "Heap з пріоритетами",
+        "Skip list",
+        "Hash-array-mapped trie",
+        "Динамічний COW-масив"
+      ]
+    },
+    {
+      "id": "go-009",
+      "question": "Що таке select у Go?",
+      "correct_answer": "Конструкція для роботи з кількома каналами, обирає готову операцію або default",
+      "explanation": "select обирає одну з готових case (send/receive). Якщо кілька готові — рандом. default виконується, коли всі заблоковані. Використовується для timeout (time.After), скасування (ctx.Done).",
+      "fake_answers": [
+        "SQL-вираз вибірки",
+        "Шаблон pattern matching",
+        "Хук на runtime події",
+        "Альтернатива switch для типів",
+        "Багатопотокова map-операція",
+        "Селектор DOM",
+        "Метод на канал .Select()",
+        "Спецсинтаксис для unmarshall",
+        "Команда compile-time оптимізації",
+        "Інструмент рандомізації мап",
+        "Прискорений for-range"
+      ]
+    },
+    {
+      "id": "go-010",
+      "question": "Чим sync.Mutex відрізняється від sync.RWMutex?",
+      "correct_answer": "RWMutex дозволяє багато одночасних читачів або одного писача",
+      "explanation": "Mutex — ексклюзивний lock на читання і запис. RWMutex розділяє RLock (reader) і Lock (writer): багато читачів конкурентно, писач — ексклюзивно. Кращий для read-heavy сценаріїв.",
+      "fake_answers": [
+        "RWMutex швидший завжди",
+        "Mutex реентерабельний, RWMutex — ні",
+        "RWMutex не блокує, Mutex — блокує",
+        "Mutex потокобезпечний, RWMutex — ні",
+        "RWMutex працює тільки з map",
+        "Mutex використовує atomic, RWMutex — channel",
+        "RWMutex не підтримує defer Unlock",
+        "Mutex для goroutine, RWMutex для процесів",
+        "RWMutex автоматично timeout-ить",
+        "Mutex для CPU, RWMutex для I/O",
+        "RWMutex deprecated у Go 1.21"
+      ]
+    },
+    {
+      "id": "go-011",
+      "question": "Що таке context.Context і навіщо потрібен?",
+      "correct_answer": "Стандартний механізм передачі скасування, deadline і request-scoped значень",
+      "explanation": "context дозволяє скасувати ланцюжок goroutine через cancel(), задати deadline або timeout, передати request-scoped значення. Перший аргумент функцій вводу/виводу і RPC.",
+      "fake_answers": [
+        "Глобальний контейнер DI",
+        "Конфіг runtime",
+        "Логгер з рівнями",
+        "Hot reload state",
+        "Реєстр обробників сигналів",
+        "Аналог thread-local",
+        "Альтернатива panic/recover",
+        "Кеш HTTP-відповідей",
+        "Менеджер goroutine pool",
+        "Інструмент трасування Jaeger",
+        "Реалізація DDD aggregate root"
+      ]
+    },
+    {
+      "id": "go-012",
+      "question": "Чи безпечно одночасно писати в map з різних goroutine?",
+      "correct_answer": "Ні, потрібен sync.Mutex або sync.Map",
+      "explanation": "Звичайна map не safe for concurrent writes — Go runtime детектує і кидає fatal error. Рішення: захистити mutex-ом або використати sync.Map (оптимізована для read-heavy і disjoint key sets).",
+      "fake_answers": [
+        "Так, map потокобезпечна за замовчуванням",
+        "Так, але потрібно встановити GOMAXPROCS=1",
+        "Так, після виклику map.Lock()",
+        "Так, якщо ключі — рядки",
+        "Ні, треба завжди використовувати channel",
+        "Так, через sync.Pool",
+        "Так, якщо запускати з -race",
+        "Так, через atomic.Value",
+        "Ні, треба переписати на slice",
+        "Так, у Go 1.20+ map потокобезпечна",
+        "Так, якщо її створили через make з context"
+      ]
+    },
+    {
+      "id": "go-013",
+      "question": "Що таке interface{} (або any) у Go?",
+      "correct_answer": "Порожній інтерфейс, який задовольняє будь-який тип",
+      "explanation": "interface{} (any в Go 1.18+) має 0 методів, тому будь-який тип його реалізує. Використовується для generic-storage до generics, у JSON-парсингу, fmt.Println(...). Доступ через type assertion або type switch.",
+      "fake_answers": [
+        "Спеціальний тип для async",
+        "Маркер для serialization",
+        "Reflection-only тип",
+        "Заборонений тип у production",
+        "Сінонім для error",
+        "Маркер для unsafe pointer",
+        "Аналог void в C",
+        "Тип для cgo",
+        "Глобальний тип у package main",
+        "Альтернатива struct{}",
+        "Вбудований generic параметр"
+      ]
+    },
+    {
+      "id": "go-014",
+      "question": "Що робить go vet і race detector?",
+      "correct_answer": "go vet — статичний аналіз; -race — динамічний детектор data race",
+      "explanation": "go vet знаходить підозрілі конструкції (unreachable code, неправильні printf-формати). go test -race / go run -race інструментує код для виявлення race conditions у runtime.",
+      "fake_answers": [
+        "Обидва — лінтери стилю",
+        "go vet форматує код, race — лінтер",
+        "go vet — race detector у runtime",
+        "race — формовщик коду",
+        "go vet — пакувальник, race — тестер",
+        "Обидва — інструменти бенчмарку",
+        "go vet — для CGO, race — для горутин",
+        "go vet генерує документацію",
+        "race профілює CPU",
+        "Обидва — інструменти CI/CD",
+        "go vet редагує go.mod"
+      ]
+    },
+    {
+      "id": "go-015",
+      "question": "Що таке go.mod і go.sum?",
+      "correct_answer": "go.mod — маніфест модуля з залежностями; go.sum — checksum-и для verifiability",
+      "explanation": "go.mod описує module path, go-версію, require/replace/exclude. go.sum фіксує криптографічні хеші конкретних версій залежностей для reproducible builds і захисту від supply chain атак.",
+      "fake_answers": [
+        "go.mod — кеш модулів, go.sum — лог",
+        "go.mod — компіляція, go.sum — лінк",
+        "go.mod — тести, go.sum — бенчмарки",
+        "go.mod — документація, go.sum — приклади",
+        "go.mod — приватний ключ, go.sum — публічний",
+        "go.mod — vendoring, go.sum — proxy",
+        "go.mod — flags компілятора, go.sum — лінкера",
+        "go.mod — runtime config, go.sum — build config",
+        "go.mod — список файлів, go.sum — їх розмір",
+        "go.mod — для бібліотек, go.sum — для додатків",
+        "go.mod — license, go.sum — copyright"
+      ]
+    },
+    {
+      "id": "go-016",
+      "question": "Що таке generics в Go (з версії 1.18)?",
+      "correct_answer": "Параметризовані типи через type parameters з constraints",
+      "explanation": "func Max[T constraints.Ordered](a, b T) T { ... } — параметр T з обмеженням. Constraints — інтерфейси з type sets. Generics уникають дублювання коду без втрати типобезпеки.",
+      "fake_answers": [
+        "Шаблони C++ через текстову заміну",
+        "Reflection-based generics",
+        "Macro expansion як у Rust",
+        "Just-in-time monomorphization",
+        "Type erasure як у Java",
+        "Variant types як у Haskell",
+        "Type classes як у OCaml",
+        "Module functor як у ML",
+        "Existential types у runtime",
+        "Subtype polymorphism через інтерфейси",
+        "Variadic параметри як generic"
+      ]
+    },
+    {
+      "id": "go-017",
+      "question": "Як в Go реалізувати pattern Singleton thread-safe?",
+      "correct_answer": "Через sync.Once.Do для одноразової ініціалізації",
+      "explanation": "sync.Once гарантує, що Do(fn) виконається рівно один раз навіть при паралельних викликах. Ідіоматичний підхід для lazy thread-safe singleton, init connection pools, кешів.",
+      "fake_answers": [
+        "Через global var у init()",
+        "Через atomic.Bool flag",
+        "Через double-checked locking з Mutex",
+        "Через sync.Pool",
+        "Через channel з ємністю 1",
+        "Через init() у кожному пакеті",
+        "Через runtime.GoExit",
+        "Через context.WithValue",
+        "Через panic/recover",
+        "Через unsafe.Pointer CAS",
+        "Через окрему goroutine з for-select"
+      ]
+    },
+    {
+      "id": "go-018",
+      "question": "Що таке escape analysis у Go?",
+      "correct_answer": "Аналіз компілятора, чи об'єкт виділяти на stack або heap",
+      "explanation": "Якщо посилання на змінну виходить за межі функції (escape), її розміщують у heap. Інакше — у stack (швидше, без GC). Перевіряється через go build -gcflags=\"-m\".",
+      "fake_answers": [
+        "Аналіз циклічних посилань",
+        "Перевірка goroutine leak",
+        "Виявлення race condition",
+        "Перевірка channel deadlock",
+        "Аналіз use-after-free",
+        "Виявлення dangling pointer",
+        "Аналіз dependency graph модулів",
+        "Виявлення dead code",
+        "Перевірка покриття тестами",
+        "Аналіз cyclomatic complexity",
+        "Перевірка overflow цілих"
+      ]
+    },
+    {
+      "id": "go-019",
+      "question": "Що таке table-driven tests у Go?",
+      "correct_answer": "Тести, де набір вхідних/вихідних даних задано в slice структур, і ітеративно проганяється",
+      "explanation": "Pattern: tests := []struct{name string; input X; want Y}{...}. for _, tt := range tests { t.Run(tt.name, func(t *testing.T){...}) }. Дає чистий код, ізольовані subtests, легко додавати кейси.",
+      "fake_answers": [
+        "Тести з SQL-таблицями",
+        "Property-based тести з генерацією",
+        "Mock-тести через testify",
+        "Інтеграційні тести з testcontainers",
+        "Бенчмарки B.N",
+        "Fuzz-тести з go test -fuzz",
+        "Snapshot тести з goldens",
+        "Тести через httptest server",
+        "Контрактні тести Pact",
+        "Mutation тести",
+        "Behavior-driven тести Ginkgo"
+      ]
+    },
+    {
+      "id": "go-020",
+      "question": "Чим []byte відрізняється від string у Go?",
+      "correct_answer": "string — immutable, []byte — мутабельний; конвертація між ними копіює дані",
+      "explanation": "string — read-only послідовність байт (часто UTF-8). []byte — мутабельний slice. Конверсія []byte(s) і string(b) копіює (O(n)). Для перебору рун — []rune(s) або for i, r := range s.",
+      "fake_answers": [
+        "string — мутабельний, []byte — ні",
+        "Обидва immutable, різниця тільки в API",
+        "string — UTF-16, []byte — ASCII",
+        "[]byte автоматично GC, string — ні",
+        "string обмежений 256 байт",
+        "[]byte завжди швидший для concat",
+        "string не підтримує len()",
+        "[]byte не можна передавати в функцію",
+        "string зберігається в окремому heap",
+        "[]byte завжди nil-terminated",
+        "string обмежений однією кодовою сторінкою"
+      ]
+    }
+  ]
+}

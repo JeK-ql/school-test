@@ -1,0 +1,387 @@
+{
+  "skill_id": "ai-fundamentals",
+  "skill_name": "AI / ML Fundamentals",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "ai-001",
+      "question": "Чим відрізняється supervised, unsupervised і reinforcement learning?",
+      "correct_answer": "Supervised — навчання з мітками (input + правильна відповідь); unsupervised — без міток (модель шукає структуру у даних); reinforcement — агент вчиться через винагороди/покарання у середовищі",
+      "explanation": "Приклади: supervised — класифікація спаму, регресія цін; unsupervised — кластеризація k-means, зниження розмірності PCA; reinforcement — AlphaGo, робототехніка. Semi-supervised та self-supervised — гібриди.",
+      "fake_answers": [
+        "Supervised — для зображень, unsupervised — для тексту, reinforcement — для відео",
+        "Це три назви градієнтного спуску",
+        "Supervised використовує GPU, unsupervised CPU, reinforcement TPU",
+        "Reinforcement — навчання з мітками, supervised — без",
+        "Усі три потребують labeled data",
+        "Unsupervised — це fine-tuning LLM",
+        "Supervised працює лише з нейромережами",
+        "Reinforcement — це алгоритм оптимізації Adam",
+        "Unsupervised — це backpropagation",
+        "Supervised — для регресії, unsupervised — для класифікації",
+        "Reinforcement використовує лише дерева рішень"
+      ]
+    },
+    {
+      "id": "ai-002",
+      "question": "Чим відрізняється класифікація від регресії?",
+      "correct_answer": "Класифікація прогнозує дискретні класи/мітки (спам/не спам); регресія прогнозує неперервне числове значення (ціна квартири)",
+      "explanation": "Приклади метрик: для класифікації — accuracy, precision, recall, F1, ROC-AUC; для регресії — MSE, MAE, RMSE, R². Логістична регресія, попри назву, є класифікатором.",
+      "fake_answers": [
+        "Класифікація — для часових рядів, регресія — для зображень",
+        "Регресія — це алгоритм без навчання",
+        "Класифікація вимагає GPU, регресія ні",
+        "Це абсолютні синоніми у ML",
+        "Регресія прогнозує класи, класифікація — числа",
+        "Класифікація використовує лише k-means",
+        "Регресія працює тільки з текстом",
+        "Класифікація без feature engineering, регресія з ним",
+        "Регресія — це різновид unsupervised learning",
+        "Класифікація — для табличних даних, регресія — лише для зображень",
+        "Регресія потребує мінімум 1М зразків, класифікація — 100"
+      ]
+    },
+    {
+      "id": "ai-003",
+      "question": "Що таке overfitting і які основні способи з ним боротися?",
+      "correct_answer": "Перенавчання: модель запам'ятала тренувальні дані, але погано узагальнює — висока точність на train, низька на validation/test. Боротьба: регуляризація (L1/L2), dropout, early stopping, більше даних, augmentation, простіша модель, cross-validation",
+      "explanation": "Ознаки overfitting — великий розрив між train і validation метриками. Underfitting — навпаки, модель занадто проста і погано працює навіть на train. Bias-variance tradeoff: спрощуючи модель зменшуємо variance, але збільшуємо bias.",
+      "fake_answers": [
+        "Це коли модель повільно навчається — рішення збільшити learning rate",
+        "Це коли GPU перегрівається — рішення охолодити",
+        "Перенавантаження сервера — рішення додати реплік",
+        "Це збій бекпропа — рішення перезапустити",
+        "Боротися лише через збільшення learning rate у 100 разів",
+        "Це проблема з форматом даних — рішення нормалізувати",
+        "Боротися видаленням test set",
+        "Перенавчання тільки у LLM, у класичних ML немає",
+        "Рішення — використовувати лише training set без validation",
+        "Це коли accuracy на test 100% — рішення додати noise",
+        "Боротися лише збільшенням розміру batch до 10000"
+      ]
+    },
+    {
+      "id": "ai-004",
+      "question": "Що таке bias-variance tradeoff?",
+      "correct_answer": "Компроміс між систематичною помилкою моделі (bias — недонавчання, занадто проста) та чутливістю до варіацій тренувальних даних (variance — перенавчання, занадто складна) — мета знайти баланс",
+      "explanation": "Висока bias = underfitting (lin regression на нелінійних даних). Висока variance = overfitting (deep tree без обмежень). Total error = bias² + variance + irreducible noise. Регуляризація знижує variance ціною певного зростання bias.",
+      "fake_answers": [
+        "Компроміс між швидкістю CPU та GPU",
+        "Вибір між Python і R для ML",
+        "Балансування batch size і learning rate",
+        "Trade-off між accuracy і precision",
+        "Між обсягом даних і кількістю епох",
+        "Між supervised і unsupervised підходами",
+        "Між кількістю шарів і нейронів у мережі",
+        "Між train і test split розміром",
+        "Між ROC-AUC і F1 метриками",
+        "Між online і batch навчанням",
+        "Між regression і classification підходами"
+      ]
+    },
+    {
+      "id": "ai-005",
+      "question": "Що таке precision, recall і F1-score?",
+      "correct_answer": "Precision = TP/(TP+FP) — серед передбачених позитивних, скільки правильно; Recall = TP/(TP+FN) — серед усіх реальних позитивних, скільки знайдено; F1 — гармонійне середнє precision і recall",
+      "explanation": "У задачі виявлення раку recall важливіший (краще false alarm, ніж пропустити хворобу). У спам-фільтрі precision важливіший (не блокувати важливі листи). F1 = 2·P·R/(P+R) — компроміс, особливо при дисбалансі класів.",
+      "fake_answers": [
+        "Precision — швидкість моделі, recall — точність",
+        "F1 — це F-test зі статистики",
+        "Precision і recall — синоніми accuracy",
+        "Recall — час inference, precision — train",
+        "F1 — це версія API ML-фреймворку",
+        "Precision — для регресії, recall — для класифікації",
+        "F1 завжди дорівнює accuracy",
+        "Recall — це функція втрат у нейромережах",
+        "Precision — для GPU, recall — для CPU метрик",
+        "F1 = precision + recall (звичайна сума)",
+        "Recall — це кількість епох, precision — batch size"
+      ]
+    },
+    {
+      "id": "ai-006",
+      "question": "Що таке градієнтний спуск (gradient descent) і навіщо learning rate?",
+      "correct_answer": "Алгоритм оптимізації: ітеративно рухається у бік протилежний градієнту функції втрат, щоб знайти мінімум; learning rate — крок цього руху, контролює швидкість і стабільність навчання",
+      "explanation": "Занадто великий LR — модель не сходиться (стрибає через мінімум). Занадто малий — навчається повільно або застрягає. Варіанти: SGD, mini-batch GD, Adam, RMSprop. LR-scheduler зменшує LR з часом.",
+      "fake_answers": [
+        "Алгоритм ранжування результатів пошуку",
+        "Метод збільшення розміру датасету",
+        "Алгоритм стиснення моделі",
+        "Швидкість завантаження даних з диска",
+        "Розмір сховища для збереження ваг",
+        "Кількість шарів у нейромережі",
+        "Розмір batch при тренуванні",
+        "Алгоритм випадкового перемішування даних",
+        "Метод візуалізації градієнтів",
+        "Кількість GPU у кластері",
+        "Швидкість мережі для розподіленого тренування"
+      ]
+    },
+    {
+      "id": "ai-007",
+      "question": "Які функції активації застосовують у нейронних мережах і їхні особливості?",
+      "correct_answer": "ReLU (max(0,x)) — найпопулярніша, швидка, але dying ReLU; Sigmoid (0..1) — для бінарної класифікації, страждає від vanishing gradient; Tanh (-1..1) — центрована; Softmax — для multi-class на виході (ймовірності, що сумуються до 1)",
+      "explanation": "ReLU — стандарт для прихованих шарів CNN/MLP. Leaky ReLU вирішує dying ReLU. GELU/SiLU — сучасні (Transformers). На виході: sigmoid для binary, softmax для multi-class, linear для регресії.",
+      "fake_answers": [
+        "ReLU тільки для CNN, sigmoid тільки для RNN",
+        "Sigmoid повертає -1..1, tanh — 0..1",
+        "Softmax повертає число > 1 для впевнених прогнозів",
+        "ReLU = exp(x), sigmoid = log(x)",
+        "Усі функції активації лінійні",
+        "Tanh для виходу класифікації, softmax для регресії",
+        "Sigmoid не використовує градієнти",
+        "ReLU — це функція втрат, не активації",
+        "Softmax повертає одне ціле число (індекс класу)",
+        "Tanh не диференційована",
+        "Sigmoid — для GPU, ReLU — для CPU"
+      ]
+    },
+    {
+      "id": "ai-008",
+      "question": "Що таке Transformers і ключова інновація self-attention?",
+      "correct_answer": "Архітектура нейромережі на основі механізму self-attention, яка обчислює, наскільки кожен токен у послідовності пов'язаний з кожним іншим — паралельно, без рекурентності, що дало прорив у NLP (BERT, GPT)",
+      "explanation": "Замість послідовної обробки RNN/LSTM, Transformer бачить усю послідовність одразу. Multi-head attention робить кілька паралельних attention з різними проекціями. Positional encoding додає інформацію про позицію (бо attention інваріантний до порядку).",
+      "fake_answers": [
+        "Це різновид CNN з більшими ядрами",
+        "Архітектура для трансформації зображень у текст лише",
+        "Покращена RNN із додатковим LSTM-блоком",
+        "Алгоритм перетворення моделі ONNX у TensorFlow",
+        "Інструмент для конвертації даних між форматами",
+        "Архітектура без backpropagation",
+        "Self-attention — це регуляризація типу dropout",
+        "Transformer — фреймворк PyTorch для CNN",
+        "Self-attention працює лише з зображеннями",
+        "Це архітектура для класичного ML на табличних даних",
+        "Transformer не використовує матричні множення"
+      ]
+    },
+    {
+      "id": "ai-009",
+      "question": "Що таке RAG (Retrieval-Augmented Generation)?",
+      "correct_answer": "Підхід, що поєднує retrieval (пошук релевантних документів у базі знань через embeddings) з генеративною моделлю — LLM отримує знайдений контекст і відповідає на його основі",
+      "explanation": "Класичний пайплайн: chunking документів, embedding кожного chunk, збереження у vector DB. На запиті: embedding запиту, top-k similarity search, опціональний reranker, передача LLM як контексту. Зменшує hallucinations і дозволяє оновлювати знання без fine-tuning.",
+      "fake_answers": [
+        "Алгоритм стиснення нейромереж до 8 біт",
+        "Метод тренування LLM з нуля",
+        "Архітектура RNN з gated блоками",
+        "Reinforcement Learning з людським feedback",
+        "Random Augmented Gradient — оптимізатор",
+        "Recursive Algorithmic Generation — генерація коду",
+        "Replicated Aggregated Gateway — балансувальник API",
+        "Read-After-Get — patern роботи з кешем",
+        "Region-Aware Generation — оптимізація CDN",
+        "Re-encoding Augmented Graph — інструмент для GNN",
+        "Метод повного fine-tuning замість LoRA"
+      ]
+    },
+    {
+      "id": "ai-010",
+      "question": "Що таке embeddings і де вони застосовуються?",
+      "correct_answer": "Векторні представлення об'єктів (слів, речень, зображень) у багатовимірному просторі, де семантично близькі об'єкти мають близькі вектори — використовуються для пошуку, кластеризації, RAG, рекомендацій",
+      "explanation": "Близькість міряється через cosine similarity, dot product або Euclidean distance. Word2Vec, GloVe, BERT, OpenAI ada-002 — приклади моделей. Розмірність типово 384-3072. Зберігаються у vector DB (Pinecone, Weaviate, Qdrant, pgvector).",
+      "fake_answers": [
+        "Конфігураційні файли моделі",
+        "Метадані тренування у форматі JSON",
+        "Стиснені версії датасету",
+        "Бінарні файли ваг моделі",
+        "Логи моніторингу inference",
+        "Hyperparameters у форматі YAML",
+        "Snapshot стану оптимізатора",
+        "Чекпойнти моделі у форматі pickle",
+        "Конфіги для розподіленого тренування",
+        "Шаблони prompt-ів",
+        "Документація API моделі"
+      ]
+    },
+    {
+      "id": "ai-011",
+      "question": "Що таке temperature, top-p і top-k у sampling LLM?",
+      "correct_answer": "Параметри генерації: temperature масштабує розподіл ймовірностей (низька — детерміновано, висока — креативно); top-k обмежує вибір k найімовірнішими токенами; top-p (nucleus) бере мінімальну множину токенів із сумарною ймовірністю ≥ p",
+      "explanation": "Temperature 0 — найімовірніший токен (детерміновано); 0.7 — баланс; 1.5+ — дуже креативно/хаотично. Top-p 0.9 типово. Зазвичай використовують або temperature, або top-p (рекомендують top-p). Для коду — низька температура.",
+      "fake_answers": [
+        "Швидкість, паралелізм і пам'ять GPU",
+        "Розмір контексту, batch size і learning rate",
+        "Кількість шарів, голів attention і токенів",
+        "Параметри regularization L1, L2 і dropout",
+        "Налаштування fine-tuning, RLHF і LoRA",
+        "Параметри embedding розмірності",
+        "Швидкість inference у різних провайдерів",
+        "Налаштування chunking у RAG",
+        "Параметри безпеки та content filter",
+        "Налаштування cache hit і memory limit",
+        "Параметри tokenizer BPE розміру словника"
+      ]
+    },
+    {
+      "id": "ai-012",
+      "question": "Що таке fine-tuning і чим відрізняється LoRA?",
+      "correct_answer": "Fine-tuning — донавчання попередньо натренованої моделі на specific даних; LoRA (Low-Rank Adaptation) — efficient fine-tuning, що тренує тільки маленькі low-rank матриці-адаптери замість усіх ваг моделі — у рази менше пам'яті і часу",
+      "explanation": "Full fine-tuning потребує величезних ресурсів. LoRA додає trainable rank-decomposition матриці A, B (W' = W + BA) і заморожує оригінальні ваги. QLoRA додає 4-bit quantization. PEFT — клас методів parameter-efficient fine-tuning.",
+      "fake_answers": [
+        "LoRA — це вид prompt engineering без тренування",
+        "Fine-tuning замінює всі ваги; LoRA додає шар Dropout",
+        "LoRA працює лише для CNN на зображеннях",
+        "Fine-tuning лише для класифікації; LoRA для регресії",
+        "LoRA — це RLHF із меншою винагородою",
+        "Fine-tuning без даних; LoRA з даними",
+        "LoRA — це алгоритм tokenization",
+        "Fine-tuning не використовує градієнти; LoRA використовує",
+        "LoRA — це бенчмарк для оцінки LLM",
+        "Fine-tuning лише на CPU; LoRA лише на GPU",
+        "LoRA — це назва датасету для тренування"
+      ]
+    },
+    {
+      "id": "ai-013",
+      "question": "Що таке prompt injection і як з ним боротися?",
+      "correct_answer": "Атака, коли зловмисник вставляє у вхідні дані інструкції, які перехоплюють поведінку LLM (\"ignore previous instructions and...\"); захист: чітке розділення system/user, валідація, sandboxing tool calls, content filters, обмеження привілеїв",
+      "explanation": "Direct prompt injection — у user input. Indirect — через зовнішні дані (веб-сторінки, документи), які LLM читає. Захист: structured output, allowlist tools, людське підтвердження небезпечних дій, моніторинг.",
+      "fake_answers": [
+        "Помилка типізації у Python — рішення додати type hints",
+        "SQL injection у RAG — використовувати ORM",
+        "Витік пам'яті у inference — рестарт сервісу",
+        "Замала температура — збільшити до 1.0",
+        "Забагато токенів — обрізати контекст",
+        "Це різновид CSRF — захист CSRF токенами",
+        "Помилка GPU — оновити CUDA драйвери",
+        "Збій tokenizer — перезавантажити модель",
+        "Перевантаження embeddings — кешування",
+        "Атака на vector DB — використовувати TLS",
+        "Помилка serialization — використовувати JSON Schema"
+      ]
+    },
+    {
+      "id": "ai-014",
+      "question": "Що таке chain-of-thought (CoT) prompting?",
+      "correct_answer": "Техніка, коли модель просять міркувати покроково перед відповіддю (\"Let's think step by step\"); значно покращує точність на reasoning задачах",
+      "explanation": "Може бути zero-shot (просто фраза) або few-shot (приклади з покроковими розв'язками). Self-consistency — генерують кілька CoT і беруть найчастішу відповідь. Tree-of-Thoughts — розгалужене міркування. Сучасні reasoning-моделі (o1, R1) тренують на CoT.",
+      "fake_answers": [
+        "Архітектура нейромережі з ланцюгом RNN",
+        "Алгоритм блокчейну для верифікації моделей",
+        "Спосіб організації даних у chunks для RAG",
+        "Метод distillation моделей",
+        "Техніка quantization до 4 bit",
+        "Алгоритм prompt caching",
+        "Метод fine-tuning з reinforcement",
+        "Архітектура mixture-of-experts",
+        "Техніка batching запитів",
+        "Спосіб обмеження контекстного вікна",
+        "Алгоритм оптимізації attention"
+      ]
+    },
+    {
+      "id": "ai-015",
+      "question": "Що таке tokenization і навіщо BPE/WordPiece?",
+      "correct_answer": "Розбиття тексту на токени (одиниці для моделі); BPE (Byte-Pair Encoding) і WordPiece — алгоритми subword tokenization, які балансують між символами і словами, ефективно обробляють рідкісні слова та різні мови",
+      "explanation": "Subword дозволяє представити будь-яке слово через відомі частини (running = runn + ing). BPE: ітеративно об'єднує найчастіші пари. SentencePiece — мовно-незалежний. Кількість токенів не дорівнює кількості слів — це впливає на ціну API і context window.",
+      "fake_answers": [
+        "Шифрування токенів автентифікації API",
+        "Генерація унікальних JWT токенів",
+        "Метод стиснення моделі через quantization",
+        "Розподіл навантаження по GPU токенами",
+        "Перевірка валідності API ключа",
+        "Алгоритм rate-limiting за токенами",
+        "Метод авторизації OAuth",
+        "Розбиття batch на менші частини",
+        "Створення embedding з фіксованим розміром",
+        "Метод seed для відтворюваності",
+        "Алгоритм випадкової маскування у MLM"
+      ]
+    },
+    {
+      "id": "ai-016",
+      "question": "Що таке hallucination у LLM і як з ним боротися?",
+      "correct_answer": "Коли модель генерує впевнене, але фактично невірне твердження; боротьба: RAG із надійних джерел, цитування, нижча temperature, tool use для перевірки фактів, structured output, evals і моніторинг, людський review",
+      "explanation": "Причини: модель оптимізована на правдоподібність, не на правду; gaps у тренувальних даних; out-of-distribution запити. RAG зменшує, але не усуває (модель може ігнорувати контекст). Critical для legal/medical застосувань.",
+      "fake_answers": [
+        "Це коли модель вилітає з помилкою OOM",
+        "Збій GPU при inference — оновити драйвери",
+        "Затримка мережі — додати ретраї",
+        "Помилка десеріалізації JSON",
+        "Перевищення rate limit — backoff",
+        "Конфлікт версій бібліотек",
+        "Витік пам'яті у tokenizer",
+        "Збій vector DB — переіндексувати",
+        "Помилка автентифікації API",
+        "Перевищення max_tokens — обрізати output",
+        "Збій кешу — очистити Redis"
+      ]
+    },
+    {
+      "id": "ai-017",
+      "question": "Чим відрізняються k-means і DBSCAN?",
+      "correct_answer": "k-means — потребує заздалегідь вказати k кластерів, працює зі сферичними кластерами схожого розміру; DBSCAN — density-based, сам визначає кількість кластерів, добре виявляє кластери довільної форми та outliers",
+      "explanation": "k-means: швидкий, але чутливий до initial centroids (k-means++) і outliers, не працює з non-convex кластерами. DBSCAN: параметри eps і minPts, добре для геопросторових даних, не вимагає k. HDBSCAN — покращена версія.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "k-means для регресії, DBSCAN для класифікації",
+        "DBSCAN — це supervised, k-means — unsupervised",
+        "Обидва вимагають знати точні кластери заздалегідь",
+        "k-means для зображень, DBSCAN для тексту",
+        "DBSCAN використовує градієнтний спуск, k-means ні",
+        "k-means — це тип нейромережі, DBSCAN — алгоритм",
+        "DBSCAN потребує GPU, k-means CPU",
+        "k-means — це fine-tuning LLM",
+        "DBSCAN — це вид CNN",
+        "k-means працює лише з 2D даними"
+      ]
+    },
+    {
+      "id": "ai-018",
+      "question": "Що таке cross-validation і навіщо вона?",
+      "correct_answer": "Метод оцінки моделі: дані ділять на k folds, тренують на k-1 і валідують на 1, повторюють k разів — отримують більш надійну оцінку метрик і виявляють overfitting/неправильний split",
+      "explanation": "k-fold (типово 5 або 10), Stratified k-fold (зберігає баланс класів), Leave-one-out (k=N), TimeSeriesSplit (для часових рядів — не можна перемішувати майбутнє з минулим). Особливо важлива на малих датасетах.",
+      "fake_answers": [
+        "Тренування на двох GPU паралельно",
+        "Перевірка моделі на іншій мові програмування",
+        "Порівняння двох версій моделі A/B-тестом",
+        "Метод подвоєння датасету через копіювання",
+        "Алгоритм перетворення моделі між фреймворками",
+        "Перехресна перевірка типів TypeScript",
+        "Метод merge двох моделей в одну",
+        "Алгоритм синхронізації ваг між нодами",
+        "Перевірка hash моделі на цілісність",
+        "Метод копіювання datasets між хмарами",
+        "Алгоритм валідації JSON конфігу"
+      ]
+    },
+    {
+      "id": "ai-019",
+      "question": "Що таке функція втрат (loss function) і приклади для класифікації/регресії?",
+      "correct_answer": "Функція, що міряє різницю між прогнозом моделі і правдивим значенням — мінімізується під час тренування. Класифікація: cross-entropy (binary/categorical); регресія: MSE, MAE, Huber loss",
+      "explanation": "MSE сильно карає викиди (квадрат), MAE робастніша. Cross-entropy штрафує впевнено-неправильні передбачення. Focal loss — для дисбалансованих класів. Custom loss часто потрібен для специфічних задач.",
+      "fake_answers": [
+        "Швидкість завантаження GPU",
+        "Кількість пропущених батчів",
+        "Метрика витоку пам'яті",
+        "Час inference моделі",
+        "Розмір моделі на диску",
+        "Швидкість читання даних з диска",
+        "Кількість шарів моделі",
+        "Розмір context window",
+        "Кількість параметрів моделі",
+        "Latency мережі під час тренування",
+        "Кількість dropped пакетів"
+      ]
+    },
+    {
+      "id": "ai-020",
+      "question": "Що таке MCP (Model Context Protocol)?",
+      "correct_answer": "Відкритий стандарт від Anthropic для з'єднання LLM-агентів із зовнішніми джерелами даних та інструментами через уніфікований протокол — дозволяє створювати reusable tool/resource servers",
+      "explanation": "MCP визначає формат запитів між клієнтом (LLM-додатком) і серверами (які експонують tools, resources, prompts). Замість писати кастомні інтеграції під кожен LLM, можна підключати готові MCP-сервери (GitHub, файлова система, бази даних тощо).",
+      "fake_answers": [
+        "Multi-Channel Processing — паралельна обробка моделей",
+        "Model Compression Pipeline — стиснення моделей",
+        "Memory Cache Protocol — кешування KV у GPU",
+        "Multi-Cloud Provider — балансування між AWS і GCP",
+        "Machine Code Parser — компілятор для LLM",
+        "Massively Concurrent Predictions — батчинг inference",
+        "Model Configuration Profile — формат конфігу",
+        "Mixed Compute Platform — гібридний CPU/GPU",
+        "Model Checkpoint Protocol — формат збереження",
+        "Multi-Class Predictor — алгоритм multi-label",
+        "Microservice Communication Protocol для ML"
+      ]
+    }
+  ]
+}

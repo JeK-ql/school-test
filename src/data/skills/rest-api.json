@@ -1,0 +1,387 @@
+{
+  "skill_id": "rest-api",
+  "skill_name": "REST API Design",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "rest-001",
+      "question": "Які основні архітектурні обмеження (constraints) REST за Філдінгом?",
+      "correct_answer": "Client-server, statelessness, cacheability, uniform interface, layered system, code on demand (опціональний)",
+      "explanation": "REST — це не протокол, а набір обмежень. Stateless — кожен запит самодостатній, сервер не зберігає сесію. Uniform interface — однакові правила взаємодії з ресурсами. Layered — клієнт не знає, чи спілкується напряму з origin, чи через CDN/проксі.",
+      "fake_answers": [
+        "Шифрування, стискання, авторизація, кешування",
+        "JSON-only, HTTPS-only, OAuth2-only",
+        "Версіонування, документування, тестування, моніторинг",
+        "GET, POST, PUT, DELETE, PATCH, HEAD",
+        "URI, JSON, OAuth, OpenAPI",
+        "Idempotency, Retry, Timeout, Circuit Breaker",
+        "Statelessness, sessions, cookies, JWT",
+        "REST вимагає GraphQL-сумісності",
+        "Polling, streaming, push, batch",
+        "Sharding, replication, partitioning, caching",
+        "REST вимагає тільки stateless і нічого більше"
+      ]
+    },
+    {
+      "id": "rest-002",
+      "question": "Що таке Richardson Maturity Model і її рівні?",
+      "correct_answer": "Level 0 — один URL, один метод (POX); Level 1 — окремі ресурси (URL); Level 2 — HTTP-методи і статуси; Level 3 — HATEOAS (гіпермедіа)",
+      "explanation": "Більшість так званих REST-API живуть на Level 2: ресурсні URL + правильні методи + статуси. HATEOAS (Level 3) рідко використовується на практиці, але формально саме він завершує REST за Філдінгом.",
+      "fake_answers": [
+        "Level 0 — REST, Level 3 — GraphQL",
+        "Це 4 рівні безпеки REST API",
+        "Це рівні версіонування API (v1, v2, v3, v4)",
+        "Це рівні кешування CDN",
+        "Це рівні автентифікації (Basic, Bearer, OAuth, mTLS)",
+        "Це рівні логування (DEBUG, INFO, WARN, ERROR)",
+        "Це рівні rate-limit (free, basic, pro, enterprise)",
+        "Це рівні документації API (none, README, Swagger, Postman)",
+        "Це рівні складності схеми БД",
+        "Це рівні моніторингу (metrics, logs, traces, alerts)",
+        "Це рівні стиснення (none, gzip, br, zstd)"
+      ]
+    },
+    {
+      "id": "rest-003",
+      "question": "Як правильно іменувати ресурси в REST?",
+      "correct_answer": "Іменники у множині, ієрархія через слеші, без дієслів у URI: /users/42/orders/7",
+      "explanation": "Дія виражається HTTP-методом, не URI. Погано: GET /getUserOrders. Добре: GET /users/42/orders. Множина — конвенція (єдність). Виняток — singleton-ресурси (/me, /current).",
+      "fake_answers": [
+        "Дієслова в URI: /getUser, /createOrder",
+        "snake_case і дієслова: /create_order/7",
+        "camelCase і ID першим: /42/users/7/orders",
+        "URI має містити дію і метод: /users/42/orders/post",
+        "Усе в query: /?action=getOrders&user=42",
+        "Лише унікальні UUID без шляху: /a4f3-...",
+        "Plural в одних рівнях, singular в інших — як зручно",
+        "Лише URL у форматі RPC-style: /api.users.get",
+        "Версія в кожному сегменті: /v1/users/v1/orders",
+        "Завжди .json у кінці: /users/42/orders.json",
+        "Ресурси як query, дії як path: /post/orders?user=42"
+      ]
+    },
+    {
+      "id": "rest-004",
+      "question": "Який статус повертати на успішний POST, що створив ресурс?",
+      "correct_answer": "201 Created з заголовком Location на URL нового ресурсу і опціонально тілом нового ресурсу",
+      "explanation": "200 — успіх загалом. 201 — успіх + створено новий ресурс. 202 — прийнято, обробка ще йде (асинхронно). 204 — успіх без тіла. Location важливий для клієнта, щоб отримати канонічний URL ресурсу.",
+      "fake_answers": [
+        "200 OK без додаткових заголовків",
+        "204 No Content із Set-Cookie ID",
+        "202 Accepted із Retry-After",
+        "301 Moved Permanently на новий URL",
+        "303 See Other на новий URL",
+        "200 з заголовком ETag без Location",
+        "204 з тілом-JSON нового ресурсу",
+        "100 Continue для двофазної передачі",
+        "201 без Location — клієнт знайде сам",
+        "200 з кастомним заголовком X-Created-Id",
+        "302 Found для редиректу на ресурс"
+      ]
+    },
+    {
+      "id": "rest-005",
+      "question": "У чому різниця між cursor-based і offset-based пагінацією?",
+      "correct_answer": "Offset (LIMIT/OFFSET) простий, але повільний на великих даних і дає дублікати при змінах; cursor (after/before з opaque-токеном) стабільний і швидкий, але без переходу на довільну сторінку",
+      "explanation": "Offset чудово для UI зі сторінками 1,2,3. Cursor — для нескінченного скролу і real-time даних (стрічки соцмереж). Cursor зазвичай — base64 від ID або timestamp останнього елемента. Часто додають Link-заголовки (RFC 5988).",
+      "fake_answers": [
+        "Cursor — обов'язково ціле число, offset — рядок",
+        "Cursor завжди швидший, offset завжди повільніший — без винятків",
+        "Це синоніми, відрізняється лише назва параметра",
+        "Cursor працює лише в SQL, offset — лише в NoSQL",
+        "Cursor вимагає WebSocket-з'єднання",
+        "Offset не дозволяє вказати ліміт",
+        "Cursor завжди передається в URL, offset — у тілі",
+        "Cursor — це enum значень, offset — байти",
+        "Offset для GET, cursor для POST",
+        "Cursor шифрується, offset відкритий",
+        "Cursor вимагає мати ETag для всієї колекції"
+      ]
+    },
+    {
+      "id": "rest-006",
+      "question": "Що таке HATEOAS?",
+      "correct_answer": "Принцип, за яким відповідь сервера містить гіпермедіа-посилання на можливі наступні дії, тож клієнт навігує API через них, а не через хардкод URL",
+      "explanation": "Це Level 3 за Richardson. Відповідь типу { 'id': 1, '_links': { 'self': '/orders/1', 'cancel': '/orders/1/cancel' } }. Формати: HAL, JSON:API, Siren. Знижує coupling між клієнтом і сервером, але клієнти рідко повністю динамічні.",
+      "fake_answers": [
+        "Стандарт OAuth для REST",
+        "Алгоритм оптимістичної конкурентності",
+        "Метод стискання JSON у REST",
+        "Розширення HTTP/2 для REST",
+        "Стандарт автентифікації між мікросервісами",
+        "Бібліотека для генерації OpenAPI",
+        "Розширення Cache-Control для REST",
+        "Алгоритм пагінації великих відповідей",
+        "Бінарний формат для REST замість JSON",
+        "Стандарт логування REST-запитів",
+        "Конвенція іменування endpoints"
+      ]
+    },
+    {
+      "id": "rest-007",
+      "question": "Які є основні стратегії версіонування REST API?",
+      "correct_answer": "У URI (/v1/users), у заголовку Accept (Accept: application/vnd.api.v1+json), у кастомному заголовку (X-API-Version), або в query-параметрі (?version=1)",
+      "explanation": "URI — найпростіше, видно одразу, легко тестувати в браузері. Accept (media type versioning) — чистіше з точки зору REST, але складніше в розробці. Query — компроміс. Уникати — версіонування в підзаголовку домену (api-v1.example.com) комбінувати з іншими методами.",
+      "fake_answers": [
+        "Лише в Cookie",
+        "Лише через WebSocket-handshake",
+        "Версія підкреслює тип Content-Type без префіксу vnd",
+        "Через TLS SNI обираємо версію",
+        "Через DNS TXT-запис",
+        "Через rate-limit ID",
+        "Через стиснення: gzip — v1, br — v2",
+        "Через cookie SameSite",
+        "Через User-Agent клієнта",
+        "Через ETag-залежність",
+        "Через Authorization-токен"
+      ]
+    },
+    {
+      "id": "rest-008",
+      "question": "Чим JSON Patch (RFC 6902) відрізняється від JSON Merge Patch (RFC 7396)?",
+      "correct_answer": "JSON Patch — список операцій (add/remove/replace/move/copy/test) над JSON-Pointer-шляхами; Merge Patch — JSON, що описує зміни через злиття полів (null означає видалення)",
+      "explanation": "Patch потужніший (умовні операції через test, переміщення), Merge простіший. PATCH без типу зазвичай означає Merge. Content-Type: application/json-patch+json або application/merge-patch+json.",
+      "fake_answers": [
+        "JSON Patch — для PUT, Merge Patch — для PATCH",
+        "Це псевдоніми того самого RFC",
+        "JSON Patch шифрує дані, Merge Patch — ні",
+        "JSON Patch — бінарний, Merge Patch — текстовий",
+        "JSON Patch — лише для масивів, Merge Patch — лише для об'єктів",
+        "Merge Patch підтримує undo, JSON Patch — ні",
+        "JSON Patch — стандарт OData, Merge Patch — від Google",
+        "Merge Patch обов'язково надсилається через POST",
+        "JSON Patch вимагає GraphQL під капотом",
+        "JSON Patch не підтримує видалення",
+        "Merge Patch не підтримує вкладеність"
+      ]
+    },
+    {
+      "id": "rest-009",
+      "question": "Що таке RFC 7807 (problem+json)?",
+      "correct_answer": "Стандартний формат відповіді про помилку: type, title, status, detail, instance — application/problem+json",
+      "explanation": "Дає клієнту структуровану інформацію про помилку. Поле type — URI документації помилки, title — короткий опис, status — HTTP-статус, detail — деталі, instance — URI конкретного випадку. Можна додавати кастомні поля.",
+      "fake_answers": [
+        "Стандарт авторизації",
+        "Формат метрик Prometheus у JSON",
+        "Стандарт пагінації",
+        "Формат для Server-Sent Events",
+        "Стандарт OpenAPI 3.1",
+        "Формат для GraphQL-помилок",
+        "Стандарт CORS-помилок",
+        "Бінарний формат для gRPC errors",
+        "Розширення JSON Schema",
+        "Стандарт логування JSON",
+        "Формат для tracing context"
+      ]
+    },
+    {
+      "id": "rest-010",
+      "question": "Як забезпечити idempotency POST-запиту, що створює ресурс?",
+      "correct_answer": "Клієнт надсилає Idempotency-Key (UUID) у заголовку; сервер кешує відповідь за цим ключем і при повторі повертає той самий результат без повторного створення",
+      "explanation": "Це паттерн Stripe/PayPal. Без ключа — повторна спроба після таймауту створить дубль. TTL ключа зазвичай 24 години. PUT і DELETE idempotent за специфікацією, POST — ні, тому потрібен ключ.",
+      "fake_answers": [
+        "POST завжди idempotent — нічого робити не треба",
+        "Використати GET замість POST",
+        "Завжди додавати unique constraint у БД і ловити помилку",
+        "Поставити Cache-Control: no-store",
+        "Перевірити If-None-Match при кожному POST",
+        "Передавати nonce у URL",
+        "Використати ETag від клієнта",
+        "Передати Authorization-токен як ключ",
+        "Заборонити повторні запити на рівні NGINX",
+        "Поставити SameSite=Strict cookie",
+        "Використати X-Forwarded-For як ключ"
+      ]
+    },
+    {
+      "id": "rest-011",
+      "question": "Як використати ETag для optimistic concurrency control?",
+      "correct_answer": "Клієнт читає ресурс і отримує ETag; при PUT шле If-Match: <etag>; сервер перевіряє і повертає 412 Precondition Failed, якщо ресурс змінився",
+      "explanation": "Захищає від lost update. Без ETag два клієнти можуть переписати зміни одне одного. 412 Precondition Failed — клієнт має перечитати, об'єднати і повторити. Альтернатива — поле version у тілі (схоже на JPA optimistic locking).",
+      "fake_answers": [
+        "ETag замінює Authorization-заголовок",
+        "ETag блокує одночасне читання — pessimistic",
+        "ETag шифрує тіло запиту",
+        "ETag змушує клієнт отримати 304 при PUT",
+        "ETag замінює CSRF-токен",
+        "ETag прив'язаний до cookie-сесії",
+        "ETag валідний лише для GET",
+        "ETag вмикає server push",
+        "ETag — це SQL-row-version у заголовку",
+        "ETag вимагає JSON Patch формату",
+        "ETag має формат UUID v4"
+      ]
+    },
+    {
+      "id": "rest-012",
+      "question": "Які основні відповідальності API Gateway?",
+      "correct_answer": "Маршрутизація, агрегація, автентифікація/авторизація, rate-limiting, кешування, протокольна трансляція, спостережуваність, версіонування",
+      "explanation": "API Gateway — єдина точка входу для клієнтів. Розвантажує мікросервіси від cross-cutting concerns. Приклади: Kong, AWS API Gateway, Apigee, Tyk. Не плутати з BFF (один gateway на тип клієнта).",
+      "fake_answers": [
+        "Лише шифрування TLS",
+        "Лише балансування навантаження",
+        "Лише кешування статики",
+        "Лише A/B тестування фронтенду",
+        "Лише збереження сесій",
+        "Лише компіляція TypeScript",
+        "Лише деплоймент",
+        "Лише міграції БД",
+        "Лише email-нотифікації",
+        "Лише статистика для бізнес-команди",
+        "Лише генерація PDF з відповідей"
+      ]
+    },
+    {
+      "id": "rest-013",
+      "question": "Що таке OpenAPI (Swagger)?",
+      "correct_answer": "Стандарт декларативного опису REST API в YAML/JSON, з якого генерують документацію, клієнти і серверні стаби",
+      "explanation": "OpenAPI 3.x — наступник Swagger 2.0. Описує endpoints, схеми (JSON Schema), security, examples. Інструменти: Swagger UI, Redoc, swagger-codegen, openapi-generator. Контракт-first підхід покращує співпрацю між командами.",
+      "fake_answers": [
+        "Бібліотека для генерації SQL-міграцій",
+        "Стандарт для GraphQL",
+        "Open source CDN для API",
+        "Метод стискання JSON",
+        "Бібліотека для тестів end-to-end",
+        "Стандарт схеми бази даних",
+        "Метод OAuth для відкритих API",
+        "Розширення JSON для RPC",
+        "Браузерна консоль для REST",
+        "Аналог Postman у вигляді SaaS",
+        "Альтернатива OpenAuth"
+      ]
+    },
+    {
+      "id": "rest-014",
+      "question": "Як коректно реалізувати фільтрацію, сортування і вибірку полів?",
+      "correct_answer": "Фільтри як query: ?status=active&type=admin; сортування: ?sort=-created_at,name; sparse fieldsets: ?fields=id,name",
+      "explanation": "Префікс мінус — desc, без — asc. fields/sparse fieldsets зменшують payload (особливо для мобільних). Складніші фільтри — оператори (?price[gte]=10) або RSQL/FIQL для дуже гнучких запитів. Уникати — сирий SQL у query.",
+      "fake_answers": [
+        "Усе в тілі POST-запиту",
+        "Окремі endpoints для кожної комбінації фільтрів",
+        "Фільтри лише через спеціальні заголовки X-Filter-*",
+        "Фільтрація лише через GraphQL — REST не вміє",
+        "Фільтри в URL path: /users/active/admin",
+        "Сортування лише в cookie",
+        "Поля у заголовку Accept: fields=...",
+        "Фільтри як base64-JSON у query",
+        "Лише через DSL у Authorization",
+        "Сортування — лише в headers Link",
+        "Лише через WebSocket subscribe"
+      ]
+    },
+    {
+      "id": "rest-015",
+      "question": "Як коректно завантажити файл через REST API?",
+      "correct_answer": "POST з Content-Type: multipart/form-data, що вміщує файл і метадані; або PUT з тілом-байтами і Content-Type конкретного типу файлу",
+      "explanation": "Multipart дозволяє додати разом метадані. Альтернатива — двофазний upload: спочатку отримати pre-signed URL (S3), потім завантажити напряму. Великі файли — chunked/resumable (tus.io). Не варто base64-енкодити в JSON — на 33% більше.",
+      "fake_answers": [
+        "Лише через WebSocket — REST не підтримує файли",
+        "Завжди через base64 у JSON-тілі",
+        "Лише через FTP, REST не призначений",
+        "Через Set-Cookie: file=<binary>",
+        "Через GET з файлом у query",
+        "Через PATCH з RFC 6902",
+        "Через TRACE-метод",
+        "Через CONNECT-tunnel",
+        "Лише з Content-Encoding: gzip",
+        "Через DELETE із файлом у тілі",
+        "Через Server-Sent Events"
+      ]
+    },
+    {
+      "id": "rest-016",
+      "question": "Що таке BFF (Backend for Frontend)?",
+      "correct_answer": "Окремий API-шар-агрегатор, заточений під конкретний клієнт (web, mobile, IoT), що ховає мікросервіси і повертає саме той payload, який потрібен цьому клієнту",
+      "explanation": "Класичний паттерн (Sam Newman). Web BFF може агрегувати 5 викликів у 1 і повертати багатий JSON, mobile BFF — мінімальний для економії трафіку. На відміну від API Gateway, BFF належить команді клієнта і часто містить бізнес-логіку склейки.",
+      "fake_answers": [
+        "Database for frontend — окрема БД на клієнт",
+        "Backend for fast feedback — пайплайн CI/CD",
+        "Browser file format — формат для PWA",
+        "Bidirectional frontend feed — стрімінг",
+        "Bundled frontend framework",
+        "Backend for batch — для batch-обробки",
+        "Build for frontend — сервіс білдів",
+        "Best-fit feature framework",
+        "Big frontend framework",
+        "Bridged frontend filter — для CORS",
+        "Bus for frontend — message bus до клієнта"
+      ]
+    },
+    {
+      "id": "rest-017",
+      "question": "Який формат відповіді у JSON:API специфікації?",
+      "correct_answer": "Об'єкт із полями data (ресурс або масив), errors, meta, included (для compound docs) та links (self/related/first/last/next/prev)",
+      "explanation": "JSON:API (jsonapi.org) — суворий стандарт відповідей: уніфіковує пагінацію, помилки, relationships. Дає консистентну структуру через links.next. Альтернатива — HAL (_links).",
+      "fake_answers": [
+        "Поле url як рядок у корені JSON",
+        "Окремий заголовок X-Links",
+        "Бінарне поле з offset до наступного запису",
+        "Стрімінг URL через Server-Sent Events",
+        "Лише у XML-форматі через XLink",
+        "В meta як масив без структури",
+        "В headers Link і ніде більше",
+        "Як HTML-anchor у тілі JSON",
+        "Лише в OpenAPI-документації, не у відповіді",
+        "Через GraphQL fragments",
+        "В cookie як base64"
+      ]
+    },
+    {
+      "id": "rest-018",
+      "question": "Який HTTP-статус повернути при конфлікті (наприклад дубль email при створенні юзера)?",
+      "correct_answer": "409 Conflict із поясненням у тілі (problem+json) і опціонально полем для дублікату",
+      "explanation": "409 — стан ресурсу не дозволяє виконати операцію (конфлікт версій, дубль). 422 — валідація провалилась семантично (формат email невалідний). 400 — синтаксис поганий. У відповіді бажано вказати, який саме конфлікт.",
+      "fake_answers": [
+        "200 OK з полем error у тілі",
+        "404 Not Found",
+        "500 Internal Server Error",
+        "401 Unauthorized",
+        "403 Forbidden",
+        "204 No Content",
+        "418 I'm a teapot",
+        "501 Not Implemented",
+        "503 Service Unavailable",
+        "451 Unavailable For Legal Reasons",
+        "302 Found на існуючий ресурс"
+      ]
+    },
+    {
+      "id": "rest-019",
+      "question": "Що таке bulk-операція в REST і як її коректно реалізувати?",
+      "correct_answer": "Endpoint, що приймає масив операцій або сутностей за один запит; повертає 207 Multi-Status з результатом кожної або 200/202 із загальним статусом",
+      "explanation": "Корисно для зменшення кількості round-trip. Варіанти: одна транзакція (все або нічого) чи best-effort (часткові успіхи). 207 (WebDAV) — стандарт для часткових успіхів. POST /users/bulk або PATCH /users з масивом — поширені шаблони.",
+      "fake_answers": [
+        "Виконати ті самі запити в циклі через WebSocket",
+        "Використати GraphQL — REST не дозволяє bulk",
+        "Об'єднати кілька URL комою: GET /users/1,2,3 і нічого більше",
+        "Лише через окремий gRPC-сервіс",
+        "Через TRACE-метод як список",
+        "Лише в одній транзакції з 500 при будь-якій помилці",
+        "Через CONNECT-tunnel із persistent connection",
+        "Через Server-Sent Events як стрім подій",
+        "Лише через XMLHttpRequest з multiple",
+        "Через PATCH з JSON Patch, що завжди є bulk",
+        "Лише через gateway з кастомним заголовком X-Batch"
+      ]
+    },
+    {
+      "id": "rest-020",
+      "question": "Що таке idempotent endpoint і чому це важливо для retry-логіки клієнтів?",
+      "correct_answer": "Endpoint, повторний виклик якого з тими самими параметрами не змінює стан системи понад перший виклик; це безпечно ретраїти при мережевих помилках",
+      "explanation": "GET, PUT, DELETE — idempotent за специфікацією. POST — ні. Без idempotency повторний POST після таймауту може створити дубль. Тому для критичних POST вводять Idempotency-Key. Це фундамент надійних розподілених систем.",
+      "fake_answers": [
+        "Endpoint, що завжди повертає 200",
+        "Endpoint без авторизації",
+        "Endpoint, що відповідає миттєво (низька латентність)",
+        "Endpoint без stateful БД",
+        "Endpoint у форматі application/idempotent+json",
+        "Endpoint, доступний лише через HTTPS",
+        "Endpoint з обов'язковим ETag",
+        "Endpoint, кешований на CDN назавжди",
+        "Endpoint, що використовує WebSocket",
+        "Endpoint без timeout",
+        "Endpoint з обов'язковим CSRF-токеном"
+      ]
+    }
+  ]
+}

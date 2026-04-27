@@ -1,0 +1,387 @@
+{
+  "skill_id": "agile",
+  "skill_name": "Agile & Scrum",
+  "difficulty": "D-Rank",
+  "questions": [
+    {
+      "id": "agile-001",
+      "question": "Які чотири цінності Agile Manifesto?",
+      "correct_answer": "Люди і взаємодія важливіші за процеси та інструменти; працюючий продукт важливіший за вичерпну документацію; співпраця з замовником важливіша за узгодження контракту; реагування на зміни важливіше за дотримання плану",
+      "explanation": "Це не означає, що праві елементи не потрібні — їх просто цінують менше. Маніфест підписаний 17 розробниками у 2001 році і має 12 принципів, що деталізують ці цінності.",
+      "fake_answers": [
+        "Швидкість, якість, ціна, термін",
+        "Планування, виконання, контроль, завершення",
+        "Аналіз, дизайн, кодування, тестування",
+        "Backlog, sprint, review, retrospective",
+        "Документація важливіша за код",
+        "Контракт важливіший за людей",
+        "Процеси важливіші за реагування",
+        "Інструменти важливіші за взаємодію",
+        "План важливіший за зміни",
+        "Тестування важливіше за дизайн",
+        "Архітектура, інфраструктура, безпека, моніторинг"
+      ]
+    },
+    {
+      "id": "agile-002",
+      "question": "Які три ролі у Scrum і їхня основна відповідальність?",
+      "correct_answer": "Product Owner — максимізує цінність продукту, керує беклогом; Scrum Master — слугує команді, прибирає перешкоди, забезпечує дотримання Scrum; Developers — створюють Increment, самоорганізовуються",
+      "explanation": "Це Scrum Team — мала, крос-функціональна (типово 3-9 розробників). Менеджерів немає у Scrum. PO — одна особа (не комітет). SM — coach, не керівник проекту. У Scrum Guide 2020 термін Development Team замінено на Developers.",
+      "fake_answers": [
+        "Project Manager, Tech Lead, QA Lead",
+        "CEO, CTO, CPO",
+        "Architect, Developer, Tester",
+        "Stakeholder, Sponsor, Manager",
+        "Frontend, Backend, DevOps",
+        "Junior, Middle, Senior",
+        "Designer, Coder, Reviewer",
+        "Analyst, Programmer, Operator",
+        "Owner, Leader, Worker",
+        "Captain, Officer, Soldier",
+        "Producer, Director, Actor"
+      ]
+    },
+    {
+      "id": "agile-003",
+      "question": "Які п'ять подій (events) у Scrum?",
+      "correct_answer": "Sprint (контейнер), Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective",
+      "explanation": "Sprint — макс 1 місяць (типово 2 тижні). Planning — макс 8 годин на місячний sprint. Daily — 15 хв. Review — 4 год. Retro — 3 год. Усі тaймбоксовані.",
+      "fake_answers": [
+        "Kickoff, Standup, Demo, Postmortem, Closing",
+        "Estimation, Refinement, Coding, Testing, Deploy",
+        "Brainstorm, Design, Build, Test, Release",
+        "Plan, Do, Check, Act, Repeat",
+        "Discovery, Definition, Design, Delivery, Done",
+        "Sprint, Release, Iteration, Milestone, Demo",
+        "Standup, Review, Retro, Planning, Estimation",
+        "Onboarding, Sprint, Demo, Deploy, Maintenance",
+        "Triage, Plan, Code, Review, Merge",
+        "Daily, Weekly, Monthly, Quarterly, Yearly",
+        "Idea, Backlog, Sprint, Release, Sunset"
+      ]
+    },
+    {
+      "id": "agile-004",
+      "question": "Які три артефакти Scrum?",
+      "correct_answer": "Product Backlog (упорядкований перелік усього, що потрібно для продукту), Sprint Backlog (план на спринт: Sprint Goal + items + plan), Increment (готовий до використання результат, що відповідає Definition of Done)",
+      "explanation": "Кожен артефакт має commitment у Scrum Guide 2020: Product Goal (для Product Backlog), Sprint Goal (для Sprint Backlog), Definition of Done (для Increment).",
+      "fake_answers": [
+        "Roadmap, Gantt chart, Burndown",
+        "Code, Tests, Documentation",
+        "User Stories, Tasks, Bugs",
+        "Requirements, Design, Implementation",
+        "Backlog, Board, Burndown",
+        "Epic, Feature, Story",
+        "Plan, Execution, Report",
+        "Specification, Wireframe, Prototype",
+        "Project Plan, Risk Log, Status Report",
+        "Vision, Mission, Goals",
+        "Estimate, Velocity, Capacity"
+      ]
+    },
+    {
+      "id": "agile-005",
+      "question": "Чим відрізняються Definition of Done, Definition of Ready та Acceptance Criteria?",
+      "correct_answer": "DoD — спільні критерії готовності для всіх items (тести, code review, deploy); DoR — критерії готовності item до взяття у sprint (зрозуміла, оцінена, без блокерів); Acceptance Criteria — конкретні умови прийняття для конкретної user story",
+      "explanation": "DoD один на команду/продукт — гарантує якість Increment. DoR опціональний (не у Scrum Guide). AC унікальні для кожної історії — зазвичай у форматі Given/When/Then або bullet list.",
+      "fake_answers": [
+        "Це три назви одного і того ж списку",
+        "DoD пише QA, DoR — PM, AC — розробник",
+        "DoD для бекенду, DoR для фронтенду, AC для дизайну",
+        "DoD — це JIRA-ticket, DoR — Confluence, AC — wiki",
+        "DoD пишуть лише для багів, DoR для feature",
+        "DoR описує deploy, DoD — testing, AC — coding",
+        "AC — це user story, DoD — task, DoR — epic",
+        "DoR створюється після спринту, DoD — до",
+        "AC — для PO, DoD — для SM, DoR — для devs",
+        "DoD — це change log, DoR — release notes",
+        "AC синонім DoD; DoR — це Sprint Goal"
+      ]
+    },
+    {
+      "id": "agile-006",
+      "question": "Що таке INVEST у контексті user stories?",
+      "correct_answer": "Критерії якісної user story: Independent (незалежна), Negotiable (обговорювана), Valuable (цінна), Estimable (оцінювана), Small (маленька), Testable (тестована)",
+      "explanation": "Якщо історія не INVEST, її варто розщепити або уточнити. Independent — мінімізує залежності. Small — можна закрити в одному sprint. Testable — є чіткі AC.",
+      "fake_answers": [
+        "Identify, Navigate, Verify, Estimate, Submit, Track",
+        "Initiate, Negotiate, Validate, Execute, Sign, Test",
+        "Index, Number, Version, Edit, Save, Track",
+        "Inspect, Notify, Verify, Edit, Send, Test",
+        "Investigate, Note, Visualize, Evaluate, Solve, Track",
+        "Inform, Negotiate, Vote, Estimate, Schedule, Test",
+        "Iterate, Negotiate, View, Edit, Save, Test",
+        "Implement, Notify, Verify, Estimate, Solve, Track",
+        "Improve, Notice, Validate, Estimate, Sort, Test",
+        "Indicate, Notify, Verify, Estimate, Save, Test",
+        "Intercept, Notice, Visualize, Evaluate, Stop, Track"
+      ]
+    },
+    {
+      "id": "agile-007",
+      "question": "Що таке story points і чому використовують Fibonacci?",
+      "correct_answer": "Відносна одиниця оцінки складності/зусиль/невизначеності задачі (не годин); Fibonacci (1,2,3,5,8,13,21) відображає зростання невизначеності з розміром і запобігає псевдо-точності великих оцінок",
+      "explanation": "Planning Poker — техніка консенсусної оцінки. Перевага над годинами: відображає невизначеність, не прив'язана до конкретного виконавця, нормалізує velocity. Великі (>13) — треба розщепити.",
+      "fake_answers": [
+        "Story points — це години роботи; Fibonacci зручний для калькулятора",
+        "Це бали за дизайн UI; Fibonacci — золотий перетин",
+        "Story points = LOC коду; Fibonacci — оптимально для git",
+        "Це бонуси розробникам; Fibonacci — премії менеджерам",
+        "Story points — день у тижні; Fibonacci — для retro",
+        "Це KPI на квартал; Fibonacci — формат звіту",
+        "Story points — це bug-ів у спринті; Fibonacci — пріоритети",
+        "Story points — кількість PR; Fibonacci — review time",
+        "Це обсяг тестів у відсотках; Fibonacci — coverage threshold",
+        "Story points — кількість API endpoint-ів",
+        "Це version semver; Fibonacci — bump rules"
+      ]
+    },
+    {
+      "id": "agile-008",
+      "question": "Що таке velocity і як вона використовується?",
+      "correct_answer": "Середня кількість story points (або items), які команда завершує за спринт; використовується для прогнозування скільки роботи команда зможе взяти у наступні спринти",
+      "explanation": "Velocity — характеристика конкретної команди, її не можна порівнювати між командами. Стабілізується після 3-5 спринтів. Не використовується як KPI для оцінки людей — інакше команди роздуватимуть оцінки.",
+      "fake_answers": [
+        "Швидкість CPU сервера CI",
+        "Кількість коммітів на день",
+        "Час від PR до merge",
+        "Lines of code на годину",
+        "Кількість багів за спринт",
+        "Кількість stand-up меседжів",
+        "Кількість тестів на одного devs",
+        "Швидкість завантаження сторінки",
+        "Кількість деплоїв на тиждень",
+        "Час reaction на інцидент",
+        "Кількість викликів API на хвилину"
+      ]
+    },
+    {
+      "id": "agile-009",
+      "question": "Що таке burndown chart?",
+      "correct_answer": "Графік, що показує кількість залишеної роботи (story points або годин) проти часу — допомагає відслідковувати прогрес спринту і прогнозувати завершення",
+      "explanation": "Ідеальна лінія — від обсягу спринту до 0 наприкінці. Якщо реальна вище — команда відстає. Burnup chart — навпаки, показує виконане і дозволяє бачити зміни scope.",
+      "fake_answers": [
+        "Графік завантаження CPU CI-сервера",
+        "Хіт-мапа активності розробників",
+        "Діаграма залежностей між сервісами",
+        "Pie chart розподілу типів задач",
+        "Графік популярності мов програмування",
+        "Карта помилок по місяцях",
+        "Графік ROI проекту",
+        "Стек-трейс упалих тестів",
+        "Граф звʼязків команди",
+        "Скатер-плот salary vs experience",
+        "Гістограма commits per author"
+      ]
+    },
+    {
+      "id": "agile-010",
+      "question": "Що таке MVP (Minimum Viable Product)?",
+      "correct_answer": "Найменша версія продукту, що вирішує core проблему користувача і дозволяє зібрати реальні дані та feedback з мінімальними зусиллями — для перевірки гіпотез",
+      "explanation": "MVP — про навчання, не про скорочення scope. Має приносити цінність користувачу, інакше це не Viable. Контрастує з MMP (Minimum Marketable Product) — більш зрілий. Підхід Build-Measure-Learn (Lean Startup).",
+      "fake_answers": [
+        "Most Valuable Player — найкращий розробник місяця",
+        "Mission Vision Plan — стратегічний документ",
+        "Major Version Patch — semver правило",
+        "Multi-Vendor Platform — інтеграційна платформа",
+        "Managed Virtual Pool — DevOps термін",
+        "Maximum Visible Performance — KPI",
+        "Modern Visual Prototype — Figma-проект",
+        "Manual Verification Process — QA процедура",
+        "Migrated Version Pipeline — CI/CD",
+        "Master Validation Protocol — testing standard",
+        "Module Validation Plan — план тестування"
+      ]
+    },
+    {
+      "id": "agile-011",
+      "question": "Чим Kanban відрізняється від Scrum?",
+      "correct_answer": "Kanban — continuous flow з WIP-лімітами, без фіксованих ітерацій і ролей, pull-система; Scrum — sprint-based (timeboxed ітерації), визначені ролі/події/артефакти, batch-delivery наприкінці спринту",
+      "explanation": "Kanban підходить для підтримки/operations з непередбачуваним потоком задач. Scrum — для розробки нового продукту. Scrumban — гібрид. Kanban метрики: lead time, cycle time, throughput.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "Kanban для backend, Scrum для frontend",
+        "Kanban — це Scrum без retrospective",
+        "Scrum — це Kanban з більшою документацією",
+        "Kanban працює лише з digital boards, Scrum з фізичними",
+        "Scrum — для команд > 50 осіб, Kanban < 10",
+        "Kanban не використовує backlog, Scrum використовує",
+        "Scrum винайшли у Toyota, Kanban — у Spotify",
+        "Kanban лише для японських компаній",
+        "Scrum заборонено у банківській сфері",
+        "Kanban не дозволяє оцінювати задачі"
+      ]
+    },
+    {
+      "id": "agile-012",
+      "question": "Чим відрізняється lead time від cycle time у Kanban?",
+      "correct_answer": "Lead time — час від моменту, коли задача створена/замовлена, до моменту, коли вона доставлена; cycle time — час від моменту, коли почали працювати над задачею, до її завершення",
+      "explanation": "Lead time важливий для замовника (скільки чекати). Cycle time — для команди (наскільки ефективно працюємо). Lead time = час очікування у backlog + cycle time. Little's Law: WIP = Throughput × Cycle Time.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "Lead time — для frontend, cycle time — для backend",
+        "Lead time — у годинах, cycle time — у днях завжди",
+        "Cycle time — час deploy, lead time — час код-рев'ю",
+        "Lead time — для PO, cycle time — для SM",
+        "Cycle time — кількість циклів CI, lead time — деплой",
+        "Lead time — це velocity, cycle time — capacity",
+        "Cycle time — повторюваність, lead time — однократний",
+        "Lead time — для bug-ів, cycle time — для feature",
+        "Cycle time — це burndown, lead time — burnup",
+        "Lead time — на проект, cycle time — на спринт"
+      ]
+    },
+    {
+      "id": "agile-013",
+      "question": "Що таке WIP-ліміт у Kanban і навіщо він?",
+      "correct_answer": "Обмеження максимальної кількості задач, що можуть одночасно перебувати у конкретній колонці/стадії — змушує команду закінчувати поточне перш ніж починати нове, виявляє вузькі місця",
+      "explanation": "Без WIP-лімітів — multitasking, контекст-світчинг, ріст cycle time. Якщо колонка заблокована, команда фокусується на її розблокуванні. Little's Law: менший WIP = менший cycle time при тому ж throughput.",
+      "fake_answers": [
+        "Work In Progress — обов'язковий статус задачі",
+        "Workspace Identifier Pattern — нейминг конвенція",
+        "Web Interface Prototype — стиль UI",
+        "Wait In Pool — стан у БД connection pool",
+        "Wireless Internet Protocol — мережевий стандарт",
+        "Workflow Integration Plugin — інструмент Jira",
+        "Weekly Iteration Plan — план на тиждень",
+        "Window Information Panel — UI компонент",
+        "Working Issue Priority — рівень багу",
+        "Worker Identification Process — onboarding",
+        "Wrapper Internal Procedure — паттерн коду"
+      ]
+    },
+    {
+      "id": "agile-014",
+      "question": "Що таке Sprint Goal і навіщо він?",
+      "correct_answer": "Єдина мета на спринт, узгоджена командою у Sprint Planning — об'єднує items спринту, дає фокус і дозволяє команді приймати рішення про обсяг по ходу спринту",
+      "explanation": "Якщо Sprint Goal під загрозою — команда може домовитися з PO про корекцію scope (але не самої цілі). Без Sprint Goal спринт стає просто to-do list. Це commitment Sprint Backlog у Scrum Guide 2020.",
+      "fake_answers": [
+        "Кількість багів, які треба закрити за спринт",
+        "Velocity, яку команда зобов'язується досягти",
+        "Список усіх items, на які команда підписалася",
+        "OKR на квартал, винесений на рівень спринту",
+        "KPI Scrum Master-а на цей спринт",
+        "Salary bonus, що залежить від результату",
+        "Дедлайн релізу до ринку",
+        "Список feature flags для цього спринту",
+        "Кількість PR, які треба змерджити",
+        "Розмір monorepo після спринту",
+        "Список залежностей між сервісами"
+      ]
+    },
+    {
+      "id": "agile-015",
+      "question": "Що таке Backlog Refinement (Grooming)?",
+      "correct_answer": "Постійна активність команди з уточнення items у Product Backlog: розщеплення великих, додавання деталей, оцінка, переоцінка пріоритетів — щоб items були готові для майбутніх спринтів",
+      "explanation": "Не подія, а continuous activity. Типово ~10% часу спринту. Без рефайнменту Sprint Planning перетворюється на хаос. Refinement готує items до DoR.",
+      "fake_answers": [
+        "Видалення усіх старих задач з backlog",
+        "Архівація завершених items",
+        "Реструктуризація tickets за компонентами коду",
+        "Перенумерація задач у Jira",
+        "Зміна assignee на всіх tickets",
+        "Експорт backlog у Excel для CEO",
+        "Очистка коментарів у тікетах",
+        "Налаштування workflow у Jira",
+        "Автоматичне закриття залишків спринту",
+        "Перейменування проекту у Jira",
+        "Видалення дубльованих лейблів"
+      ]
+    },
+    {
+      "id": "agile-016",
+      "question": "Які популярні формати ретроспективи?",
+      "correct_answer": "Start/Stop/Continue, Mad/Sad/Glad, 4Ls (Liked/Learned/Lacked/Longed for), Sailboat (anchors/wind/rocks), KALM (Keep/Add/Less/More), 5 Whys для root cause",
+      "explanation": "Варто чергувати формати, щоб уникати рутини. Мета — actionable improvements, а не лише venting. Кожна ретро має закінчуватися 1-3 конкретними action items з власниками.",
+      "fake_answers": [
+        "Pre-mortem, Post-mortem, Death-mortem",
+        "Junior, Middle, Senior, Lead, Architect",
+        "Daily, Weekly, Monthly, Quarterly, Yearly",
+        "Bronze, Silver, Gold, Platinum",
+        "TODO, Doing, Done, Cancelled",
+        "Frontend, Backend, Mobile, DevOps",
+        "Plan, Do, Check, Act",
+        "Specification, Design, Code, Test",
+        "Bug, Feature, Story, Epic",
+        "Critical, High, Medium, Low",
+        "Junior retro, Senior retro, Architect retro"
+      ]
+    },
+    {
+      "id": "agile-017",
+      "question": "Що таке MoSCoW prioritization?",
+      "correct_answer": "Метод пріоритезації: Must have (критично), Should have (важливо, але не критично), Could have (бажано, якщо буде час), Won't have (зараз не робимо, явно виключаємо)",
+      "explanation": "Перевага — явне виключення (Won't), що зменшує scope creep. Won't не означає ніколи — лише не у цій ітерації. Альтернативи: RICE (Reach, Impact, Confidence, Effort), Kano model, Value vs Effort matrix.",
+      "fake_answers": [
+        "Місто-герой Москва — метод керування проектами",
+        "Multi-Object Storage Container — паттерн зберігання",
+        "Modular Service Containerized Workflow — DevOps",
+        "Master Of Scrum: Certified Workshop — сертифікація",
+        "Microservice Oriented Communication Workflow",
+        "Monitor Only System Critical Warnings — алерт-стратегія",
+        "Mobile Strategy Cohesive Workflow — UX-метод",
+        "Mandatory Optional Special Custom Wishes",
+        "Modular Object Stack Container Wrapper",
+        "Multi-Operator Synchronized Coordination Workflow",
+        "Marketing Optimized Sales Customer Workflow"
+      ]
+    },
+    {
+      "id": "agile-018",
+      "question": "Чим відрізняються KPI та OKR?",
+      "correct_answer": "KPI (Key Performance Indicator) — метрики поточної ефективності (operational), часто прив'язані до бонусів; OKR (Objective and Key Results) — амбітні цілі (Objective) з вимірюваними результатами (3-5 KR), для росту і фокусу, не прив'язані до зарплати",
+      "explanation": "KPI — наскільки добре працює бізнес зараз. OKR — куди хочемо рости (60-70% досягнення = успіх, 100% = занадто легка ціль). KR мають бути вимірювані. Популяризовано Google.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "KPI — для розробників, OKR — для маркетингу",
+        "KPI — це Jira ticket, OKR — Confluence page",
+        "OKR — це бекап KPI",
+        "KPI заборонено у Agile, OKR обов'язкові",
+        "OKR — це Scrum-роль, KPI — Kanban-метрика",
+        "KPI — це velocity команди, OKR — Sprint Goal",
+        "OKR — це burndown, KPI — burnup",
+        "KPI оновлюється раз на рік, OKR — раз на день",
+        "OKR пише CEO, KPI — Junior розробник",
+        "KPI — це OAuth ключі API"
+      ]
+    },
+    {
+      "id": "agile-019",
+      "question": "Що таке планування Poker (Planning Poker)?",
+      "correct_answer": "Техніка консенсусної оцінки: команда одночасно показує карти зі story points (Fibonacci); якщо оцінки сильно розходяться, обговорюють причини і голосують знову — до згоди",
+      "explanation": "Одночасне розкриття уникає anchoring (коли всі повторюють першу почуту цифру). Розходження оцінок — сигнал, що історія не повністю зрозуміла команді. Tools: Planning Poker apps, Scrum Poker.",
+      "fake_answers": [
+        "Гра у покер після робочого дня для team building",
+        "Метод найму через карткову гру",
+        "Спосіб обрати наступний sprint goal через жереб",
+        "Розіграш бонусів між розробниками",
+        "Карткова гра для retrospective",
+        "Спосіб вирішити конфлікт у код-рев'ю",
+        "Метод обрати architecture pattern через random",
+        "Спосіб призначити assignee на тікет рандомно",
+        "Алгоритм A/B тестування фіч",
+        "Метод обрати release date випадково",
+        "Гра для онбордингу нових співробітників"
+      ]
+    },
+    {
+      "id": "agile-020",
+      "question": "Що таке technical debt і як ним керувати?",
+      "correct_answer": "Метафора Ward Cunningham: вартість майбутньої переробки коду, який зробили швидко/неоптимально; керувати: робити видимим (трекати), виділяти capacity у кожному спринті, refactor у boy scout style, рефакторинг при дотику до коду",
+      "explanation": "Bad debt — невиправдане спрощення (sloppy code). Good debt — свідомий компроміс заради time-to-market. Якщо не платити — interest росте: швидкість падає, баги ростуть. Не лише код: архітектурний, документаційний, тестовий debt.",
+      "fake_answers": [
+        "Це борг компанії перед банком за купівлю серверів",
+        "Зарплатна заборгованість перед розробниками",
+        "Платежі за хмарні послуги AWS",
+        "Витрати на ліцензії JetBrains/GitHub",
+        "Borg — це Kubernetes, нічого спільного",
+        "Це компенсація за переробки",
+        "Витрати на навчання junior-ів",
+        "Витрати на конференції",
+        "Це штрафи за порушення SLA",
+        "Витрати на security audit",
+        "Borg-ний код — той, що не пройшов lint"
+      ]
+    }
+  ]
+}

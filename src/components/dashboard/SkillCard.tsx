@@ -17,7 +17,7 @@ export function SkillCard({ p }: { p: DashboardProgress }) {
     <>
       <NeonCard
         variant="bracketed"
-        className="group relative overflow-hidden transition-shadow hover:shadow-glow animate-scan-in"
+        className="hud-panel group relative animate-scan-in"
       >
         <div className="flex items-start gap-4">
           <HexBadge rank={p.difficulty} />

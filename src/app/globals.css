@@ -8,17 +8,12 @@
 }
 
 html, body {
-  background: #0a0a0a;
+  background-color: #0a0a0a;
   color: #E6F7EE;
   min-height: 100vh;
 }
-
-body {
-  background-image:
-    radial-gradient(circle at 20% -10%, var(--accent-dim) 0%, transparent 55%),
-    radial-gradient(circle at 90% 110%, color-mix(in srgb, var(--accent-color) 14%, transparent) 0%, transparent 50%);
-  background-attachment: fixed;
-}
+/* The actual body background-image is composed server-side in layout.tsx
+   per the day's theme (image + accent radials + dark overlay). */
 
 /* Full-viewport CRT scanlines — sits above page, below modals */
 .scanlines {
@@ -140,4 +135,260 @@ body {
   }
 
   .tracking-system { letter-spacing: 0.2em; }
+
+  /* ─── HUD HOVER LANGUAGE ─────────────────────────────────────────
+     One choreographed "targeting acquisition" beat instead of the
+     generic glow+tint. Layers, in order:
+       1. Locator rail grows on the left edge
+       2. Corner brackets snap into the opposite diagonal
+       3. A single horizontal scan sweeps across once
+       4. Hidden labels clip-reveal from the right
+     No looping motion on hover, no flat bg fills. */
+
+  .hud-target {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--accent-color) 22%, transparent);
+    background: rgba(255, 255, 255, 0.012);
+    transition: border-color 220ms ease;
+  }
+  .hud-target:hover,
+  .hud-target:focus-visible {
+    border-color: color-mix(in srgb, var(--accent-color) 75%, transparent);
+    outline: none;
+  }
+  .hud-target::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hud-target:hover::before,
+  .hud-target:focus-visible::before { transform: scaleY(1); }
+  .hud-target::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--accent-color), var(--accent-color)) top right / 11px 1.5px no-repeat,
+      linear-gradient(var(--accent-color), var(--accent-color)) top right / 1.5px 11px no-repeat,
+      linear-gradient(var(--accent-color), var(--accent-color)) bottom left / 11px 1.5px no-repeat,
+      linear-gradient(var(--accent-color), var(--accent-color)) bottom left / 1.5px 11px no-repeat;
+    opacity: 0;
+    transform: scale(0.78);
+    transition:
+      opacity 200ms ease 80ms,
+      transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1) 80ms;
+    z-index: 2;
+  }
+  .hud-target:hover::after,
+  .hud-target:focus-visible::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .hud-scan {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .hud-scan::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 35%;
+    left: -35%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--accent-color) 18%, transparent) 50%,
+      transparent 100%
+    );
+  }
+  .hud-target:hover .hud-scan::before,
+  .hud-target:focus-visible .hud-scan::before {
+    animation: hud-scan-pass 720ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @keyframes hud-scan-pass {
+    0%   { transform: translateX(0%); }
+    100% { transform: translateX(385%); }
+  }
+
+  .hud-reveal {
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(6px);
+    transition:
+      max-width 320ms cubic-bezier(0.2, 0.8, 0.2, 1) 80ms,
+      opacity 220ms ease 80ms,
+      transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1) 80ms;
+  }
+  .hud-target:hover .hud-reveal,
+  .hud-target:focus-visible .hud-reveal,
+  .hud-answer:not(:disabled):hover .hud-reveal,
+  .hud-answer:not(:disabled):focus-visible .hud-reveal {
+    max-width: 220px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Danger variant — same beats, danger color */
+  .hud-target-danger { border-color: rgba(255, 0, 92, 0.32); }
+  .hud-target-danger:hover,
+  .hud-target-danger:focus-visible { border-color: #FF005C; }
+  .hud-target-danger::before {
+    background: #FF005C;
+    box-shadow: 0 0 10px #FF005C;
+  }
+  .hud-target-danger::after {
+    background:
+      linear-gradient(#FF005C, #FF005C) top right / 11px 1.5px no-repeat,
+      linear-gradient(#FF005C, #FF005C) top right / 1.5px 11px no-repeat,
+      linear-gradient(#FF005C, #FF005C) bottom left / 11px 1.5px no-repeat,
+      linear-gradient(#FF005C, #FF005C) bottom left / 1.5px 11px no-repeat;
+  }
+  .hud-target-danger .hud-scan::before {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 0, 92, 0.18) 50%,
+      transparent 100%
+    );
+  }
+
+  /* Quieter answer-option hover (used during timed tests — restraint matters) */
+  .hud-answer {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.015);
+    transition: border-color 200ms ease, background-color 240ms ease;
+  }
+  .hud-answer:not(:disabled):hover,
+  .hud-answer:not(:disabled):focus-visible {
+    border-color: var(--accent-color);
+    background-color: color-mix(in srgb, var(--accent-color) 4%, transparent);
+    outline: none;
+  }
+  .hud-answer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14%;
+    bottom: 14%;
+    width: 2px;
+    background: var(--accent-color);
+    box-shadow: 0 0 8px var(--accent-dim);
+    transform-origin: center;
+    transform: scaleY(0);
+    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: none;
+  }
+  .hud-answer:not(:disabled):hover::before,
+  .hud-answer:not(:disabled):focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  /* Panel power-up — for NeonCard.bracketed when used as an interactive surface */
+  .hud-panel.bracketed::before,
+  .hud-panel.bracketed::after {
+    transition:
+      width 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      height 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 220ms ease;
+    opacity: 0.7;
+  }
+  .hud-panel:hover.bracketed::before,
+  .hud-panel:hover.bracketed::after,
+  .hud-panel:focus-within.bracketed::before,
+  .hud-panel:focus-within.bracketed::after {
+    width: 28px;
+    height: 28px;
+    opacity: 1;
+  }
+  .hud-panel {
+    transition:
+      border-color 240ms ease,
+      box-shadow 320ms ease,
+      transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+  }
+  .hud-panel:hover,
+  .hud-panel:focus-within {
+    border-color: var(--accent-color);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--accent-color) 28%, transparent),
+      0 0 24px color-mix(in srgb, var(--accent-color) 22%, transparent),
+      0 12px 40px -18px color-mix(in srgb, var(--accent-color) 50%, transparent);
+    transform: translateY(-2px);
+  }
+  /* Stronger reaction when the inner CTA itself is the target */
+  .hud-panel:has(button:hover).bracketed::before,
+  .hud-panel:has(button:hover).bracketed::after {
+    width: 34px;
+    height: 34px;
+  }
+  .hud-panel:has(button:hover) {
+    box-shadow:
+      0 0 0 1px var(--accent-color),
+      0 0 32px color-mix(in srgb, var(--accent-color) 32%, transparent),
+      0 16px 48px -16px color-mix(in srgb, var(--accent-color) 60%, transparent);
+    transform: translateY(-3px);
+  }
+
+  /* Always-on accent state for hud-target — same beats as :hover, persistent */
+  .hud-target-active {
+    border-color: color-mix(in srgb, var(--accent-color) 75%, transparent);
+    background: color-mix(in srgb, var(--accent-color) 4%, transparent);
+  }
+  .hud-target-active::before {
+    transform: scaleY(1);
+  }
+  .hud-target-active::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .hud-target-active:hover,
+  .hud-target-active:focus-visible {
+    border-color: var(--accent-color);
+    background: color-mix(in srgb, var(--accent-color) 7%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hud-target::before,
+    .hud-target::after,
+    .hud-target .hud-scan::before,
+    .hud-target .hud-reveal,
+    .hud-answer::before,
+    .hud-panel.bracketed::before,
+    .hud-panel.bracketed::after {
+      transition: none !important;
+      animation: none !important;
+    }
+    .hud-target:hover .hud-reveal,
+    .hud-target:focus-visible .hud-reveal,
+    .hud-answer:not(:disabled):hover .hud-reveal,
+    .hud-answer:not(:disabled):focus-visible .hud-reveal {
+      max-width: 220px;
+      opacity: 1;
+      transform: none;
+    }
+  }
 }

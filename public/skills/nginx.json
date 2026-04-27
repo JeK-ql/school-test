@@ -1,0 +1,387 @@
+{
+  "skill_id": "nginx",
+  "skill_name": "Nginx",
+  "difficulty": "C-Rank",
+  "questions": [
+    {
+      "id": "nginx-001",
+      "question": "Що описує блок server у конфігурації Nginx?",
+      "correct_answer": "Віртуальний хост — набір директив для обробки запитів конкретного домену/порту",
+      "explanation": "У одному nginx.conf може бути багато server-блоків з різними listen, server_name, root. Nginx обирає блок за поєднанням listen + server_name; для невідомих хостів спрацьовує default_server.",
+      "fake_answers": [
+        "Налаштування ядра nginx",
+        "Окремий процес worker",
+        "Конфіг logging",
+        "Глобальні MIME-типи",
+        "Опис кешу",
+        "Опис upstream групи",
+        "Декларація стрім-модуля",
+        "Опис пулу з'єднань до бекенда",
+        "Конфіг event-loop",
+        "Декларація fastcgi-параметрів",
+        "Конфіг TLS-сертифіката тільки"
+      ]
+    },
+    {
+      "id": "nginx-002",
+      "question": "Що робить директива proxy_pass у блоці location?",
+      "correct_answer": "Передає запит на вказаний бекенд (URL або upstream)",
+      "explanation": "Це основа reverse proxy. Може вказувати на http://127.0.0.1:3000, http://upstream_name або socket. Поведінка зміни шляху залежить від наявності URI у proxy_pass: з URI Nginx замінює location-частину.",
+      "fake_answers": [
+        "Передає файл напряму клієнту без проксі",
+        "Активує SSL-сертифікат",
+        "Робить редирект 301 на інший URL",
+        "Перенаправляє лог-файл у бекенд",
+        "Копіює запит у swap-файл",
+        "Працює лише з gRPC",
+        "Активує WebSocket автоматично без upgrade",
+        "Перенаправляє через DNS",
+        "Працює тільки з FastCGI",
+        "Створює окремий worker для запиту",
+        "Кешує запит без передачі"
+      ]
+    },
+    {
+      "id": "nginx-003",
+      "question": "Чим nginx -s reload відрізняється від systemctl restart nginx?",
+      "correct_answer": "reload перечитує конфіг без розриву поточних з'єднань, restart повністю перезапускає процес",
+      "explanation": "Reload (SIGHUP) — graceful: master перевіряє новий конфіг, піднімає нових worker-ів і поступово завершує старих. Restart обриває з'єднання. На production за замовчуванням використовують reload.",
+      "fake_answers": [
+        "reload рестартує всі worker одразу, restart graceful",
+        "reload вимагає sudo, restart ні",
+        "restart перезавантажує модулі ядра",
+        "reload скидає логи, restart ні",
+        "restart запускає nginx у debug-режимі",
+        "reload перевіряє лише синтаксис без застосування",
+        "restart мігрує конфіг у /etc/nginx/old",
+        "reload вимагає окремий worker_processes 1",
+        "restart це алюс kill -9",
+        "reload розриває keepalive з клієнтами",
+        "restart не очищає кеш, reload очищає"
+      ]
+    },
+    {
+      "id": "nginx-004",
+      "question": "Який метод балансування Nginx розподіляє запити випадково з врахуванням ваги?",
+      "correct_answer": "round-robin (за замовчуванням, з опціональним weight=)",
+      "explanation": "За замовчуванням Nginx робить round-robin по бекендах. Weight=N збільшує частку. Інші: least_conn — найменше активних з'єднань; ip_hash — sticky за IP клієнта; hash — за довільним ключем; random — випадково.",
+      "fake_answers": [
+        "leastReq",
+        "ip_geo",
+        "rr_weighted_only",
+        "balanced",
+        "static",
+        "fair_share",
+        "client_hash без ip_hash",
+        "weighted_only",
+        "random_no_weight",
+        "least_response_time (Plus only, але без round-robin)",
+        "shuffle"
+      ]
+    },
+    {
+      "id": "nginx-005",
+      "question": "Що таке try_files?",
+      "correct_answer": "Послідовно перевіряє існування файлів/шляхів, віддає перший знайдений або переходить до останнього аргументу",
+      "explanation": "Класична фраза для SPA: try_files $uri $uri/ /index.html; — якщо файл є, віддати, інакше повернути index.html. Останній аргумент може бути URI або кодом помилки (=404).",
+      "fake_answers": [
+        "Намагається відкрити файл і скаржиться у лог",
+        "Перевіряє доступність бекенда",
+        "Активує fallback на проксі",
+        "Завантажує файл через try-catch",
+        "Перевіряє права доступу до файлу",
+        "Перевіряє наявність файлу на віддаленому сервері",
+        "Дзеркалить файл у swap",
+        "Очищає кеш для файлу",
+        "Активує lazy-load для зображень",
+        "Перевіряє MD5-хеш файлу",
+        "Запускає скрипт на FastCGI"
+      ]
+    },
+    {
+      "id": "nginx-006",
+      "question": "Як обмежити кількість запитів від одного клієнта (rate limiting)?",
+      "correct_answer": "Через limit_req_zone у http і limit_req у location",
+      "explanation": "Спершу декларують зону: limit_req_zone $binary_remote_addr zone=one:10m rate=10r/s. Потім у location: limit_req zone=one burst=20 nodelay. burst дозволяє пік, nodelay не затримує запити в межах burst.",
+      "fake_answers": [
+        "Через limit_conn — це обмежує лише з'єднання",
+        "Через client_max_body_size",
+        "Через worker_connections",
+        "Через keepalive_requests",
+        "Через access_log на читання",
+        "Через autoindex off",
+        "Через server_tokens off",
+        "Через ip_hash у upstream",
+        "Через large_client_header_buffers",
+        "Через listen reuseport",
+        "Через open_file_cache"
+      ]
+    },
+    {
+      "id": "nginx-007",
+      "question": "Чим відрізняються limit_req і limit_conn?",
+      "correct_answer": "limit_req обмежує rate (запити в секунду), limit_conn — кількість одночасних з'єднань",
+      "explanation": "limit_req хороший проти flood, бере leaky bucket алгоритм. limit_conn захищає від клієнтів, які тримають десятки одночасних з'єднань (наприклад, downloader-и). Часто використовуються разом.",
+      "fake_answers": [
+        "limit_req для GET, limit_conn для POST",
+        "limit_req працює лише з HTTPS",
+        "limit_conn обмежує розмір тіла запиту",
+        "limit_req обмежує bandwidth, limit_conn — RPS",
+        "limit_conn доступний лише в Nginx Plus",
+        "limit_req працює лише по cookie",
+        "limit_conn — це аналог firewall-у",
+        "limit_req обмежує тільки на рівні server",
+        "limit_conn активує DDoS-захист автоматично",
+        "limit_req пише ErrorLog без блокування",
+        "Це повні синоніми"
+      ]
+    },
+    {
+      "id": "nginx-008",
+      "question": "Що означає TLS termination на Nginx?",
+      "correct_answer": "Nginx розшифровує HTTPS і передає бекенду нешифрований HTTP (або re-encrypted, але часто HTTP)",
+      "explanation": "Це знімає навантаження CPU з бекенду і централізує керування сертифікатами. Усередині трасту-зону трафік часто йде HTTP. Якщо потрібен mTLS до бекенду — налаштовують proxy_ssl_*.",
+      "fake_answers": [
+        "Nginx тільки переключає TCP-з'єднання без розшифрування",
+        "Nginx завжди робить SSL passthrough без розшифрування",
+        "Nginx генерує сертифікати на льоту для кожного запиту",
+        "Nginx відключає TLS повністю",
+        "Nginx робить downgrade до TLS 1.0",
+        "Nginx розшифровує лише заголовки",
+        "Nginx шифрує запит знову бекенда обов'язково",
+        "Nginx робить лише handshake без шифрування трафіку",
+        "Nginx встановлює окремий TLS-туннель до клієнта",
+        "Nginx виконує лише ALPN-узгодження",
+        "Nginx термінує TLS лише для HTTP/3"
+      ]
+    },
+    {
+      "id": "nginx-009",
+      "question": "Як в reverse proxy передати реальний IP клієнта на бекенд?",
+      "correct_answer": "Заголовком X-Forwarded-For (або X-Real-IP), додавши proxy_set_header",
+      "explanation": "Без proxy_set_header бекенд бачить IP nginx-у. Часта зв'язка: proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header Host $host.",
+      "fake_answers": [
+        "Через User-Agent",
+        "Через Referer",
+        "Через Cookie клієнта",
+        "Через Authorization header",
+        "Через Content-Type",
+        "Через query string ?ip=",
+        "Через Accept-Language",
+        "Через ETag",
+        "Через If-Modified-Since",
+        "Через Vary",
+        "Через X-Forwarded-Host лише"
+      ]
+    },
+    {
+      "id": "nginx-010",
+      "question": "Що робить директива gzip on?",
+      "correct_answer": "Вмикає стиснення відповіді gzip перед відправкою клієнту, якщо браузер підтримує",
+      "explanation": "Часто додають gzip_types text/css application/json text/javascript і gzip_min_length, gzip_comp_level. Сучасна альтернатива — brotli (модуль ngx_brotli), який стискає краще.",
+      "fake_answers": [
+        "Активує HTTP/2",
+        "Стискає логи перед записом у файл",
+        "Архівує статичні файли на диску",
+        "Активує кеш у RAM",
+        "Шифрує відповідь GZip-алгоритмом замість TLS",
+        "Конвертує JSON у бінарний формат",
+        "Активує WebP конвертацію зображень",
+        "Запускає zstd замість gzip",
+        "Активує chunked encoding",
+        "Зменшує розмір cookie",
+        "Стискає лише HTTP-заголовки"
+      ]
+    },
+    {
+      "id": "nginx-011",
+      "question": "Що таке worker_processes auto?",
+      "correct_answer": "Nginx створює worker-процесів стільки, скільки CPU-ядер на хості",
+      "explanation": "auto = nproc. Кожен worker асинхронно (event-driven через epoll) обробляє багато з'єднань. Збільшувати понад nproc сенсу немає — лише context switching. Кількість з'єднань на worker — worker_connections.",
+      "fake_answers": [
+        "Запускає по одному worker-у на запит",
+        "Створює worker для кожного з'єднання",
+        "Обмежує до 1 worker-а",
+        "Створює worker лише при високому навантаженні",
+        "Запускає worker лише для HTTPS",
+        "Запускає worker для кожного server-блоку",
+        "Створює worker автоматично через systemd-нащадки",
+        "Запускає тільки master-процес",
+        "Створює worker для кожного слухаючого порта",
+        "Запускає worker лише для FastCGI",
+        "Створює окремий worker для access_log"
+      ]
+    },
+    {
+      "id": "nginx-012",
+      "question": "Що означає директива listen 80 default_server?",
+      "correct_answer": "Цей server обробляє запити на 80 порт, для яких не знайдено збігу за server_name",
+      "explanation": "Якщо клієнт прийшов на IP сервера без правильного Host-заголовка (або з невідомим), Nginx віддасть default_server. Один на listen-комбінацію. Зручно для catch-all або повернення 444.",
+      "fake_answers": [
+        "Запускає сервер у режимі за замовчуванням",
+        "Перенаправляє всі запити на 80 порт",
+        "Активує HTTP/1.1 за замовчуванням",
+        "Робить 80 порт основним для SSL",
+        "Запускає сервер як демон",
+        "Прив'язує сервер до інтерфейсу за замовчуванням",
+        "Робить сервер невидимим",
+        "Активує IPv6 за замовчуванням",
+        "Закриває порт 80 для зовнішнього трафіку",
+        "Включає reuseport для всіх 80 портів",
+        "Робить сервер health-check"
+      ]
+    },
+    {
+      "id": "nginx-013",
+      "question": "Що робить директива return 301 https://$host$request_uri;?",
+      "correct_answer": "Виконує постійний редирект з HTTP на HTTPS, зберігаючи хост і шлях",
+      "explanation": "Класичний шаблон у server-блоку для 80 порту, який повністю переадресовує клієнтів на HTTPS. 301 означає перманентний (кешується браузером), 302 — тимчасовий.",
+      "fake_answers": [
+        "Повертає 301 у логах без перенаправлення клієнта",
+        "Виконує тимчасовий редирект (302)",
+        "Перенаправляє всередину Nginx без відповіді клієнту",
+        "Активує HSTS заголовок",
+        "Перевіряє наявність TLS і повертає 301 при відсутності",
+        "Створює endless loop редиректів",
+        "Передає запит через TCP-проксі",
+        "Робить rewrite шляху до /index.html",
+        "Видає 301 і завершує worker",
+        "Активує WebSocket upgrade",
+        "Передає Host у X-Forwarded-Proto"
+      ]
+    },
+    {
+      "id": "nginx-014",
+      "question": "Чим rewrite відрізняється від return при перенаправленні?",
+      "correct_answer": "rewrite змінює URI всередині Nginx або робить external redirect; return одразу завершує обробку відповіддю",
+      "explanation": "return 301 url — простий і ефективний (Nginx не парсить regex). rewrite потрібен коли треба regex-парсити URL. Зловживання rewrite ускладнює відлагодження; для простих редиректів краще return.",
+      "fake_answers": [
+        "rewrite працює лише в location, return скрізь",
+        "return завжди 200, rewrite завжди 301",
+        "rewrite не може повернути код, return — може",
+        "return обробляється лише FastCGI",
+        "rewrite обов'язково потребує модуль PCRE-light",
+        "return блокує KEEP-ALIVE",
+        "rewrite асинхронний, return синхронний",
+        "return доступний лише в Nginx Plus",
+        "rewrite не може використати $1, $2 з regex",
+        "return завжди викликає редирект, навіть з кодом 200",
+        "rewrite виконується лише після proxy_pass"
+      ]
+    },
+    {
+      "id": "nginx-015",
+      "question": "Що таке proxy_cache?",
+      "correct_answer": "Механізм кешування відповідей бекенда на диску, керований ключем кешу",
+      "explanation": "proxy_cache_path задає директорію і параметри (зони, рівні). proxy_cache в location вмикає для конкретного маршруту. proxy_cache_key визначає унікальність. Дає велике зниження навантаження на бекенд для read-важких ендпоїнтів.",
+      "fake_answers": [
+        "Кеш заголовків клієнта",
+        "Кеш TLS-сесій",
+        "Кеш DNS-резолвера",
+        "Кеш SSL-сертифікатів",
+        "Кеш upstream health-check",
+        "Кеш файлів дескрипторів open_file_cache",
+        "Кеш виключно для зображень",
+        "Кеш для GraphQL запитів",
+        "Кеш bash-історії",
+        "Кеш cookies",
+        "Кеш FastCGI-сокетів"
+      ]
+    },
+    {
+      "id": "nginx-016",
+      "question": "Що робить директива sendfile on?",
+      "correct_answer": "Дозволяє передавати файли напряму з файлового кешу ядра в сокет, минаючи user-space буфер",
+      "explanation": "Це zero-copy: ядро копіює дані без переключення в user-space, що дає більший throughput. Часто разом з tcp_nopush і tcp_nodelay для оптимальної передачі статики.",
+      "fake_answers": [
+        "Активує асинхронну відправку через io_uring завжди",
+        "Розсилає файл усім worker-ам",
+        "Передає файл через FastCGI",
+        "Включає HTTP push (Server Push)",
+        "Активує chunked transfer encoding",
+        "Відправляє файл стиснутим автоматично",
+        "Активує BBR congestion control",
+        "Запускає окремий процес для відправки",
+        "Передає файл через SCP",
+        "Завантажує файл у RAM повністю",
+        "Активує lazy load для статики"
+      ]
+    },
+    {
+      "id": "nginx-017",
+      "question": "Як підтримати WebSocket через Nginx?",
+      "correct_answer": "Додати proxy_http_version 1.1 і proxy_set_header Upgrade/Connection",
+      "explanation": "WebSocket вимагає HTTP/1.1 (або вище) і Upgrade-заголовків. Типовий блок: proxy_http_version 1.1; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade'. Без цього з'єднання обірветься.",
+      "fake_answers": [
+        "Додати listen 443 ws",
+        "Прописати websocket on у server-блоку",
+        "Активувати ws_proxy_pass",
+        "Використати лише proxy_pass без додаткових заголовків",
+        "Додати location /ws { fastcgi_pass; }",
+        "Виставити keepalive_timeout у 0",
+        "Активувати directio для WebSocket",
+        "Прописати websocket_module on у nginx.conf",
+        "Достатньо встановити окремий модуль ngx_ws",
+        "Виставити worker_connections 1",
+        "Перенаправити websocket трафік через UDP"
+      ]
+    },
+    {
+      "id": "nginx-018",
+      "question": "Як перевірити синтаксис конфігу Nginx без перезавантаження?",
+      "correct_answer": "nginx -t",
+      "explanation": "nginx -t парсить /etc/nginx/nginx.conf і всі include-и, повідомляє про помилки. nginx -T додатково виводить весь зібраний конфіг — корисно для дебагу include-ів. Завжди робити перед reload у production.",
+      "fake_answers": [
+        "nginx --check",
+        "nginx --validate",
+        "nginx -syntax-only",
+        "nginx --dry-run",
+        "nginx --test",
+        "nginx -c config.test",
+        "systemctl validate nginx",
+        "nginx -d (debug)",
+        "nginx --parse",
+        "nginx -V (version with config)",
+        "nginx --lint"
+      ]
+    },
+    {
+      "id": "nginx-019",
+      "question": "Що робить блок upstream?",
+      "correct_answer": "Описує іменовану групу бекендів для proxy_pass з налаштуванням балансування та health-check",
+      "explanation": "Приклад: upstream api { server 10.0.0.1:8080; server 10.0.0.2:8080 weight=2; least_conn; }. Потім proxy_pass http://api;. Дозволяє в одному місці керувати ваги, методом балансування, fail-over.",
+      "fake_answers": [
+        "Описує клієнтську сторону з'єднання",
+        "Налаштовує download-канал",
+        "Описує висхідний DNS",
+        "Опис cdn-ноди",
+        "Опис маршруту до master-вузла Kubernetes",
+        "Опис каскадного кешу",
+        "Опис маршруту назад через NAT",
+        "Опис мережевого стеку ядра",
+        "Опис swap-файлу",
+        "Опис upstream-логування",
+        "Опис тільки SSL-бекендів"
+      ]
+    },
+    {
+      "id": "nginx-020",
+      "question": "Що означає $proxy_add_x_forwarded_for?",
+      "correct_answer": "Значення поточного X-Forwarded-For + IP клієнта, або просто IP, якщо заголовка ще немає",
+      "explanation": "Це готова змінна для передачі ланцюжка проксі. Використовують у proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; — бекенд бачить весь ланцюжок IP-адрес від кінцевого клієнта до останнього проксі.",
+      "fake_answers": [
+        "Завжди лише IP nginx-сервера",
+        "Лише IP клієнта без попередніх",
+        "Список усіх worker-ів, що обробляли запит",
+        "Хеш від IP клієнта",
+        "Список IP всередині локальної мережі",
+        "DNS-ім'я клієнта",
+        "MAC-адреса клієнта",
+        "IP, який відсилав запит на DNS",
+        "IPv6 еквівалент IP-клієнта",
+        "Список Cookie клієнта",
+        "Список усіх балансувальників в шляху"
+      ]
+    }
+  ]
+}

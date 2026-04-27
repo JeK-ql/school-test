@@ -1,0 +1,425 @@
+{
+  "skill_id": "microservices",
+  "skill_name": "Microservices Communication",
+  "difficulty": "A-Rank",
+  "questions": [
+    {
+      "id": "msvc-001",
+      "question": "Які три стани Circuit Breaker?",
+      "correct_answer": "Closed (запити пропускаються), Open (запити одразу падають швидко), Half-Open (пробний запит для перевірки відновлення)",
+      "explanation": "Closed — нормальна робота, рахунок помилок. При перевищенні порогу — Open, всі виклики падають миттєво (fail-fast). Через timeout — Half-Open, пропускає тестовий запит. Успіх — Closed, провал — назад в Open. Захищає від cascading failures.",
+      "fake_answers": [
+        "Active, Idle, Sleeping",
+        "Up, Down, Maintenance",
+        "Connected, Disconnected, Reconnecting",
+        "Healthy, Sick, Dead",
+        "Allow, Deny, Audit",
+        "Read, Write, Read-Write",
+        "Sync, Async, Hybrid",
+        "Open, Closed, Locked",
+        "Online, Offline, Degraded",
+        "Pass, Fail, Retry",
+        "Pending, Active, Expired"
+      ]
+    },
+    {
+      "id": "msvc-002",
+      "question": "Що таке Saga Pattern і чим відрізняється orchestration від choreography?",
+      "correct_answer": "Saga — послідовність локальних транзакцій з компенсаторними діями замість 2PC; orchestration — центральний координатор кличе кроки, choreography — кожен сервіс реагує на події інших",
+      "explanation": "Orchestration: легко відстежити стан, але координатор — single point of complexity. Choreography: децентралізовано через шину подій, але важко зрозуміти повний flow. Компенсація — операція, що логічно скасовує зроблене (refund для charge).",
+      "fake_answers": [
+        "Saga — це нова версія 2PC",
+        "Orchestration — для синхронних, choreography — для асинхронних викликів",
+        "Це псевдоніми Event Sourcing",
+        "Saga вимагає GraphQL під капотом",
+        "Saga — лише для серверів NoSQL",
+        "Choreography використовує REST, orchestration — gRPC",
+        "Saga — це паттерн для UI-flow",
+        "Saga вимагає блокувань на рівні БД",
+        "Orchestration — pull, choreography — push",
+        "Saga — це Compensation-only без транзакцій",
+        "Orchestration — лише з Camunda, choreography — з Kafka"
+      ]
+    },
+    {
+      "id": "msvc-003",
+      "question": "Що таке Outbox Pattern?",
+      "correct_answer": "Дані про подію записуються в таблицю outbox у тій самій транзакції, що й бізнес-зміни; окремий процес читає outbox і публікує подію в брокер; гарантує atomicity БД + events",
+      "explanation": "Розв'язує dual-write problem: інакше БД-commit і publish можуть розсинхронитись (якщо одне впаде). CDC (Debezium) читає WAL і публікує в Kafka. Альтернатива — Listen-to-yourself: writer публікує і саме споживає.",
+      "fake_answers": [
+        "Окрема черга вхідних повідомлень email",
+        "Шаблон retry із dead letter queue",
+        "Алгоритм пакетної відправки notifications",
+        "Розширення SMTP для batch",
+        "Шаблон публікації подій без БД",
+        "Шаблон зберігання outbox-mail у Redis",
+        "Шаблон peer-to-peer без брокера",
+        "Шаблон дублювання записів у двох БД",
+        "Шаблон архівації подій у S3",
+        "Шаблон in-memory queue без persistence",
+        "Шаблон CRDT для outbox-таблиці"
+      ]
+    },
+    {
+      "id": "msvc-004",
+      "question": "Що таке idempotent consumer і чому він критичний у event-driven системах?",
+      "correct_answer": "Споживач, що при повторній обробці того самого повідомлення дає той самий результат — захист від at-least-once семантики більшості брокерів",
+      "explanation": "Брокери (Kafka, RabbitMQ) гарантують at-least-once — duplicate можливий. Реалізація: dedup-таблиця за message-id, upsert замість insert, conditional update. Без цього — подвійне списання, дублі замовлень.",
+      "fake_answers": [
+        "Споживач, що отримує лише ідемпотентні повідомлення",
+        "Споживач, що автоматично ігнорує всі помилки",
+        "Споживач, що блокує з'єднання після першого повідомлення",
+        "Споживач, що читає лише з одного партиції",
+        "Споживач, що ніколи не комітить offset",
+        "Споживач без повторних спроб",
+        "Споживач лише з exactly-once брокером",
+        "Споживач, що працює виключно з UDP",
+        "Споживач без stateful БД",
+        "Споживач, що шифрує всі повідомлення",
+        "Споживач, що ігнорує message ID"
+      ]
+    },
+    {
+      "id": "msvc-005",
+      "question": "Як retry exponential backoff with jitter відрізняється від простого retry?",
+      "correct_answer": "Інтервал між спробами зростає експоненційно (1с, 2с, 4с, 8с) + випадковий jitter — щоб уникнути thundering herd при синхронному відновленні",
+      "explanation": "Без backoff — при тимчасовому збої сервер бомбардується retry. Без jitter — тисячі клієнтів одночасно повторять об одне й те саме коло. Full jitter (AWS) дає sleep = random(0, base * 2^attempt). Завжди з max attempts і circuit breaker.",
+      "fake_answers": [
+        "Просто додає випадковий час між спробами без зростання",
+        "Зменшує інтервал з кожною спробою для швидшого відновлення",
+        "Робить N спроб одразу паралельно",
+        "Завжди фіксований інтервал у 1 секунду",
+        "Лише для idempotent методів — без backoff",
+        "Завжди ретраїть нескінченно",
+        "Лише для HTTP 500, інакше не ретрає",
+        "Лише для gRPC UNAVAILABLE",
+        "Чекає рівно 60 секунд між спробами",
+        "Подвоює тіло запиту з кожною спробою",
+        "Додає випадковий заголовок з кожною спробою"
+      ]
+    },
+    {
+      "id": "msvc-006",
+      "question": "Що таке bulkhead pattern?",
+      "correct_answer": "Ізоляція ресурсів (thread pools, connection pools) між операціями, щоб збій або перевантаження одного клієнта/інтеграції не вичерпав ресурси для інших",
+      "explanation": "Назва — від водонепроникних відсіків корабля. Реалізація: окремий thread-pool для кожного зовнішнього API; обмеження concurrent calls; semaphore. У resilience4j — Bulkhead. Захищає від cascading resource exhaustion.",
+      "fake_answers": [
+        "Шифрування трафіку всередині дата-центру",
+        "Розділення трафіку на read і write replicas",
+        "Шаблон стискання повідомлень",
+        "Шаблон балансування на L4",
+        "Реплікація з master-slave",
+        "Реплікація даних на CDN",
+        "Шаблон шардування БД",
+        "Шаблон кешування з TTL",
+        "Шаблон агрегації мікросервісів через GraphQL",
+        "Шаблон обмеження довжини ланцюга викликів",
+        "Шаблон автоматичного scale-out"
+      ]
+    },
+    {
+      "id": "msvc-007",
+      "question": "У чому різниця між client-side і server-side service discovery?",
+      "correct_answer": "Client-side — клієнт сам отримує список інстансів з registry (Eureka, Consul) і обирає; server-side — клієнт йде в фіксований endpoint, балансер (k8s Service, ELB) маршрутизує",
+      "explanation": "Client-side: гнучкі алгоритми балансування, без додаткового хопу, але клієнт має reg-aware. Server-side: простота клієнта, але додатковий хоп. Kubernetes Service — server-side через kube-proxy. Envoy + xDS — гібрид.",
+      "fake_answers": [
+        "Client-side швидше у 100% випадків",
+        "Server-side вимагає Consul, client-side — Eureka",
+        "Це псевдоніми DNS-resolve",
+        "Client-side — лише в Kubernetes, server-side — лише в DC/OS",
+        "Server-side вимагає mTLS, client-side — ні",
+        "Client-side — лише для REST, server-side — для gRPC",
+        "Це повні синоніми load balancing",
+        "Client-side — для IPv6, server-side — для IPv4",
+        "Server-side вимагає sticky sessions",
+        "Client-side не підтримує health-checks",
+        "Server-side не підтримує auto-scaling"
+      ]
+    },
+    {
+      "id": "msvc-008",
+      "question": "Що таке Service Mesh (Istio/Linkerd) і яку проблему вирішує?",
+      "correct_answer": "Інфраструктурний шар sidecar-проксі поруч з кожним сервісом, що перебирає на себе routing, mTLS, retries, observability — без зміни коду додатків",
+      "explanation": "Sidecar (Envoy/Linkerd2-proxy) перехоплює мережевий трафік пода. Control plane (Istiod) налаштовує маршрутизацію, security policies, telemetry. Дає mTLS зі стандартним certificate rotation, traffic shifting (canary), circuit breaking — все decoupled від коду.",
+      "fake_answers": [
+        "Бібліотека для embedded balancing у коді",
+        "Окремий сервіс реєстрації — як Consul",
+        "Шар кешування поверх REST",
+        "CDN для мікросервісів",
+        "Розширення Docker для networking",
+        "Розширення Kubernetes Service",
+        "DNS-based routing без проксі",
+        "Розширення Envoy для standalone HTTP",
+        "Сервіс для GraphQL Federation",
+        "Розширення для CI/CD pipeline",
+        "Сервіс автоматичного шифрування БД"
+      ]
+    },
+    {
+      "id": "msvc-009",
+      "question": "Що таке CQRS і коли він доречний?",
+      "correct_answer": "Command Query Responsibility Segregation — розділення моделі читання і запису; команди змінюють стан, queries — тільки читають з оптимізованих read models; доречно при складній бізнес-логіці і різних patterns доступу",
+      "explanation": "Дозволяє оптимізувати write-side під consistency і read-side під performance (denormalized views, search index). Часто разом з Event Sourcing. Overhead значний — не для CRUD-додатків. Read models оновлюються через events.",
+      "fake_answers": [
+        "Cache-Quick Response Service — кешуючий шар",
+        "Cluster-Quorum Replication Service — реплікація",
+        "Compute-Query Routing System — маршрутизація",
+        "Compressed Query Response Standard — формат",
+        "Cyclic Queue Recovery Service — відновлення",
+        "Це інша назва Event Sourcing",
+        "Це інша назва Saga",
+        "Це інша назва BFF",
+        "Це інша назва database sharding",
+        "Це інша назва GraphQL",
+        "Це фреймворк для serverless"
+      ]
+    },
+    {
+      "id": "msvc-010",
+      "question": "Що таке Event Sourcing?",
+      "correct_answer": "Стан агрегату не зберігається напряму, а виводиться з послідовності immutable подій (event log); поточний стан — replay усіх подій",
+      "explanation": "Дає повну історію змін, можливість replay для нових проекцій, audit trail. Складність: міграція схем подій, snapshot-и для performance, eventual consistency для read models. Природно поєднується з CQRS і Kafka.",
+      "fake_answers": [
+        "Логування подій у файли для аудиту",
+        "Запис подій у Sentry для моніторингу",
+        "Підписка на події через WebSocket",
+        "Шаблон pub/sub без зберігання",
+        "Шаблон snapshot БД щохвилини",
+        "Шаблон CDC через Debezium лише",
+        "Шаблон append-only insert у звичайну БД",
+        "Шаблон стрімінгу подій до фронтенду",
+        "Інша назва для message queue",
+        "Шаблон збереження подій у in-memory only",
+        "Шаблон видалення старих подій по TTL"
+      ]
+    },
+    {
+      "id": "msvc-011",
+      "question": "Які 12 факторів 12-Factor App вирішують проблему деплою мікросервісів?",
+      "correct_answer": "Codebase, Dependencies, Config (env vars), Backing services, Build/Release/Run, Stateless processes, Port binding, Concurrency, Disposability, Dev/prod parity, Logs (stdout), Admin processes",
+      "explanation": "Маніфест від Heroku як еталон cloud-native. Stateless процеси легко масштабуються. Config через env, не файли. Логи як event stream у stdout. Disposability — швидкий старт/зупинка для elastic scaling. Backing services як attached resources.",
+      "fake_answers": [
+        "REST, gRPC, GraphQL, WebSocket, SSE, Webhooks",
+        "K8s, Docker, Helm, Istio, Argo, Flux",
+        "AWS, GCP, Azure, Heroku, Render, Fly",
+        "12 правил OWASP Top 10",
+        "Це 12 рівнів security",
+        "Це 12 принципів Agile",
+        "Це 12 фаз CI/CD pipeline",
+        "Це 12 стандартів CNCF",
+        "Це 12 типів мікросервісних паттернів",
+        "Це 12 рівнів observability",
+        "Це 12 типів CRDT"
+      ]
+    },
+    {
+      "id": "msvc-012",
+      "question": "Що таке Pact і contract testing?",
+      "correct_answer": "Pact — інструмент consumer-driven contract testing: споживач генерує контракт зі своїми очікуваннями, провайдер потім валідує себе проти цього контракту",
+      "explanation": "Альтернатива end-to-end тестам, що крихкі. Кожна пара споживач-провайдер має контракт. Pact Broker — сховище контрактів. Дозволяє ловити breaking changes на CI до деплою. Ефективно при багатьох сервісах.",
+      "fake_answers": [
+        "Інтеграційний тест через Postman lazily",
+        "End-to-end тест в Cypress",
+        "Lint-правило для OpenAPI",
+        "Інструмент для performance-тестів",
+        "Інструмент для security-сканування",
+        "Стандарт OAuth для контрактів",
+        "Інструмент для chaos engineering",
+        "Стандарт для smart contracts blockchain",
+        "Бібліотека для GraphQL fragments",
+        "Інструмент для UI snapshot testing",
+        "Шаблон unit-тестів для Java"
+      ]
+    },
+    {
+      "id": "msvc-013",
+      "question": "Що таке Strangler Fig pattern?",
+      "correct_answer": "Стратегія поступового заміщення monolith мікросервісами: новий код працює поряд, проксі поступово перенаправляє трафік на нові сервіси, монолит відмирає кусками",
+      "explanation": "Назва від рослини, що обвиває дерево і замінює його. Замість big bang переписування — інкрементально. Facade/proxy маршрутизує. Кожна частина переноситься, тестується, перемикається. Зниження ризику, постійна цінність.",
+      "fake_answers": [
+        "Big bang переписування за один раз",
+        "Pattern для kill -9 непотрібних сервісів",
+        "Pattern для блокування слабких клієнтів",
+        "Pattern для DDoS-захисту",
+        "Pattern для сповільнення rate-limit",
+        "Pattern для replication failover",
+        "Pattern для shadowing у production",
+        "Pattern для blue-green deploy",
+        "Pattern для canary release",
+        "Pattern для feature flags",
+        "Pattern для DB sharding"
+      ]
+    },
+    {
+      "id": "msvc-014",
+      "question": "Що таке distributed tracing і які основні поняття (trace, span, context propagation)?",
+      "correct_answer": "Trace — повний шлях запиту через сервіси; Span — окрема операція з часом старту/закінчення і метаданими; Context propagation — передача trace-id через границі сервісів через заголовки (W3C Trace Context, B3)",
+      "explanation": "Стандарт OpenTelemetry. Кожен сервіс створює span, прив'язаний до батьківського. Backends: Jaeger, Tempo, Zipkin. Дозволяє знайти bottleneck у складному ланцюгу. Sampling зменшує overhead.",
+      "fake_answers": [
+        "Trace — це лог, span — рядок логу",
+        "Trace — це metric, span — counter",
+        "Trace — це alert, span — threshold",
+        "Trace — це service mesh route",
+        "Trace — це cron job, span — execution",
+        "Trace — це CI pipeline, span — stage",
+        "Це псевдоніми APM-інструментів",
+        "Trace — це backup, span — chunk",
+        "Trace — це JWT, span — claim",
+        "Trace — це сесія, span — запит",
+        "Trace — це REST endpoint, span — HTTP call"
+      ]
+    },
+    {
+      "id": "msvc-015",
+      "question": "Чому 2PC (two-phase commit) погано підходить для мікросервісів?",
+      "correct_answer": "Блокуючий протокол, що тримає ресурси в очікуванні; чутливий до збою координатора; вимагає підтримки XA від усіх учасників; погано масштабується і знижує доступність",
+      "explanation": "У монолітних DB транзакціях 2PC прийнятний. У distributed: затримки мережі множаться, блокування створюють contention, координатор — single point of failure. Saga з компенсаціями краще приймає eventual consistency у обмін на доступність.",
+      "fake_answers": [
+        "2PC сучасний і рекомендований для мікросервісів",
+        "2PC підтримує лише MongoDB",
+        "2PC вимагає GraphQL",
+        "2PC замінений на 3PC всюди",
+        "2PC лише для blockchain",
+        "2PC має лише одну фазу",
+        "2PC не підтримує rollback",
+        "2PC завжди швидший за Saga",
+        "2PC не сумісний з Kubernetes",
+        "2PC вимагає TLS 1.3",
+        "2PC сумісний лише з NoSQL"
+      ]
+    },
+    {
+      "id": "msvc-016",
+      "question": "Що таке eventual consistency і коли вона прийнятна?",
+      "correct_answer": "Гарантія, що при відсутності нових записів усі репліки врешті-решт зійдуться; прийнятна, коли бізнес толерує тимчасову невідповідність задля доступності і масштабованості",
+      "explanation": "За CAP-теоремою: при partition можна обрати CP або AP. AP-системи (Cassandra, DynamoDB) дають eventual consistency. Прийнятна для лайків, кількості переглядів, лент. Непридатна для балансу банку, інвентарю.",
+      "fake_answers": [
+        "Гарантія exactly-once-write",
+        "Гарантія, що дані ніколи не розходяться",
+        "Гарантія порядку запису по timestamp",
+        "Гарантія read-after-write через TTL",
+        "Гарантія атомарності всіх операцій",
+        "Гарантія durability за рахунок consistency",
+        "Гарантія linearizability",
+        "Гарантія serializability",
+        "Гарантія immediate consistency з затримкою",
+        "Гарантія strong consistency через Raft",
+        "Гарантія consensus між усіма нодами"
+      ]
+    },
+    {
+      "id": "msvc-017",
+      "question": "Що таке Bounded Context (DDD) і як він пов'язаний з межами мікросервісів?",
+      "correct_answer": "Bounded Context — межа в DDD, всередині якої терміни і моделі мають однозначне значення; кожен мікросервіс зазвичай реалізує один Bounded Context",
+      "explanation": "Те саме слово (Customer) у різних контекстах має різні поля і поведінку. Розрізання сервісів за технічними межами (UserService, EmailService) — антипаттерн. Розрізання за бізнес-доменами (Sales, Billing, Shipping) — здорове.",
+      "fake_answers": [
+        "Це межа БД у схемі",
+        "Це межа TLS-сертифіката",
+        "Це межа Kubernetes-namespace",
+        "Це межа cookie-домену",
+        "Це межа CDN-каналу",
+        "Це межа JWT-claims",
+        "Це межа transaction-ізоляції",
+        "Це межа rate-limit на тенант",
+        "Це межа OAuth scope",
+        "Це межа log-retention",
+        "Це межа shard-key у MongoDB"
+      ]
+    },
+    {
+      "id": "msvc-018",
+      "question": "Що таке API composition і коли краще CQRS read model?",
+      "correct_answer": "API composition — gateway робить N запитів і агрегує; добре для простих join, погано для складних і високого QPS. CQRS read model — материалізована denormalized проекція, що оновлюється через події; швидко читається, складніше підтримувати",
+      "explanation": "Composition простий: робиш N паралельних gRPC і склеюєш JSON. CQRS — окрема read-таблиця/index, оновлювана eventually з events. Composition — для cross-сервісних queries малого об'єму. CQRS — для high-throughput read.",
+      "fake_answers": [
+        "Composition завжди швидше за CQRS",
+        "CQRS не підтримує денормалізацію",
+        "Composition — лише для GraphQL",
+        "CQRS не підтримує eventual consistency",
+        "Composition вимагає WebSocket",
+        "CQRS вимагає блокчейн",
+        "Це псевдоніми BFF",
+        "Composition вимагає sidecar-сервіс",
+        "CQRS забороняє брокери повідомлень",
+        "Composition — лише для REST, не gRPC",
+        "CQRS вимагає одного сервісу"
+      ]
+    },
+    {
+      "id": "msvc-019",
+      "question": "Що таке sidecar pattern?",
+      "correct_answer": "Допоміжний контейнер, що працює поруч з основним і надає cross-cutting функціональність (proxy, logger, config-loader, secret-fetcher) без зміни основного коду",
+      "explanation": "У Kubernetes — другий контейнер у тому самому Pod (shared network/volumes). Приклади: Envoy у Service Mesh, Vault Agent для secrets, Fluent Bit для логів, OTel Collector для трас. Дає separation of concerns між бізнес-кодом і інфраструктурою.",
+      "fake_answers": [
+        "Це backup-сервіс на окремому VM",
+        "Це CDN-edge перед origin",
+        "Це окремий мікросервіс через REST",
+        "Це WebSocket-проксі",
+        "Це Redis-cache контейнер",
+        "Це load balancer перед сервісом",
+        "Це cron-job контейнер",
+        "Це CI runner",
+        "Це service mesh control plane",
+        "Це окремий gateway-сервіс",
+        "Це bastion host"
+      ]
+    },
+    {
+      "id": "msvc-020",
+      "question": "Як вибрати між sync (REST/gRPC) і async (event-driven) комунікацією?",
+      "correct_answer": "Sync — коли потрібна одразу відповідь і tight coupling прийнятний (query); async — коли допустима eventual consistency, важлива decoupled-resilience і горизонтальна масштабованість (доменні події)",
+      "explanation": "Sync простий, але каскадні відмови, нижча resilience. Async вимагає брокера, idempotency, обробки duplicates, але дає decoupling — служба-публікатор не знає підписників і не падає, якщо вони offline. Більшість систем — гібрид.",
+      "fake_answers": [
+        "Sync завжди надійніше — обирай завжди",
+        "Async завжди швидше — обирай завжди",
+        "Sync лише для read, async лише для write",
+        "Sync лише для public API, async лише для internal",
+        "Sync для browsers, async для backend",
+        "Sync для gRPC, async для REST",
+        "Sync для mobile, async для web",
+        "Sync для real-time, async для batch — без винятків",
+        "Sync для мікросервісів, async для monolith",
+        "Sync для Kafka, async для RabbitMQ",
+        "Sync лише з circuit breaker, async — без"
+      ]
+    },
+    {
+      "id": "msvc-021",
+      "question": "Що таке Dead Letter Queue (DLQ) і коли повідомлення туди потрапляє?",
+      "correct_answer": "Окрема черга для повідомлень, що не вдалось обробити після всіх retry; дозволяє розслідувати помилки, не блокуючи основну чергу і не втрачаючи дані",
+      "explanation": "Сценарії: poison message (невалідний формат), bug у consumer, перевищена кількість retry, TTL minimumу. Без DLQ — нескінченний redelivery або loss. Моніторинг DLQ — ключова метрика. Часто має alerting на ріст.",
+      "fake_answers": [
+        "Черга для повідомлень з низьким пріоритетом",
+        "Черга, що очищується щохвилини",
+        "Черга для notifications користувачам",
+        "Черга для логів моніторингу",
+        "Черга для дублікатів",
+        "Черга для backup-копій",
+        "Черга для архівних даних",
+        "Черга для повідомлень без consumer",
+        "Черга для broadcast-повідомлень",
+        "Черга для debug-only повідомлень",
+        "Черга для retry-only без DLQ"
+      ]
+    },
+    {
+      "id": "msvc-022",
+      "question": "Що таке fallback у resilience і як його комбінувати з circuit breaker?",
+      "correct_answer": "Запасна стратегія, коли основний виклик провалився: повернути кешоване значення, default, спрощену відповідь; circuit breaker викликає fallback, коли він Open",
+      "explanation": "Приклад: рекомендації не доступні — повернути топ-10 з кешу. Не всі fallback однакові: 'silent fail' з порожніми даними може бути небезпечним для бізнесу. Завжди логувати, що використано fallback. Поєднання: timeout + retry + bulkhead + circuit breaker + fallback.",
+      "fake_answers": [
+        "Fallback заміняє circuit breaker повністю",
+        "Fallback — це лише retry",
+        "Fallback — це лише timeout",
+        "Fallback — це лише сповіщення про помилку",
+        "Fallback вимикається при Open circuit",
+        "Fallback працює лише для GET-запитів",
+        "Fallback вимагає окремого сервісу",
+        "Fallback — це 503 у відповідь",
+        "Fallback — це лише для streaming",
+        "Fallback — це redirect на інший хост",
+        "Fallback — це повторне з'єднання з тим самим сервером"
+      ]
+    }
+  ]
+}

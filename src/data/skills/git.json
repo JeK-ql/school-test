@@ -5,13 +5,382 @@
   "questions": [
     {
       "id": "git-001",
-      "question": "Яка команда Git переписує історію, об'єднуючи послідовні комміти в один?",
-      "correct_answer": "git rebase -i",
-      "explanation": "Інтерактивний rebase (`git rebase -i`) дозволяє squash / fixup / reorder коммітів у межах гілки.",
+      "question": "Які три основні області Git у локальному репозиторії?",
+      "correct_answer": "Working Directory (робоча директорія), Staging Area (індекс) та Repository (.git)",
+      "explanation": "Файли спочатку змінюються у working directory, потім git add переносить їх у staging area (індекс), а git commit фіксує snapshot у repository (.git). Розуміння цих трьох областей критичне для роботи з Git.",
       "fake_answers": [
-        "git merge --squash", "git commit --amend", "git reset --soft", "git cherry-pick",
-        "git revert", "git reflog", "git stash pop", "git clean -fd",
-        "git pull --rebase", "git log --oneline", "git bisect"
+        "Local, Remote та Origin",
+        "Master, Develop та Feature",
+        "HEAD, Index та Refspec",
+        "Branch, Tag та Stash",
+        "Working Directory, Backup та Cache",
+        "Index, Reflog та Objects",
+        "Push, Pull та Fetch",
+        "Commit, Branch та Merge",
+        "Source, Target та Mirror",
+        "Origin, Upstream та Fork",
+        "Snapshot, Diff та Patch"
+      ]
+    },
+    {
+      "id": "git-002",
+      "question": "Чим git rebase відрізняється від git merge?",
+      "correct_answer": "rebase переписує коміти, переносячи їх на нову базу і створюючи лінійну історію; merge зберігає історію як є і створює merge-комміт",
+      "explanation": "merge зберігає всі коміти обох гілок і додає merge-commit з двома батьками. rebase переписує SHA коммітів і робить історію лінійною, але змінювати опубліковані коміти небезпечно — це порушує golden rule of rebasing.",
+      "fake_answers": [
+        "rebase видаляє всі коміти, merge зберігає",
+        "merge працює тільки локально, rebase тільки віддалено",
+        "Це повні синоніми",
+        "rebase створює merge-комміт, merge ні",
+        "merge змінює SHA коммітів, rebase ні",
+        "rebase працює лише з master, merge з усіма гілками",
+        "merge не підтримує конфліктів",
+        "rebase не працює з тегами",
+        "merge видаляє віддалену гілку",
+        "rebase автоматично пушить у remote",
+        "merge працює тільки з fast-forward"
+      ]
+    },
+    {
+      "id": "git-003",
+      "question": "Що робить git stash?",
+      "correct_answer": "Тимчасово зберігає незакоміччені зміни (як з working directory, так і з staging) та чистить робочу директорію до стану HEAD",
+      "explanation": "stash корисний коли треба швидко переключити гілку, не комітячи поточну роботу. Повернути зміни — git stash pop (видаляє зі стеку) або git stash apply (залишає у стеку). Перегляд — git stash list.",
+      "fake_answers": [
+        "Видаляє всі незакоміччені зміни назавжди",
+        "Створює нову гілку зі змін",
+        "Пушить локальні коміти у віддалене сховище",
+        "Об'єднує дві гілки",
+        "Скидає індекс на HEAD без збереження",
+        "Створює тег на поточному коміті",
+        "Архівує весь репозиторій у zip",
+        "Робить snapshot конфігурації Git",
+        "Завантажує зміни з віддаленої гілки",
+        "Видаляє reflog",
+        "Перейменовує поточну гілку"
+      ]
+    },
+    {
+      "id": "git-004",
+      "question": "Чим git fetch відрізняється від git pull?",
+      "correct_answer": "fetch завантажує зміни з remote у remote-tracking гілки, але не зливає їх; pull = fetch + merge (або rebase) у поточну гілку",
+      "explanation": "fetch безпечний: оновлює origin/main та інші remote-tracking гілки, але робоча гілка не змінюється — можна спочатку переглянути зміни. pull автоматично зливає у поточну гілку, що може дати конфлікти.",
+      "fake_answers": [
+        "fetch працює лише з master, pull з усіма гілками",
+        "pull лише оновлює локальний кеш, fetch міняє файли",
+        "Це повні синоніми",
+        "fetch видаляє локальні зміни, pull зберігає",
+        "pull створює нову гілку, fetch ні",
+        "fetch завжди робить rebase, pull ні",
+        "pull працює лише через SSH",
+        "fetch створює тег автоматично",
+        "pull не оновлює remote-tracking гілки",
+        "fetch створює merge-commit, pull ні",
+        "pull зменшує розмір .git, fetch навпаки"
+      ]
+    },
+    {
+      "id": "git-005",
+      "question": "Чим відрізняються git reset --soft, --mixed і --hard?",
+      "correct_answer": "--soft переміщує лише HEAD, зберігаючи staging і working dir; --mixed (default) переміщує HEAD і скидає staging, зберігаючи working dir; --hard скидає все — HEAD, staging і working dir",
+      "explanation": "Це три рівні агресивності reset. --soft зручний для перекомпонування коммітів. --mixed (за замовчуванням) розстейджить файли. --hard видаляє зміни без можливості відновлення через звичайні команди (тільки reflog).",
+      "fake_answers": [
+        "--soft видаляє все, --hard зберігає, --mixed працює з staging",
+        "Це псевдоніми однієї і тієї ж команди",
+        "--soft працює лише з тегами, --hard з гілками",
+        "--mixed автоматично пушить у remote",
+        "--hard зберігає working dir, --soft видаляє його",
+        "Усі три скидають лише staging area",
+        "--soft створює новий коміт, інші ні",
+        "--mixed працює лише на master",
+        "--hard відкочує remote, --soft локально",
+        "--soft потребує підтвердження, інші ні",
+        "Усі три створюють резервну копію автоматично"
+      ]
+    },
+    {
+      "id": "git-006",
+      "question": "У чому різниця між git reset і git revert?",
+      "correct_answer": "reset переміщує HEAD назад і фактично переписує історію; revert створює новий коміт, який скасовує зміни попереднього — історія не переписується",
+      "explanation": "revert безпечний для опублікованих гілок, бо додає новий коміт. reset переписує історію і потребує force-push, що небезпечно для shared гілок.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "reset скасовує комміт у remote, revert локально",
+        "revert видаляє файли, reset зберігає",
+        "reset працює лише з тегами, revert з гілками",
+        "revert змінює SHA попередніх коммітів",
+        "reset створює новий коміт, revert переписує історію",
+        "revert вимагає force-push завжди",
+        "reset працює лише з останнім коммітом",
+        "revert не працює з merge-коммітами ніколи",
+        "reset видаляє всі гілки крім master",
+        "revert лише для тегів, reset для гілок"
+      ]
+    },
+    {
+      "id": "git-007",
+      "question": "Що таке golden rule of rebasing?",
+      "correct_answer": "Ніколи не робити rebase коммітів, які вже були запушені у спільну (shared) гілку",
+      "explanation": "Rebase переписує SHA коммітів. Якщо інші розробники працюють з тими ж коммітами, після rebase і force-push їхня історія розійдеться з вашою — це створює серйозні проблеми.",
+      "fake_answers": [
+        "Завжди робити rebase перед merge на master",
+        "Rebase можна робити тільки після code review",
+        "Rebase лише через --force-with-lease",
+        "Rebase можна робити тільки з main гілки",
+        "Завжди використовувати rebase замість merge",
+        "Ніколи не робити rebase локально",
+        "Rebase лише для feature-гілок одного автора",
+        "Завжди робити rebase після pull",
+        "Rebase лише з тегами",
+        "Ніколи не робити rebase у вівторок",
+        "Rebase тільки з підписаними коммітами"
+      ]
+    },
+    {
+      "id": "git-008",
+      "question": "Як скасувати останній коміт, але зберегти зміни у working directory?",
+      "correct_answer": "git reset --soft HEAD~1 (зберігає у staging) або git reset HEAD~1 / --mixed (залишає у working dir, але розстейджить)",
+      "explanation": "--soft зберігає зміни у staging area, готові до нового коміту. --mixed (default) залишає зміни у working dir, але розстейджить. --hard видалить зміни — це не те, що треба.",
+      "fake_answers": [
+        "git reset --hard HEAD~1",
+        "git revert HEAD --discard",
+        "git checkout HEAD~1 --force",
+        "git rm --last-commit",
+        "git commit --undo",
+        "git push --revert HEAD~1",
+        "git stash --commit",
+        "git clean -fd HEAD~1",
+        "git reflog --delete HEAD",
+        "git branch --reset HEAD~1",
+        "git tag --remove HEAD"
+      ]
+    },
+    {
+      "id": "git-009",
+      "question": "Як змінити повідомлення останнього коміту, який ще не запушений?",
+      "correct_answer": "git commit --amend (відкриє редактор) або git commit --amend -m \"нове повідомлення\"",
+      "explanation": "--amend замінює останній коміт новим (з новим SHA). Якщо коміт вже запушений у shared-гілку, після --amend знадобиться force-push, що небезпечно — краще використовувати reword через interactive rebase.",
+      "fake_answers": [
+        "git commit --rename",
+        "git commit --edit-message",
+        "git rebase --reword HEAD",
+        "git log --modify",
+        "git message --update",
+        "git commit --replace -m \"...\"",
+        "git revert --message",
+        "git stash --message",
+        "git tag --rename HEAD",
+        "git checkout --message",
+        "git update-ref --message HEAD"
+      ]
+    },
+    {
+      "id": "git-010",
+      "question": "Яка різниця між lightweight і annotated тегами?",
+      "correct_answer": "Lightweight — простий вказівник на коміт (як гілка, що не рухається); annotated — повноцінний об'єкт із автором, датою, повідомленням і опціональним GPG-підписом",
+      "explanation": "Annotated теги (git tag -a v1.0 -m \"...\") рекомендуються для релізів — зберігають метадані. Lightweight (git tag v1.0) зручні для тимчасових міток. git describe працює тільки з annotated.",
+      "fake_answers": [
+        "Lightweight зберігає GPG-підпис, annotated ні",
+        "Це абсолютні синоніми",
+        "Annotated працює лише з master, lightweight з усіма",
+        "Lightweight видаляється автоматично через 30 днів",
+        "Annotated можна створювати тільки на merge-коміти",
+        "Lightweight автоматично пушиться, annotated ні",
+        "Annotated не зберігається у .git",
+        "Lightweight містить коментар, annotated ні",
+        "Annotated підтримує лише числові імена",
+        "Lightweight — це alias для гілки",
+        "Annotated можна ставити тільки на HEAD"
+      ]
+    },
+    {
+      "id": "git-011",
+      "question": "Що робить git cherry-pick?",
+      "correct_answer": "Застосовує зміни конкретного коміту (одного або кількох) з іншої гілки у поточну, створюючи новий коміт із новим SHA",
+      "explanation": "Корисно коли потрібен один баг-фікс із feature-гілки в release-гілку без merge всієї історії. Може давати конфлікти. Підтримує діапазон: git cherry-pick A..B.",
+      "fake_answers": [
+        "Видаляє коміт з історії repository",
+        "Створює нову гілку з вибраних коммітів",
+        "Зливає всі коміти однієї гілки в іншу",
+        "Скидає поточну гілку до вибраного коміту",
+        "Створює тег на вибраному коміті",
+        "Експортує коміт у patch-файл",
+        "Перейменовує коміт у вибраній гілці",
+        "Копіює файл з одного коміту в інший",
+        "Видаляє файл із усіх попередніх коммітів",
+        "Об'єднує два коміти в один",
+        "Створює merge-commit без зміни файлів"
+      ]
+    },
+    {
+      "id": "git-012",
+      "question": "Що таке git reflog і коли він рятує?",
+      "correct_answer": "Локальний журнал усіх змін HEAD (включно з reset, rebase, checkout) — дозволяє відновити коміти, які виглядають \"втраченими\" після hard reset або невдалого rebase",
+      "explanation": "Reflog зберігається локально (~90 днів за замовчуванням) і не пушиться. Після git reset --hard можна знайти попередній HEAD у reflog (git reflog) і відновити: git reset --hard HEAD@{1}.",
+      "fake_answers": [
+        "Журнал commits на remote сервері",
+        "Список усіх гілок у репозиторії",
+        "Логи мережевих операцій push/pull",
+        "Архів видалених файлів із .gitignore",
+        "Журнал змін у конфігурації .git/config",
+        "Список merge-коммітів у master",
+        "Лог GPG-підписів коммітів",
+        "Кеш об'єктів у .git/objects",
+        "Перелік усіх tag-ів зі змінами",
+        "Журнал hook-ів які виконувалися",
+        "Список remote-репозиторіїв і їхніх URL"
+      ]
+    },
+    {
+      "id": "git-013",
+      "question": "Що таке fast-forward merge і коли він можливий?",
+      "correct_answer": "Merge без створення merge-коміту, коли цільова гілка не мала нових коммітів з моменту відгалуження — Git просто пересуває вказівник вперед",
+      "explanation": "Fast-forward можливий, якщо HEAD цільової гілки є предком HEAD джерельної. Опція --no-ff примушує створити merge-комміт навіть коли можливий fast-forward — корисно для збереження факту branch-merge у історії.",
+      "fake_answers": [
+        "Merge, який автоматично пушить у remote",
+        "Merge, що пропускає всі коміти крім останнього",
+        "Merge, що зберігає лише останні 10 коммітів",
+        "Merge між гілками з різних remote-ів",
+        "Merge, який автоматично вирішує всі конфлікти",
+        "Merge, що створює два merge-коміти одночасно",
+        "Merge через cherry-pick усіх коммітів",
+        "Merge, що видаляє джерельну гілку автоматично",
+        "Merge тільки annotated тегів",
+        "Merge без оновлення working directory",
+        "Merge між submodule і основним репозиторієм"
+      ]
+    },
+    {
+      "id": "git-014",
+      "question": "Що таке git bisect і як він допомагає шукати баги?",
+      "correct_answer": "Бінарний пошук по історії коммітів: позначаєте \"good\" і \"bad\" коміти, Git автоматично переключає на середній — ви тестуєте і кажете good/bad, поки не знайдеться перший зламаний",
+      "explanation": "git bisect start, git bisect bad HEAD, git bisect good <старий-комміт>. Git робить log2(N) кроків. Можна автоматизувати через git bisect run <скрипт>, який повертає 0 для good і non-zero для bad.",
+      "fake_answers": [
+        "Розділяє великий репозиторій на два менших",
+        "Створює бекап через копіювання .git",
+        "Розгалужує merge-комміт на два окремі",
+        "Видаляє половину коммітів автоматично",
+        "Розділяє коміт на два менших коміти",
+        "Знаходить найбільший файл у repository",
+        "Скидає зміни у двох гілках одночасно",
+        "Виконує merge двох гілок порівну",
+        "Аналізує двох авторів у blame",
+        "Розділяє staging area на дві частини",
+        "Створює дві копії гілки для A/B-тесту"
+      ]
+    },
+    {
+      "id": "git-015",
+      "question": "Чому git push --force небезпечний і чим його замінити?",
+      "correct_answer": "--force перезаписує remote-гілку, видаляючи коміти інших розробників; --force-with-lease перевіряє, що remote-вказівник не змінився з моменту вашого останнього fetch — безпечніший варіант",
+      "explanation": "--force без перевірок може знищити роботу команди. --force-with-lease падає, якщо хтось запушив у гілку після вашого fetch — захищає від випадкового перезапису чужих коммітів.",
+      "fake_answers": [
+        "--force небезпечний бо повільний; швидше --fast-push",
+        "Замість --force використовуйте --pull-first",
+        "--force працює лише з master; --force-with-lease з усіма гілками",
+        "Замінити на git push --safe (стандартна опція)",
+        "--force видаляє теги; використовуйте --keep-tags",
+        "--force-with-lease обходить hooks, --force ні",
+        "Замість --force потрібен --rebase-only",
+        "--force знищує submodules; --force-with-lease зберігає",
+        "Замінити на git pull --force перед push",
+        "--force-with-lease автоматично зливає конфлікти",
+        "Замінити на git revert + push без --force ніколи"
+      ]
+    },
+    {
+      "id": "git-016",
+      "question": "Що таке Git hooks і де вони зберігаються?",
+      "correct_answer": "Скрипти, які Git виконує автоматично у певні моменти (pre-commit, commit-msg, pre-push тощо), зберігаються у .git/hooks і не входять у репозиторій",
+      "explanation": "Оскільки .git/hooks локальний, для команди використовують Husky/lefthook/pre-commit, що версіонують hooks і встановлюють їх через postinstall. Типовий приклад: pre-commit запускає lint, commit-msg перевіряє Conventional Commits.",
+      "fake_answers": [
+        "Скрипти у .gitignore, які блокують коміти",
+        "Записи у .gitconfig для аліасів",
+        "Webhook URL у GitHub/GitLab UI",
+        "Файли у .github/workflows для CI",
+        "Тригери у remote-репозиторії, які не можна змінити",
+        "Хуки у package.json в полі scripts",
+        "Записи у .gitattributes для обробки файлів",
+        "Конфігурація у .editorconfig",
+        "Списки заборонених коммітерів",
+        "Налаштування Git LFS у .gitattributes",
+        "Параметри git filter-branch у .git/config"
+      ]
+    },
+    {
+      "id": "git-017",
+      "question": "Що таке interactive rebase і які основні команди він підтримує?",
+      "correct_answer": "git rebase -i дозволяє переписати історію коммітів — основні дії: pick (залишити), reword (змінити повідомлення), edit (зупинитись для змін), squash (об'єднати з попереднім), fixup (squash без повідомлення), drop (видалити)",
+      "explanation": "Interactive rebase відкриває редактор зі списком коммітів. Можна міняти порядок, об'єднувати, видаляти, розщеплювати. Squash об'єднує з попереднім зі збереженням повідомлень, fixup — без повідомлення поточного.",
+      "fake_answers": [
+        "Команди: add, remove, copy, paste, undo",
+        "Команди: merge, push, pull, fetch, branch",
+        "Команди: stage, unstage, commit, revert, reset",
+        "Команди: keep, delete, rename, tag, sign",
+        "Команди: clone, fork, mirror, sync, hook",
+        "Команди: open, close, save, cancel, exit",
+        "Команди: yes, no, skip, retry, abort",
+        "Команди: file, dir, link, copy, move",
+        "Команди: branch, tag, hash, ref, head",
+        "Команди: pull, fetch, sync, rebase, merge",
+        "Команди: include, exclude, replace, append, prepend"
+      ]
+    },
+    {
+      "id": "git-018",
+      "question": "Що таке Conventional Commits і навіщо вони?",
+      "correct_answer": "Стандарт повідомлень коммітів формату type(scope): description (наприклад feat(auth): add login) — дозволяє автоматизувати changelog, semver-релізи та фільтрувати історію",
+      "explanation": "Типи: feat, fix, docs, style, refactor, perf, test, chore. BREAKING CHANGE у footer або ! після type вказує на breaking change. Інструменти типу semantic-release використовують ці коміти для автоматичного bump версії.",
+      "fake_answers": [
+        "Стандарт іменування гілок у форматі type/jira-ID",
+        "Формат файлу .gitmessage для шаблонів",
+        "Правила підпису коммітів через GPG",
+        "Стандарт іменування тегів v-major.minor.patch",
+        "Формат повідомлень PR на GitHub",
+        "Правила іменування remote-репозиторіїв",
+        "Формат файлів у .github/COMMIT_TEMPLATE",
+        "Стандарт хешування коммітів через SHA-256",
+        "Правила структури monorepo через workspaces",
+        "Стандарт коментарів у коді через JSDoc",
+        "Формат записів у CHANGELOG.md без автоматики"
+      ]
+    },
+    {
+      "id": "git-019",
+      "question": "Як видалити чутливий файл (наприклад .env з паролем) з усієї історії Git?",
+      "correct_answer": "git filter-repo (рекомендований) або git filter-branch для перепису історії; після цього обов'язково ротувати скомпрометовані секрети і force-push (попередньо координуючи з командою)",
+      "explanation": "Просто git rm не допоможе — файл залишається у попередніх коммітах. filter-repo переписує історію, видаляючи файл з усіх коммітів. Але якщо репо публічне, секрет вже скомпрометований і має бути ротованим.",
+      "fake_answers": [
+        "git rm --cached .env --history",
+        "git revert .env у всіх коммітах автоматично",
+        "git push --remove-file .env",
+        "git stash --permanent .env",
+        "git clean -fd .env --history",
+        "git reset --hard --remove .env",
+        "git delete-file .env --all",
+        "git checkout --remove-from-history .env",
+        "git tag --hide .env",
+        "git commit --erase-file .env",
+        "git config --remove-file .env"
+      ]
+    },
+    {
+      "id": "git-020",
+      "question": "Чим відрізняються Git Flow, GitHub Flow і Trunk-Based Development?",
+      "correct_answer": "Git Flow — складна модель з гілками master/develop/feature/release/hotfix; GitHub Flow — простий: одна main + короткі feature-гілки + PR; Trunk-Based — усі коммітять у trunk (main) часто, з feature flags замість довгих гілок",
+      "explanation": "Git Flow підходить для версійних релізів (бібліотеки). GitHub Flow — для CD веб-сервісів. Trunk-Based — для команд з високою інженерною культурою, CI і feature flags; забезпечує максимальну швидкість інтеграції.",
+      "fake_answers": [
+        "Це три назви однієї моделі від різних компаній",
+        "Git Flow для CI/CD, GitHub Flow для бібліотек, Trunk-Based для legacy",
+        "Усі три вимагають monorepo-структури",
+        "Git Flow без feature-гілок, GitHub Flow з ними, Trunk-Based з submodules",
+        "Git Flow тільки для GitHub, GitHub Flow для GitLab",
+        "Усі три заборонені за стандартом ISO для enterprise",
+        "Trunk-Based вимагає окремий develop, GitFlow ні",
+        "GitHub Flow вимагає release-гілки, Git Flow ні",
+        "Усі три однакові, просто різні назви команд",
+        "Trunk-Based для embedded, інші для веб",
+        "Git Flow без PR, GitHub Flow з PR, Trunk-Based без коммітів"
       ]
     }
   ]

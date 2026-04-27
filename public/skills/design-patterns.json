@@ -1,0 +1,387 @@
+{
+  "skill_id": "design-patterns",
+  "skill_name": "Design Patterns & SOLID",
+  "difficulty": "A-Rank",
+  "questions": [
+    {
+      "id": "dp-001",
+      "question": "Що означає буква 'S' у SOLID?",
+      "correct_answer": "Single Responsibility Principle — клас має одну причину для зміни",
+      "explanation": "SRP вимагає, щоб модуль/клас мав лише одну відповідальність. UserService, що шле email, пише в БД і логує — три причини для зміни. Розділіть на UserRepository, EmailSender, Logger.",
+      "fake_answers": [
+        "Stateless Principle — клас без внутрішнього стану",
+        "Synchronous Principle — синхронне виконання",
+        "Singleton Principle — один екземпляр на додаток",
+        "Stable Principle — без змін API",
+        "Strict Principle — строга типізація",
+        "Scalable Principle — горизонтальне масштабування",
+        "Secure Principle — безпечний за замовчуванням",
+        "Simple Principle — мінімум рядків коду",
+        "Stream Principle — потокова обробка",
+        "Static Principle — статичні методи",
+        "Service Principle — сервіс-орієнтований дизайн"
+      ]
+    },
+    {
+      "id": "dp-002",
+      "question": "Що означає принцип Open/Closed Principle (OCP)?",
+      "correct_answer": "Сутності відкриті для розширення, але закриті для модифікації",
+      "explanation": "Поведінку слід додавати через нові класи (наслідування, композиція, плагіни), не змінюючи існуючий стабільний код. Класичний приклад — Strategy замість switch у методі.",
+      "fake_answers": [
+        "Класи можна змінювати, але не розширювати наслідуванням",
+        "API має бути відкрите для всіх запитів",
+        "Код має бути закритий вихідний",
+        "Кожна функція має бути одного рівня абстракції",
+        "Інтерфейси повинні бути порожніми",
+        "Завжди використовувати private поля",
+        "Принцип забороняє наслідування",
+        "Об'єкти повинні мати лише гетери",
+        "Клас має бути final за замовчуванням",
+        "Модулі мають бути загорнуті в namespace",
+        "Розширення дозволено лише через рефлексію"
+      ]
+    },
+    {
+      "id": "dp-003",
+      "question": "Що таке Liskov Substitution Principle (LSP)?",
+      "correct_answer": "Об'єкти підкласу мають заміняти об'єкти базового класу без поломки програми",
+      "explanation": "Якщо Square наслідує Rectangle і ламає setWidth/setHeight — це порушення LSP. Підклас не має посилювати передумови чи послаблювати постумови.",
+      "fake_answers": [
+        "Кожен клас повинен мати конструктор за замовчуванням",
+        "Підкласи мають перевизначати всі методи батька",
+        "Не можна успадковуватися більше ніж від двох класів",
+        "Базовий клас має бути abstract",
+        "Поліморфізм заборонений",
+        "Підклас зобов'язаний додавати нові поля",
+        "Всі методи мають бути віртуальними",
+        "Підкласи повинні бути sealed",
+        "Інтерфейси не можуть наслідуватися",
+        "Підклас має бути меншим за батька за пам'яттю",
+        "Використовуйте лише композицію, ніколи наслідування"
+      ]
+    },
+    {
+      "id": "dp-004",
+      "question": "Що означає Interface Segregation Principle (ISP)?",
+      "correct_answer": "Клієнт не повинен залежати від методів інтерфейсу, які не використовує",
+      "explanation": "Замість IWorker з work() та eat() для робота-працівника, краще розбити на IWorkable та IFeedable. Робот реалізує лише потрібний інтерфейс.",
+      "fake_answers": [
+        "Кожен інтерфейс має містити рівно один метод",
+        "Інтерфейси мають бути загальними та об'ємними",
+        "Не можна реалізовувати більше одного інтерфейсу",
+        "Інтерфейс не може успадковуватися",
+        "Всі поля інтерфейсу мають бути public",
+        "Інтерфейси треба замінювати абстрактними класами",
+        "Інтерфейс не може мати default-методи",
+        "Один клас може реалізовувати лише інтерфейси одного пакета",
+        "Інтерфейс має бути serializable",
+        "Усі методи інтерфейсу обов'язково async",
+        "Інтерфейси мають містити лише getter-методи"
+      ]
+    },
+    {
+      "id": "dp-005",
+      "question": "Що означає Dependency Inversion Principle (DIP)?",
+      "correct_answer": "Високорівневі модулі не повинні залежати від низькорівневих — обидва залежать від абстракцій",
+      "explanation": "OrderService не імпортує MySqlOrderRepository, а працює з інтерфейсом OrderRepository. Конкретну реалізацію інжектують ззовні (DI). Тестування стає простим — підставляєш мок.",
+      "fake_answers": [
+        "Низькорівневі модулі не залежать ні від чого",
+        "Залежності треба інвертувати через рефлексію в рантаймі",
+        "Циклічні залежності допустимі",
+        "Кожен клас має створювати свої залежності всередині",
+        "Інверсія потоку керування заборонена",
+        "Залежності мають бути global singleton",
+        "Високорівневі модулі повинні наслідувати низькорівневі",
+        "Усі залежності мають бути hard-coded",
+        "Service Locator — єдиний правильний підхід",
+        "Залежності можуть бути лише статичними методами",
+        "DI завжди вимагає XML-конфігурації"
+      ]
+    },
+    {
+      "id": "dp-006",
+      "question": "Що описує принцип DRY?",
+      "correct_answer": "Don't Repeat Yourself — кожна одиниця знання має єдине авторитетне представлення в системі",
+      "explanation": "Дублювання логіки призводить до дрейфу: один код виправили, інший — забули. Однак не плутайте з випадковою схожістю — два схожі рядки з різних доменів можуть жити окремо.",
+      "fake_answers": [
+        "Don't Repeat Yourself — забороняє будь-яке копіювання символів",
+        "Don't Reuse Yourself — кожен модуль пишеться з нуля",
+        "Do Repeat Yourself — повторюй для надійності",
+        "Document, Refactor, Yield — підхід до code review",
+        "Decouple, Reuse, Yield — три фази архітектури",
+        "Domain-Repository-Yield — патерн доступу до даних",
+        "Dependency Resolves Yourself — DI-контейнер",
+        "Distribute, Replicate, Yield — стратегія БД",
+        "Dynamic Runtime Yield — модель concurrency",
+        "Direct Reference Yourself — ін'єкція self",
+        "Deep Refactor Yearly — політика технічного боргу"
+      ]
+    },
+    {
+      "id": "dp-007",
+      "question": "Що означає принцип YAGNI?",
+      "correct_answer": "You Aren't Gonna Need It — не пиши код для гіпотетичних майбутніх потреб",
+      "explanation": "Не додавайте плагінну архітектуру 'про всяк випадок', якщо є один варіант. Спочатку — конкретний код, абстракції — коли з'явиться друга реалізація.",
+      "fake_answers": [
+        "You Are Going Native Inside — використовуй нативні модулі",
+        "Yet Another Generic Naming Issue — стандарт іменування",
+        "You Always Get New Issues — підхід до debugging",
+        "Yield After Generation, Not Initially — оптимізація генераторів",
+        "Your API Generates Nothing Inert — REST-конвенція",
+        "You Are Going to Need It — пиши все наперед",
+        "Yearly Audit, Generally No Issues — політика оглядів",
+        "Yank All Garbage Now Immediately — підхід до GC",
+        "Your Architecture Goes Numerous Iterations — метод розробки",
+        "Yes And Generate New Interfaces — стиль проектування",
+        "You Avoid Generics — заборона generics"
+      ]
+    },
+    {
+      "id": "dp-008",
+      "question": "Що описує Law of Demeter (Закон Деметри)?",
+      "correct_answer": "Об'єкт повинен спілкуватися лише з безпосередніми друзями, а не з друзями друзів",
+      "explanation": "order.getCustomer().getAddress().getCity() — порушення (train wreck). Правильно: попросіть order повернути потрібне, або додайте метод order.getCustomerCity(). Зменшує зв'язаність.",
+      "fake_answers": [
+        "Будь-який об'єкт може викликати будь-який інший без обмежень",
+        "Об'єкти спілкуються лише через глобальний event bus",
+        "Закон забороняє статичні методи",
+        "Об'єкт мусить мати ровно три залежності",
+        "Об'єкти можуть викликати лише методи свого пакета",
+        "Не можна повертати об'єкти з методів — лише примітиви",
+        "Закон вимагає однієї точки входу в систему",
+        "Об'єкти спілкуються лише через REST API",
+        "Заборонено використовувати інтерфейси",
+        "Кожен виклик методу повинен бути синхронним",
+        "Об'єкти не можуть мати поля посилального типу"
+      ]
+    },
+    {
+      "id": "dp-009",
+      "question": "Чому загалом радять 'Composition over Inheritance'?",
+      "correct_answer": "Композиція гнучкіша, уникає крихких ієрархій та дозволяє змінювати поведінку в рантаймі",
+      "explanation": "Глибокі ієрархії наслідування важко розширювати без поломки підкласів (LSP). Композиція + Strategy/Decorator дозволяє підмінювати поведінку без зміни класу.",
+      "fake_answers": [
+        "Композиція швидша на CPU за наслідування",
+        "Наслідування не підтримується сучасними мовами",
+        "Композиція дозволяє множинне успадкування полів",
+        "Наслідування вимагає reflection",
+        "Композиція автоматично синхронізує стан між об'єктами",
+        "Композиція гарантує immutable-об'єкти",
+        "Наслідування заборонене SOLID-принципами",
+        "Композиція робить код коротшим завжди",
+        "Композиція уникає необхідності інтерфейсів",
+        "Наслідування ламає сериалізацію",
+        "Композиція потрібна лише в функціональних мовах"
+      ]
+    },
+    {
+      "id": "dp-010",
+      "question": "Який паттерн дає інтерфейс для створення сімейств пов'язаних об'єктів без вказання конкретних класів?",
+      "correct_answer": "Abstract Factory",
+      "explanation": "Abstract Factory створює сім'ю об'єктів (Button + Checkbox для Mac vs Windows). Factory Method створює один продукт через метод-фабрику. Builder будує складний об'єкт по кроках.",
+      "fake_answers": [
+        "Singleton",
+        "Builder",
+        "Prototype",
+        "Adapter",
+        "Decorator",
+        "Observer",
+        "Strategy",
+        "Command",
+        "Mediator",
+        "Visitor",
+        "Memento"
+      ]
+    },
+    {
+      "id": "dp-011",
+      "question": "У чому різниця між Factory Method та Abstract Factory?",
+      "correct_answer": "Factory Method створює один продукт через метод підкласу; Abstract Factory створює сім'ю пов'язаних продуктів",
+      "explanation": "Factory Method: Creator.createProduct() перевизначається в підкласах. Abstract Factory: інтерфейс із набором createA(), createB(), і кілька конкретних фабрик для різних 'тем'.",
+      "fake_answers": [
+        "Це синоніми — повна еквівалентність",
+        "Factory Method — для синхронних, Abstract Factory — для async",
+        "Factory Method створює immutable, Abstract Factory — mutable",
+        "Abstract Factory працює лише через рефлексію",
+        "Factory Method вимагає DI-контейнера",
+        "Abstract Factory не може мати конкретних реалізацій",
+        "Factory Method існує лише в Java",
+        "Abstract Factory повертає void, Factory Method — Generic",
+        "Factory Method обов'язково static, Abstract Factory — instance",
+        "Abstract Factory створює один тип, Factory Method — багато",
+        "Factory Method не дозволяє наслідування продуктів"
+      ]
+    },
+    {
+      "id": "dp-012",
+      "question": "Які основні недоліки паттерна Singleton?",
+      "correct_answer": "Глобальний стан, складність тестування, приховані залежності, проблеми багатопоточності",
+      "explanation": "Singleton — фактично глобальна змінна з ООП-обгорткою. Заважає мокати в тестах, ховає залежності класу, потребує double-checked locking або static init для thread-safety.",
+      "fake_answers": [
+        "Не існує недоліків — це ідеальний паттерн",
+        "Споживає забагато пам'яті порівняно з прототипом",
+        "Не підтримується сучасними мовами",
+        "Завжди ламає інкапсуляцію полів",
+        "Працює лише в однопоточному коді через мовні обмеження",
+        "Несумісний з generics",
+        "Вимагає reflection для створення",
+        "Завжди потребує XML-конфігурації",
+        "Не може мати конструктора",
+        "Заборонений у функціональному програмуванні через стандарт ISO",
+        "Сповільнює garbage collector у будь-якому випадку"
+      ]
+    },
+    {
+      "id": "dp-013",
+      "question": "Який паттерн дозволяє додавати поведінку об'єкту динамічно, обгортаючи його?",
+      "correct_answer": "Decorator",
+      "explanation": "Decorator реалізує той самий інтерфейс і делегує до обгорнутого об'єкта, додаючи свою логіку. Класичний приклад: Streams у Java/Node, middleware в Express, BufferedReader.",
+      "fake_answers": [
+        "Adapter",
+        "Facade",
+        "Proxy",
+        "Bridge",
+        "Composite",
+        "Strategy",
+        "Observer",
+        "State",
+        "Visitor",
+        "Mediator",
+        "Flyweight"
+      ]
+    },
+    {
+      "id": "dp-014",
+      "question": "Чим Adapter відрізняється від Facade?",
+      "correct_answer": "Adapter переводить один інтерфейс у інший очікуваний; Facade спрощує доступ до складної підсистеми через єдиний інтерфейс",
+      "explanation": "Adapter — обгортка для несумісного API (наприклад, Stripe API під ваш PaymentGateway-інтерфейс). Facade — спрощений вхід у складну підсистему (наприклад, OrderFacade ховає Inventory + Payment + Notification).",
+      "fake_answers": [
+        "Adapter і Facade — повні синоніми",
+        "Adapter завжди успадковує клас, Facade — лише делегує",
+        "Facade змінює інтерфейс, Adapter спрощує підсистему",
+        "Adapter — структурний, Facade — поведінковий",
+        "Adapter дозволяє кешування, Facade — ні",
+        "Facade заміняє Singleton",
+        "Adapter обов'язково thread-safe, Facade — ні",
+        "Facade існує лише в C#",
+        "Adapter керує життєвим циклом об'єктів, Facade — ні",
+        "Facade завжди абстрактний клас, Adapter — інтерфейс",
+        "Adapter застосовується лише до колекцій"
+      ]
+    },
+    {
+      "id": "dp-015",
+      "question": "Які бувають типи паттерна Proxy?",
+      "correct_answer": "Virtual (lazy), Protection (контроль доступу), Remote, Caching, Smart Reference, Logging",
+      "explanation": "Virtual Proxy відкладає створення важкого об'єкта. Protection обмежує доступ за ролями. Remote ховає мережевий виклик (RMI/gRPC stub). Caching кешує відповіді. Smart Reference керує лічильником.",
+      "fake_answers": [
+        "Public, Private, Protected — за модифікаторами доступу",
+        "Synchronous та Asynchronous — за способом виклику",
+        "Hot, Warm, Cold — за частотою використання",
+        "Read, Write, Delete — за CRUD-операцією",
+        "Server, Client, Edge — за місцем розгортання",
+        "Static, Dynamic, Reflective — за типізацією",
+        "JSON, XML, Binary — за форматом",
+        "Local, Global, External — за областю видимості",
+        "Direct, Indirect, Reverse — за напрямом",
+        "TCP, UDP, HTTP — за протоколом",
+        "Inline, Block, Float — за CSS-моделлю"
+      ]
+    },
+    {
+      "id": "dp-016",
+      "question": "Який паттерн інкапсулює запит як об'єкт, дозволяючи параметризувати клієнтів та підтримувати undo/redo?",
+      "correct_answer": "Command",
+      "explanation": "Command містить execute() та часто undo(). Дозволяє чергу запитів, журнал, скасування операцій. Приклад — Action у GUI, job у черзі задач.",
+      "fake_answers": [
+        "Strategy",
+        "Mediator",
+        "Memento",
+        "Visitor",
+        "Observer",
+        "Iterator",
+        "Template Method",
+        "State",
+        "Chain of Responsibility",
+        "Bridge",
+        "Composite"
+      ]
+    },
+    {
+      "id": "dp-017",
+      "question": "Чим відрізняються Strategy та State?",
+      "correct_answer": "Strategy підставляє різні алгоритми ззовні; State змінює поведінку об'єкта залежно від внутрішнього стану",
+      "explanation": "Strategy — клієнт обирає алгоритм (sort by price/date). State — об'єкт сам перемикає стани (Order: New → Paid → Shipped → Delivered) і поведінку методів. Структурно схожі, семантично різні.",
+      "fake_answers": [
+        "Strategy і State — повні синоніми",
+        "State можна реалізувати лише через enum",
+        "Strategy завжди потребує DI",
+        "State не дозволяє підміну в рантаймі",
+        "Strategy не може мати стану всередині",
+        "State завжди використовує синглтон-екземпляри",
+        "Strategy існує лише в функціональних мовах",
+        "State змінює клас об'єкта в рантаймі мовою",
+        "Strategy реалізується лише через лямбди",
+        "State — структурний паттерн, Strategy — креаційний",
+        "Strategy ніколи не використовує інтерфейс"
+      ]
+    },
+    {
+      "id": "dp-018",
+      "question": "Який паттерн дозволяє об'єктам отримувати сповіщення про зміну стану іншого об'єкта?",
+      "correct_answer": "Observer",
+      "explanation": "Observer (Publish/Subscribe): Subject тримає список Observers і викликає update() при зміні. Основа event-driven систем, RxJS, EventEmitter, DOM-events.",
+      "fake_answers": [
+        "Mediator",
+        "Visitor",
+        "Memento",
+        "Iterator",
+        "Command",
+        "State",
+        "Strategy",
+        "Chain of Responsibility",
+        "Template Method",
+        "Bridge",
+        "Decorator"
+      ]
+    },
+    {
+      "id": "dp-019",
+      "question": "У чому різниця між Mediator та Observer?",
+      "correct_answer": "Mediator централізує комунікацію між об'єктами; Observer — однонаправлений publish/subscribe між Subject та Observers",
+      "explanation": "Mediator — диспетчер (наприклад, ChatRoom між User'ами), всі учасники говорять з ним. Observer — Subject не знає, хто на нього підписаний, лише сповіщає. Mediator може використовувати Observer всередині.",
+      "fake_answers": [
+        "Це синоніми — той самий паттерн",
+        "Observer — двонаправлений, Mediator — однонаправлений",
+        "Mediator існує лише в розподілених системах",
+        "Observer вимагає reflection, Mediator — ні",
+        "Mediator завжди реалізується як Singleton",
+        "Observer не дозволяє кільком підписникам слухати одну подію",
+        "Mediator керує транзакціями БД",
+        "Observer — структурний, Mediator — поведінковий",
+        "Mediator не може мати стану",
+        "Observer завжди синхронний, Mediator — async",
+        "Mediator призначений виключно для GUI"
+      ]
+    },
+    {
+      "id": "dp-020",
+      "question": "Який паттерн дозволяє пройтися по елементах колекції, не розкриваючи її внутрішнє представлення?",
+      "correct_answer": "Iterator",
+      "explanation": "Iterator інкапсулює обхід (next/hasNext). Дозволяє різні стратегії обходу (in-order, breadth-first), уніфікує API колекцій. Основа for-of у JS, IEnumerable у C#, __iter__ у Python.",
+      "fake_answers": [
+        "Visitor",
+        "Composite",
+        "Memento",
+        "Observer",
+        "Strategy",
+        "Bridge",
+        "Decorator",
+        "Adapter",
+        "Proxy",
+        "Flyweight",
+        "Mediator"
+      ]
+    }
+  ]
+}

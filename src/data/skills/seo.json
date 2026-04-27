@@ -1,0 +1,387 @@
+{
+  "skill_id": "seo",
+  "skill_name": "SEO",
+  "difficulty": "C-Rank",
+  "questions": [
+    {
+      "id": "seo-001",
+      "question": "Які ключові on-page SEO елементи?",
+      "correct_answer": "Title tag, meta description, H1 (один на сторінку), семантичні заголовки H2-H6, alt-атрибути зображень, чисті URL, внутрішні посилання з осмисленим anchor text, семантичний HTML",
+      "explanation": "Title — найважливіший on-page фактор (50-60 символів), показується у SERP. Meta description (150-160) не впливає на ранжування напряму, але впливає на CTR. H1 описує суть сторінки. Alt — для accessibility і image search.",
+      "fake_answers": [
+        "Лише title; решта не впливає",
+        "Лише keywords meta tag, який Google досі читає",
+        "Колір фону, шрифт, розмір — критичні фактори",
+        "Кількість JS-бібліотек, версія jQuery",
+        "Кількість CSS-класів, ID елементів",
+        "Версія HTML doctype, кодування",
+        "Favicon, apple-touch-icon — обов'язкові для top-10",
+        "Кількість divs у DOM",
+        "Розмір фото у KB напряму впливає на ранг",
+        "Тільки структуровані дані без title",
+        "Кількість external posilань — ключовий фактор"
+      ]
+    },
+    {
+      "id": "seo-002",
+      "question": "Що таке robots.txt і що він робить?",
+      "correct_answer": "Текстовий файл у корені сайту, який підказує crawler-ам, які URL дозволено/заборонено сканувати (User-agent + Allow/Disallow); це не гарантія неіндексації, лише інструкція щодо crawl-у",
+      "explanation": "Disallow не гарантує, що сторінка не з'явиться у видачі (Google може індексувати за зовнішніми посиланнями). Для гарантованої неіндексації — meta robots noindex або X-Robots-Tag. У robots.txt також вказують Sitemap:.",
+      "fake_answers": [
+        "Файл, що блокує атаки ботів через rate limit",
+        "Конфігурація CDN для кешування",
+        "Список заборонених IP адрес",
+        "Файл паролів для базової авторизації",
+        "Конфігурація HTTPS-сертифіката",
+        "Список redirects для всього сайту",
+        "Файл з канонічними URL",
+        "Конфігурація CORS для API",
+        "Список .htaccess правил",
+        "Файл з API ключами для bots",
+        "Конфігурація Cloudflare Workers"
+      ]
+    },
+    {
+      "id": "seo-003",
+      "question": "Що таке canonical URL і навіщо?",
+      "correct_answer": "<link rel=\"canonical\" href=\"...\"> вказує пошуковику основну (канонічну) версію сторінки серед дублікатів — щоб link equity консолідувався і не виникало duplicate content",
+      "explanation": "Корисно при: товарах з фільтрами (?color=red), HTTP/HTTPS, www/non-www, мобільних піддоменах, UTM-параметрах. Можна self-referencing (вказувати на себе). Якщо canonical неправильний, Google може ігнорувати сторінку.",
+      "fake_answers": [
+        "URL, який не можна змінювати після релізу",
+        "URL для адмінки, прихований від користувачів",
+        "URL з SSL-сертифікатом обов'язково",
+        "URL для головної сторінки сайту",
+        "URL для API endpoint",
+        "URL для статичних ресурсів CDN",
+        "URL для sitemap.xml",
+        "URL для robots.txt",
+        "URL з префіксом /api/",
+        "URL для landing page",
+        "URL з обов'язковим UTM-параметром"
+      ]
+    },
+    {
+      "id": "seo-004",
+      "question": "Які три Core Web Vitals і їхні \"good\" пороги?",
+      "correct_answer": "LCP (Largest Contentful Paint) < 2.5 с — швидкість рендеру головного контенту; INP (Interaction to Next Paint) < 200 мс — responsiveness; CLS (Cumulative Layout Shift) < 0.1 — візуальна стабільність",
+      "explanation": "LCP — оптимізують через image preload, fonts swap, server response time. INP замінив FID у березні 2024 — міряє реальну реакцію на взаємодію. CLS — резервувати місце під зображення (width/height), уникати late-injected content.",
+      "fake_answers": [
+        "Title length, meta length, H1 length",
+        "FCP, FID, TBT — старі назви, не змінювалися",
+        "TTFB, DOMContentLoaded, load",
+        "Performance, Accessibility, SEO — категорії Lighthouse",
+        "Bundle size, image size, CSS size",
+        "Number of requests, total bytes, time to interactive",
+        "First paint, last paint, average paint",
+        "Time to first byte, time to last byte, total time",
+        "Memory usage, CPU usage, network usage",
+        "Number of DOM nodes, depth of DOM, leaf nodes",
+        "JavaScript execution time, parse time, compile time"
+      ]
+    },
+    {
+      "id": "seo-005",
+      "question": "Що таке E-E-A-T?",
+      "correct_answer": "Experience, Expertise, Authoritativeness, Trustworthiness — фактори оцінки якості контенту з Google Search Quality Rater Guidelines, особливо критичні для YMYL (Your Money Your Life) тематик",
+      "explanation": "Experience — особистий досвід автора з темою (додано у 2022). Expertise — знання предметної області. Authoritativeness — визнання іншими (backlinks, mentions). Trustworthiness — фактчек, контактна інформація, безпечність сайту. У грудні 2025 розширено на ширше коло competitive queries.",
+      "fake_answers": [
+        "Effective Engagement Across Topics — нова метрика SEO",
+        "Easy Editor Authentication Tool — функція WordPress",
+        "Encrypted Email Authentication Token — security",
+        "Enterprise Edition Application Tracker — DevOps tool",
+        "Extended Endpoint Access Token — OAuth",
+        "Expandable Element Animation Type — CSS",
+        "External Engine API Toolkit — інтеграція",
+        "Embedded Editor Anchor Tag — HTML",
+        "Event Emitter Async Trigger — JavaScript",
+        "Encoded Encryption Algorithm Type — TLS",
+        "Easy Easy Always There — мнемоніка"
+      ]
+    },
+    {
+      "id": "seo-006",
+      "question": "Які основні search intent (наміри пошуку)?",
+      "correct_answer": "Informational (хочу дізнатися), Navigational (хочу потрапити на конкретний сайт/бренд), Transactional (хочу купити/зробити дію), Commercial investigation (порівнюю варіанти перед покупкою)",
+      "explanation": "Контент має відповідати intent: для informational — детальні гайди; transactional — product pages з CTA; commercial — порівняння, огляди. Невідповідність intent — головна причина високого bounce і низького ранжування.",
+      "fake_answers": [
+        "Mobile, Desktop, Tablet, TV",
+        "Morning, Afternoon, Evening, Night",
+        "Free, Paid, Premium, Enterprise",
+        "Organic, Paid, Direct, Referral",
+        "Google, Bing, Yandex, DuckDuckGo",
+        "Local, Global, Regional, National",
+        "Google Search, Maps, Images, Shopping",
+        "Click, Hover, Scroll, Submit",
+        "First-time, Returning, Loyal, Lost",
+        "Junior, Middle, Senior, Lead",
+        "Read, Watch, Listen, Interact"
+      ]
+    },
+    {
+      "id": "seo-007",
+      "question": "Чим відрізняються 301, 302, 307 і 308 редиректи?",
+      "correct_answer": "301 — постійний (передає link equity, метод може змінитися на GET); 302 — тимчасовий (зберігає метод); 307 — тимчасовий (зберігає метод HTTP); 308 — постійний (зберігає метод)",
+      "explanation": "Для SEO головне 301 vs 302: 301 каже Google оновити індекс (передається ~99% link equity). 302 — не оновлювати, бо тимчасово. 307/308 — суворіші щодо HTTP-методу (POST залишиться POST).",
+      "fake_answers": [
+        "Це HTTP-коди помилок 3xx — усі однакові",
+        "301 — для зображень, 302 — для HTML, 307 — для CSS, 308 — для JS",
+        "301 — на mobile, 302 — на desktop, 307 — на tablet, 308 — на TV",
+        "Це коди успіху аналогічно 200-209",
+        "301 = 308, 302 = 307 — це абсолютні синоніми",
+        "Усі чотири блокують індексацію",
+        "301 для GET, 302 для POST, 307 для DELETE, 308 для PUT",
+        "Це коди WebSocket, не HTTP",
+        "301 — тимчасовий, 308 — постійний (зворотньо до правди)",
+        "302 — це 404 у HTTP/2",
+        "Усі чотири означають Server Error"
+      ]
+    },
+    {
+      "id": "seo-008",
+      "question": "Що таке structured data і у якому форматі рекомендує Google?",
+      "correct_answer": "Розмітка контенту згідно зі словником Schema.org для допомоги пошуковикам розуміти зміст; рекомендований формат — JSON-LD у <script type=\"application/ld+json\">",
+      "explanation": "Дає шанс на rich results: зірочки відгуків, FAQ, breadcrumbs, події тощо. Популярні типи: Article, Product, FAQPage, BreadcrumbList, Organization, LocalBusiness, Review, HowTo, Event. Валідується через Rich Results Test і Schema Markup Validator.",
+      "fake_answers": [
+        "XML Microdata — лише така форма",
+        "RDFa у атрибутах HTML — єдиний рекомендований",
+        "OpenGraph meta tags — для structured data",
+        "JSON-RPC — для structured data",
+        "Twitter Cards — стандарт для всіх пошукових систем",
+        "GraphQL schema — для SEO",
+        "OpenAPI YAML — формат structured data",
+        "Protocol Buffers — рекомендує Google",
+        "MessagePack — оптимально для SEO",
+        "Plain text у footer — обов'язковий формат",
+        "Inline CSS variables — для SEO"
+      ]
+    },
+    {
+      "id": "seo-009",
+      "question": "Чим відрізняються DoFollow, NoFollow, Sponsored і UGC посилання?",
+      "correct_answer": "DoFollow (дефолт) — передає link equity; nofollow — підказка не передавати рейтинг; sponsored — для платних/афіліейт посилань; ugc — для user-generated content (коментарі, форуми)",
+      "explanation": "З 2019 nofollow/sponsored/ugc — це hints, а не директиви: Google може враховувати для ranking. Sponsored обов'язковий для платних посилань (інакше штраф). UGC захищає від спаму у коментарях.",
+      "fake_answers": [
+        "DoFollow — для адміна, nofollow — для гостей",
+        "Це абсолютні синоніми, різниця лише у назвах",
+        "DoFollow — SSL, nofollow — без SSL",
+        "Sponsored — для соцмереж, UGC — для блогів",
+        "DoFollow — для GET, nofollow — для POST",
+        "UGC — для відео, sponsored — для фото",
+        "DoFollow — внутрішні, nofollow — зовнішні",
+        "Sponsored — для CDN, UGC — для backend",
+        "DoFollow — лише на головній, nofollow — на інших",
+        "UGC — це OAuth, sponsored — JWT",
+        "DoFollow — для desktop, nofollow — для mobile"
+      ]
+    },
+    {
+      "id": "seo-010",
+      "question": "Що таке hreflang і навіщо?",
+      "correct_answer": "Атрибут (link rel=\"alternate\" hreflang=\"...\") що вказує мовні/регіональні версії однієї і тієї ж сторінки — щоб пошук показував користувачу правильну мову/регіон і не було duplicate content між версіями",
+      "explanation": "Формат: код мови (en) або мова-регіон (en-US, en-GB). Має бути bidirectional — кожна сторінка вказує на всі альтернативи, включно з самою собою. x-default — для мовно-нейтральної fallback версії. Помилки hreflang дуже поширені.",
+      "fake_answers": [
+        "Атрибут для встановлення шрифту на сторінці",
+        "Налаштування CDN для географічної маршрутизації",
+        "Header HTTP, що передає мову браузера",
+        "Cookie, що зберігає мовні налаштування",
+        "JavaScript API для перемикання мов",
+        "CSS-класс для RTL-мов (арабська, іврит)",
+        "Атрибут для встановлення часового поясу",
+        "DNS-запис для географічного балансування",
+        "Запис у sitemap.xml для версій сторінки",
+        "Файл .htaccess для перенаправлення за мовою",
+        "Налаштування hreflang у robots.txt"
+      ]
+    },
+    {
+      "id": "seo-011",
+      "question": "Чим відрізняються SSR, SSG, ISR і CSR з точки зору SEO?",
+      "correct_answer": "SSR (server-side render) і SSG (static generation) — найкращі для SEO: HTML готовий одразу; ISR (incremental static regen) — статика з фоновим оновленням; CSR (client-side render) — гірше для SEO, бо crawler має виконати JS",
+      "explanation": "Googlebot вміє виконувати JS, але це двофазна індексація з затримкою. Інші пошуковики/боти (Bing, соцмережі) часто не виконують JS — open graph і critical контент мають бути у початковому HTML. Гібрид: SSR для public, CSR для авторизованих частин.",
+      "fake_answers": [
+        "Це абсолютно однакові підходи з різними назвами",
+        "Усі чотири однаково погані для SEO",
+        "CSR найкращий, SSR найгірший — навпаки до правди",
+        "Лише ISR індексується Google",
+        "SSG лише для зображень, SSR для тексту",
+        "ISR не підтримує HTML, лише JSON",
+        "CSR підтримується лише Bing",
+        "SSR — для бекенду на Java, CSR — на JS",
+        "Лише SSG використовує Lighthouse",
+        "ISR — це SEO-плагін WordPress",
+        "Усі CSR заборонено Google після 2020"
+      ]
+    },
+    {
+      "id": "seo-012",
+      "question": "Що таке long-tail keywords і їхня перевага?",
+      "correct_answer": "Низькочастотні (long-tail) ключові слова — довгі специфічні фрази (3-5+ слів) з меншим обсягом пошуку, але вищим інтентом і нижчою конкуренцією — у сумі дають більше трафіку і кращу конверсію",
+      "explanation": "Приклад: \"кросівки\" (high-volume, висока конкуренція) vs \"кросівки nike pegasus 40 розмір 42 для бігу\" (low-volume, висока конверсія). 70%+ всього пошукового трафіку — long-tail. Легше ранжуватися молодим сайтам.",
+      "fake_answers": [
+        "Слова довші за 20 символів",
+        "Хештеги в Twitter/X",
+        "Мета-теги у footer",
+        "Ключові слова у URL після слешу",
+        "Keywords meta tag, що Google досі читає",
+        "Slugs у RESTful API",
+        "Назви файлів CSS/JS",
+        "Параметри URL після ?",
+        "Бренд-назви на головній сторінці",
+        "Anchor text у footer",
+        "Title tag довший за 100 символів"
+      ]
+    },
+    {
+      "id": "seo-013",
+      "question": "Що таке sitemap.xml і чому він важливий?",
+      "correct_answer": "XML-файл зі списком URL сайту (з опційними lastmod, changefreq, priority), що допомагає пошуковикам знаходити та сканувати сторінки, особливо нові або глибокі — посилання на нього у robots.txt і Search Console",
+      "explanation": "Не гарантія індексації, але корисний для великих сайтів і нових. Лімити: 50000 URL або 50 МБ на файл (можна sitemap index). Окремі sitemap для зображень, відео, новин. Має бути актуальним.",
+      "fake_answers": [
+        "JSON-файл з ключовими словами для Google",
+        "HTML-карта сайту для користувачів — Google ігнорує її",
+        "CSV-файл з аналітикою трафіку",
+        "Файл паролів адмін-панелі",
+        "Список редиректів сайту",
+        "Експорт бази даних у XML",
+        "Файл налаштувань CDN",
+        "Список API endpoint у Swagger",
+        "Backup сторінок сайту в архіві",
+        "Файл .htaccess для Apache",
+        "OpenAPI specification файл"
+      ]
+    },
+    {
+      "id": "seo-014",
+      "question": "Що таке crawl budget і коли про нього варто хвилюватися?",
+      "correct_answer": "Кількість сторінок, які Googlebot готовий просканувати на сайті за певний час; критично для дуже великих сайтів (мільйони URL) та сайтів з частим оновленням — оптимізація: видаляти low-value URL, robots.txt, canonical, швидкий сервер",
+      "explanation": "Для сайтів < 10к URL зазвичай не проблема. Faceted navigation, infinite scroll, дублікати швидко з'їдають budget. Покращення server response time, фікс 4xx/5xx, видалення redirect chains також допомагає.",
+      "fake_answers": [
+        "Бюджет на оплату Google Search Ads",
+        "Місячна квота API запитів до Google",
+        "Кількість токенів для AI Overviews",
+        "Бюджет на наймання SEO-фахівців",
+        "Розмір storage у Search Console",
+        "Кількість sitemap-ів дозволених на сайт",
+        "Бюджет на GoogleBot proxy",
+        "Кількість редиректів дозволених на день",
+        "Розмір robots.txt у байтах",
+        "Бюджет на Lighthouse тести",
+        "Кількість schema markup на сторінку"
+      ]
+    },
+    {
+      "id": "seo-015",
+      "question": "Що таке meta robots noindex і чим відрізняється від Disallow у robots.txt?",
+      "correct_answer": "noindex — не індексувати сторінку (але можна сканувати); Disallow у robots.txt — не сканувати (але може індексуватися за external links без знання вмісту); для гарантованого виключення з індексу — noindex (або X-Robots-Tag для не-HTML)",
+      "explanation": "Якщо одночасно Disallow і noindex — Google не побачить noindex, бо не сканує. Спочатку приберіть Disallow, дочекайтеся переіндексу, потім ставте Disallow. Альтернативи: passwd, X-Robots-Tag header.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "noindex блокує JS, Disallow — CSS",
+        "Disallow на mobile, noindex на desktop",
+        "noindex — для зображень, Disallow — для HTML",
+        "Disallow заборонений з 2020, лише noindex",
+        "noindex — у sitemap, Disallow — у robots.txt",
+        "Disallow — для бекенду, noindex — для фронтенду",
+        "noindex — для footer, Disallow — для header",
+        "Disallow видаляє сторінку з SERP миттєво",
+        "noindex прискорює crawling, Disallow сповільнює",
+        "Disallow — це 301 redirect, noindex — 302"
+      ]
+    },
+    {
+      "id": "seo-016",
+      "question": "Що таке Generative Engine Optimization (GEO) / llms.txt?",
+      "correct_answer": "Оптимізація контенту для цитування у AI Overviews (Google), ChatGPT, Perplexity тощо — структурований зрозумілий контент, citability на passage-рівні, чіткі факти, llms.txt — стандарт-пропозиція для опису контенту LLM-крауллерам",
+      "explanation": "Тактики GEO: чіткі заголовки-питання, короткі прямі відповіді на початку, факти/статистика з джерелами, structured data, brand mentions. llms.txt (за аналогією з robots.txt) — Markdown-файл у корені, що описує сайт для AI-агентів.",
+      "fake_answers": [
+        "Geographic SEO — лише для локальних бізнесів",
+        "Geometric Optimization — для CSS-анімацій",
+        "Generic Engine Output — стандарт API",
+        "Geo-targeted Email Outreach — email-маркетинг",
+        "Genetic Evolutionary Operator — алгоритм ML",
+        "Global Energy Optimization — green hosting",
+        "GraphQL Endpoint Optimization — для API",
+        "Game Engine Optimization — для Unity",
+        "Government Engineering Operations — compliance",
+        "Geological Earth Observation — Google Earth",
+        "General Encryption Output — TLS-стандарт"
+      ]
+    },
+    {
+      "id": "seo-017",
+      "question": "Що таке локальне SEO та що таке NAP?",
+      "correct_answer": "Локальне SEO — оптимізація під \"near me\" і місцеві запити (карти, місцева видача); NAP = Name, Address, Phone — три основні дані бізнесу, що мають бути ідентичними скрізь (Google Business Profile, сайт, каталоги)",
+      "explanation": "Ключові фактори: повний і точний Google Business Profile, відгуки, локальні backlinks і citations, LocalBusiness schema, mobile-friendly, місцеві ключові слова. Невідповідність NAP — серйозний негативний сигнал.",
+      "fake_answers": [
+        "Network Access Point — мережевий термін",
+        "Network Address Protocol — IP-адресація",
+        "New Application Page — Salesforce",
+        "Native App Performance — мобільна метрика",
+        "Notification Authorization Push — для PWA",
+        "Numeric Account Pin — банківський термін",
+        "Not Applicable Parameter — RFC",
+        "Node API Plugin — Node.js модуль",
+        "Negative Action Pattern — UX-термін",
+        "Nested Array Pointer — структура даних",
+        "New Account Process — onboarding"
+      ]
+    },
+    {
+      "id": "seo-018",
+      "question": "Що таке Google Search Console і навіщо?",
+      "correct_answer": "Безкоштовний інструмент Google для моніторингу присутності сайту у пошуку: показує impressions/clicks/CTR/позиції за запитами, статус індексації, помилки crawl, Core Web Vitals, sitemap, mobile usability, security issues",
+      "explanation": "Обов'язковий для будь-якого власника сайту. Дозволяє: подати sitemap, попросити переіндексацію URL (URL Inspection), знайти технічні проблеми, побачити реальні запити (єдине місце з реальними keywords після того, як Analytics приховала).",
+      "fake_answers": [
+        "Платна версія Google Analytics для enterprise",
+        "Розширений Lighthouse для Chrome",
+        "Хмарна IDE від Google",
+        "Альтернатива Notion для документації",
+        "Сервіс для запуску Google Cloud Functions",
+        "Дашборд для Google Ads кампаній",
+        "Інструмент для управління Google Workspace",
+        "Сервіс моніторингу Google Cloud серверів",
+        "Bug tracker для відкритих помилок Chromium",
+        "Каталог Google Marketplace додатків",
+        "Інтерфейс адміна Gmail для бізнесу"
+      ]
+    },
+    {
+      "id": "seo-019",
+      "question": "Що таке duplicate content і як з ним боротися?",
+      "correct_answer": "Однаковий або майже однаковий контент на кількох URL — розмиває link equity і плутає пошуковики; рішення: 301 редирект на канонічну версію, rel=canonical, noindex для дублікатів, унікальний контент",
+      "explanation": "Часті причини: HTTP/HTTPS, www/non-www, trailing slash, URL-параметри (?utm_), printer-friendly versions, faceted navigation. Не штраф (зазвичай), але втрата позицій. Тонкий контент і syndicated content — окремі проблеми.",
+      "fake_answers": [
+        "Це коли контент повторюється у пам'яті — рішення оновити RAM",
+        "Дубльовані файли у git — використовувати git dedupe",
+        "Копії БД — використовувати master-slave replication",
+        "Дублікати у CDN — TTL налаштувати",
+        "Дублікати email — використовувати DKIM",
+        "Це проблема версіонування CSS — рішення SCSS",
+        "Дублікати у JS bundle — tree shaking",
+        "Це коли два розробники пишуть однаковий код",
+        "Дублікати у sitemap — видалити sitemap",
+        "Це проблема CRON-задач — використати unique lock",
+        "Дублікати у логах — log rotation"
+      ]
+    },
+    {
+      "id": "seo-020",
+      "question": "Що таке anchor text і чому важливо різноманіття?",
+      "correct_answer": "Текст-якір кліку посилання (наприклад, \"найкращі кросівки\" у <a>); Google використовує його як сигнал про тематику цільової сторінки; одноманітні exact-match anchors з зовнішніх сайтів — сигнал маніпуляції (Penguin)",
+      "explanation": "Природний профіль: brand (компанія), naked URL, generic (\"тут\", \"читати далі\"), partial-match, exact-match — різноманітно. Перенасичення exact-match — ризик пенальті. Внутрішні anchor можна оптимізувати агресивніше.",
+      "fake_answers": [
+        "Текст у footer — anchor text",
+        "Title тегу <a> атрибут",
+        "Alt тегу <img> атрибут",
+        "URL у атрибуті href",
+        "Текст у onhover атрибуті JS",
+        "Назва файлу за посиланням",
+        "Текст у placeholder input",
+        "Назва кнопки у атрибуті aria-label",
+        "Назва meta tag",
+        "Текст у JS-події click",
+        "Заголовок iframe"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,387 @@
+{
+  "skill_id": "kubernetes",
+  "skill_name": "Kubernetes",
+  "difficulty": "A-Rank",
+  "questions": [
+    {
+      "id": "kubernetes-001",
+      "question": "Що таке Pod у Kubernetes?",
+      "correct_answer": "Найменша одиниця деплою — один або кілька контейнерів зі спільним мережевим namespace і storage",
+      "explanation": "Контейнери в одному Pod мають спільний IP, localhost і можуть ділити volume. Зазвичай один Pod = один основний контейнер плюс sidecar-и (logging, proxy, init).",
+      "fake_answers": [
+        "Це VM в Kubernetes-кластері",
+        "Окремий контейнер з власним IP завжди",
+        "Група нод у кластері",
+        "Аналог Docker Compose файлу",
+        "Реплікація Deployment між зонами",
+        "Тип Service для базах даних",
+        "Namespace для груп контейнерів",
+        "Окремий etcd-инстанс",
+        "Network policy між сервісами",
+        "Контейнер з вбудованим kube-proxy",
+        "Окрема версія kubelet"
+      ]
+    },
+    {
+      "id": "kubernetes-002",
+      "question": "Чим Deployment відрізняється від StatefulSet?",
+      "correct_answer": "Deployment — для stateless додатків з ідентичними Pod-ами, StatefulSet — для stateful зі стабільними іменами і власним PVC",
+      "explanation": "StatefulSet створює Pod-и з передбачуваними іменами (myapp-0, myapp-1), стабільним мережевим ідентифікатором і власним PersistentVolumeClaim для кожного. Це потрібно для БД, Kafka, ZooKeeper.",
+      "fake_answers": [
+        "Deployment працює тільки в одному namespace, StatefulSet у багатьох",
+        "StatefulSet застарів і замінений на Deployment",
+        "Deployment не підтримує реплік, StatefulSet до 1000",
+        "StatefulSet не може мати rolling update",
+        "Deployment працює лише з Docker, StatefulSet з containerd",
+        "StatefulSet не використовує ReplicaSet",
+        "Deployment не підтримує volumes",
+        "StatefulSet створює окремий Service автоматично без headless",
+        "Deployment запускає Pod-и послідовно, StatefulSet паралельно",
+        "StatefulSet працює тільки на bare-metal",
+        "Deployment не може робити rollback"
+      ]
+    },
+    {
+      "id": "kubernetes-003",
+      "question": "Що таке Service типу ClusterIP?",
+      "correct_answer": "Внутрішня віртуальна IP-адреса, доступна тільки всередині кластера",
+      "explanation": "ClusterIP — дефолтний тип Service. kube-proxy налаштовує iptables/IPVS правила, які балансують трафік на endpoint-и Pod-ів. Ззовні кластера такий Service напряму недоступний.",
+      "fake_answers": [
+        "IP-адреса вузла кластера",
+        "Публічний LoadBalancer від хмарного провайдера",
+        "Адреса etcd",
+        "Зовнішній DNS сервісу",
+        "IP конкретного Pod-а",
+        "Адреса інгрес-контролера",
+        "VPN-адреса між кластерами",
+        "IP API-сервера Kubernetes",
+        "Адреса CNI плагіна",
+        "IP, який роздається лише StatefulSet-ам",
+        "Адреса для зв'язку з kubelet"
+      ]
+    },
+    {
+      "id": "kubernetes-004",
+      "question": "Що таке Headless Service і коли він потрібен?",
+      "correct_answer": "Service з clusterIP: None — DNS повертає список IP-адрес Pod-ів напряму, без балансування",
+      "explanation": "Використовується для StatefulSet, де клієнт має знати конкретний Pod (myapp-0.myapp-svc), для service discovery, sharding, БД-кластерів. Без headless DNS повертає один ClusterIP.",
+      "fake_answers": [
+        "Service без портів",
+        "Service без selector взагалі",
+        "Service з типом ExternalName",
+        "Service для CronJob-ів",
+        "Service у режимі read-only",
+        "Service без access до Ingress",
+        "Service без NetworkPolicy",
+        "Service з вимкненим kube-proxy",
+        "Service без RBAC",
+        "Service для DaemonSet-ів",
+        "Service для metrics-server"
+      ]
+    },
+    {
+      "id": "kubernetes-005",
+      "question": "Чим liveness probe відрізняється від readiness probe?",
+      "correct_answer": "Liveness рестартує контейнер при failure, readiness виключає Pod з балансування Service-у",
+      "explanation": "Liveness — це 'жив чи мертвий'. Readiness — це 'готовий приймати трафік'. Pod може бути живий, але не готовий (прогрівається, мігрує БД). Помилка з liveness часто призводить до crash-loop, тому readiness важливіша.",
+      "fake_answers": [
+        "Liveness виконується раз на старті, readiness постійно",
+        "Liveness працює лише через TCP, readiness через HTTP",
+        "Readiness рестартує Pod, liveness — Node",
+        "Liveness — це аналог HEALTHCHECK у Docker без різниці",
+        "Readiness блокує деплоймент, liveness ні",
+        "Liveness застарів і не використовується",
+        "Readiness вимагає sidecar-контейнера",
+        "Liveness синхронний, readiness асинхронний",
+        "Readiness створює окремий Pod для перевірки",
+        "Liveness викликається тільки через kubectl exec",
+        "Readiness впливає тільки на StatefulSet"
+      ]
+    },
+    {
+      "id": "kubernetes-006",
+      "question": "Що таке startup probe і коли її варто використовувати?",
+      "correct_answer": "Probe для повільних застосунків, який вимикає liveness/readiness до повного старту",
+      "explanation": "Якщо застосунок стартує довго (Java, .NET, важка міграція БД), liveness може вбити його раніше готовності. Startup probe дає grace-період: поки вона не пройде, інші probes не запускаються.",
+      "fake_answers": [
+        "Probe яка запускається тільки після рестарту Pod-а",
+        "Probe для перевірки кластера в цілому",
+        "Probe яка замінює readiness повністю",
+        "Probe для Init-контейнерів",
+        "Probe для kubelet-у",
+        "Probe для контролю CPU usage",
+        "Probe яка перевіряє, чи піднявся Service",
+        "Probe для StorageClass",
+        "Probe яка викликається перед kubectl apply",
+        "Probe для перевірки Network Policy",
+        "Probe яка запускається лише раз при першому деплої"
+      ]
+    },
+    {
+      "id": "kubernetes-007",
+      "question": "Чим ConfigMap відрізняється від Secret?",
+      "correct_answer": "ConfigMap — для нечутливої конфігурації у plain text, Secret — для чутливих даних, що зберігаються base64 і керуються RBAC окремо",
+      "explanation": "Технічно Secret лише base64 (не шифрування), але має окремий RBAC, не показується у kubectl get як значення і шифрується at rest у etcd при увімкненому encryption provider. Для справжнього шифрування — Sealed Secrets, External Secrets, Vault.",
+      "fake_answers": [
+        "Secret шифрується AES за замовчуванням, ConfigMap ні",
+        "ConfigMap живе тільки в kube-system, Secret у будь-якому namespace",
+        "Secret видно лише адміну кластера, ConfigMap всім",
+        "ConfigMap може бути тільки у форматі YAML, Secret тільки JSON",
+        "Secret реплікується між кластерами, ConfigMap ні",
+        "ConfigMap не можна монтувати як volume",
+        "Secret не оновлюється без рестарту Pod-а ніколи",
+        "ConfigMap створюється тільки через Helm",
+        "Secret працює лише з StatefulSet",
+        "ConfigMap і Secret абсолютно ідентичні",
+        "Secret шифрується паролем користувача автоматично"
+      ]
+    },
+    {
+      "id": "kubernetes-008",
+      "question": "Що робить HPA (Horizontal Pod Autoscaler)?",
+      "correct_answer": "Автоматично масштабує кількість реплік Deployment/StatefulSet на основі метрик (CPU, memory, custom)",
+      "explanation": "HPA читає метрики з metrics-server або custom adapter і змінює replicas. Працює з Pod-ами, які мають resource requests. Для масштабування ресурсів окремого Pod-а існує VPA, для масштабування нод — Cluster Autoscaler.",
+      "fake_answers": [
+        "Масштабує ресурси окремого контейнера (це VPA)",
+        "Додає нові ноди в кластер (це Cluster Autoscaler)",
+        "Балансує трафік між Pod-ами",
+        "Реплікує Pod-и між кластерами",
+        "Автоматично рестартує Pod-и при OOM",
+        "Збільшує розмір PVC",
+        "Створює Ingress-правила автоматично",
+        "Масштабує etcd",
+        "Резервує CPU на нодах",
+        "Перерозподіляє Pod-и між зонами доступності",
+        "Змінює конфігурацію CNI"
+      ]
+    },
+    {
+      "id": "kubernetes-009",
+      "question": "Що таке Ingress?",
+      "correct_answer": "Об'єкт, який описує HTTP/HTTPS-маршрутизацію зовнішнього трафіку до Service-ів на основі хоста і шляху",
+      "explanation": "Сам Ingress — це лише декларація. Працює він лише з Ingress Controller (nginx-ingress, traefik, istio gateway), який реалізує правила. Дає економію LoadBalancer-ів і централізовану TLS-термінацію.",
+      "fake_answers": [
+        "Service з типом NodePort",
+        "Тип Pod-а для бекенда",
+        "API Gateway, що замінює всі Service",
+        "Внутрішній DNS",
+        "Контролер для CronJob",
+        "Replication controller для Service",
+        "Сервіс, який дає Pod-ам зовнішні IP без LB",
+        "VPN-тунель між кластерами",
+        "Тип volume для зовнішнього трафіку",
+        "Replacement для kube-proxy",
+        "DNS-резолвер між Pod-ами"
+      ]
+    },
+    {
+      "id": "kubernetes-010",
+      "question": "Що відбувається при rolling update Deployment?",
+      "correct_answer": "Створюється новий ReplicaSet, поступово піднімаються нові Pod-и і вбиваються старі за стратегією maxSurge/maxUnavailable",
+      "explanation": "Старий ReplicaSet не видаляється — він зберігається в історії revisions для rollback. Швидкість керується через maxSurge (скільки понад бажане можна тимчасово підняти) і maxUnavailable (скільки можна одразу вимкнути).",
+      "fake_answers": [
+        "Усі Pod-и одразу замінюються новими",
+        "Створюється новий Deployment з нуля, старий видаляється",
+        "Робиться snapshot кластера, потім apply нових Pod-ів",
+        "Pod-и оновлюються через kubectl exec без рестарту",
+        "Старий ReplicaSet видаляється одразу для економії пам'яті",
+        "Rolling update неможливий без StatefulSet",
+        "Запускається Job, який мігрує всі Pod-и",
+        "Створюється blue/green-копія Service",
+        "Pod-и переносяться між нодами без зміни образу",
+        "Образ оновлюється in-place в працюючому контейнері",
+        "DaemonSet перевипускається на кожній ноді"
+      ]
+    },
+    {
+      "id": "kubernetes-011",
+      "question": "Що таке taint і toleration?",
+      "correct_answer": "Taint на ноді відштовхує Pod-и, toleration на Pod-і дозволяє йому стерпіти конкретний taint",
+      "explanation": "Це механізм негативного scheduling: ноду помічають (наприклад, gpu=true:NoSchedule), і тільки Pod-и з відповідним toleration можуть на неї потрапити. Не плутати з node affinity (позитивним).",
+      "fake_answers": [
+        "Toleration на ноді, taint на Pod-і",
+        "Taint це обмеження ресурсів Pod-а",
+        "Taint це автоматичний рестарт ноди",
+        "Toleration це alias для liveness probe",
+        "Taint це політика мережі між Pod-ами",
+        "Toleration це капабіліті контейнера",
+        "Taint це rate limit для API сервера",
+        "Toleration це права RBAC",
+        "Taint це health-check ноди",
+        "Toleration це storage policy",
+        "Taint це лейбл namespace"
+      ]
+    },
+    {
+      "id": "kubernetes-012",
+      "question": "Чим DaemonSet відрізняється від Deployment?",
+      "correct_answer": "DaemonSet гарантує по одному Pod-у на кожну (або вибрану) ноду кластера",
+      "explanation": "Використовується для node-агентів: log collector (fluentd), monitoring (node-exporter), CNI, CSI. Коли додається нова нода — DaemonSet автоматично створює на ній Pod.",
+      "fake_answers": [
+        "DaemonSet створює Pod-и тільки в kube-system",
+        "DaemonSet — це StatefulSet з одною реплікою",
+        "DaemonSet працює тільки з privileged-Pod-ами",
+        "DaemonSet рестартує Pod-и кожну хвилину",
+        "DaemonSet не підтримує rolling update",
+        "DaemonSet створює один Pod на namespace",
+        "DaemonSet — це просто аліас Deployment з replicas=N",
+        "DaemonSet працює тільки на master-нодах",
+        "DaemonSet не може мати volumes",
+        "DaemonSet створює Pod на кожному CPU-ядрі",
+        "DaemonSet потребує власний Service Account"
+      ]
+    },
+    {
+      "id": "kubernetes-013",
+      "question": "Що таке requests і limits для контейнера?",
+      "correct_answer": "Requests — мінімум ресурсів для scheduling, limits — максимум, який контейнер не може перевищити",
+      "explanation": "Scheduler розміщує Pod виходячи з requests. Якщо контейнер перевищує CPU limit — його тротлять; якщо memory limit — OOMKilled. Співвідношення requests і limits задає QoS class (Guaranteed/Burstable/BestEffort).",
+      "fake_answers": [
+        "Requests — це аналог limits, просто інша назва",
+        "Limits — мінімум, requests — максимум",
+        "Requests — це SLA, limits — SLO",
+        "Limits можна перевищувати на 10% для memory",
+        "Requests працюють тільки для CPU",
+        "Limits ігноруються на bare-metal",
+        "Requests виставляються кластером автоматично",
+        "Limits впливають лише на Pod priority",
+        "Requests і limits діють тільки на StatefulSet",
+        "Limits задаються тільки на рівні namespace",
+        "Requests гарантують exclusive CPU pinning"
+      ]
+    },
+    {
+      "id": "kubernetes-014",
+      "question": "Що таке init container і коли він використовується?",
+      "correct_answer": "Контейнер, який виконується до старту основних контейнерів Pod-а і має завершитися успішно",
+      "explanation": "Init-и виконуються послідовно. Типові кейси: міграції БД, очікування доступності залежностей, генерація конфігів, копіювання секретів. Вони можуть мати інший образ, ніж основний контейнер.",
+      "fake_answers": [
+        "Контейнер, який запускається паралельно основному",
+        "Sidecar для логування",
+        "Контейнер, що працює фоном поряд з основним",
+        "Перший контейнер у Deployment",
+        "Контейнер з privileged: true завжди",
+        "Контейнер який рестартує основний при failure",
+        "Headless контейнер у StatefulSet",
+        "Окремий Pod, який стартує перед іншими Pod-ами",
+        "Контейнер, що тримає ConfigMap",
+        "Допоміжний контейнер для readiness probe",
+        "Контейнер, який створює PVC"
+      ]
+    },
+    {
+      "id": "kubernetes-015",
+      "question": "Яка різниця між PV і PVC?",
+      "correct_answer": "PV — реальний ресурс зберігання у кластері, PVC — заявка Pod-а на сховище з певними характеристиками",
+      "explanation": "PVC — це абстракція: Pod просить '10Gi RWO storage'. Kubernetes (через StorageClass) створює або біндить відповідний PV. PV може бути ручний (статичний) або динамічний (через provisioner).",
+      "fake_answers": [
+        "PV — заявка, PVC — реальне сховище",
+        "PV для StatefulSet, PVC для Deployment",
+        "PV локальний, PVC завжди мережевий",
+        "PVC шифрується, PV ні",
+        "PV прив'язаний до namespace, PVC до кластера",
+        "PV керує бекапами, PVC квотами",
+        "PV — це аліас StorageClass",
+        "PVC створюється тільки оператором",
+        "PV не підтримує ReadWriteMany",
+        "PV — це бакет S3, PVC — точка монтування",
+        "PV — read-only, PVC — read-write"
+      ]
+    },
+    {
+      "id": "kubernetes-016",
+      "question": "Що таке NetworkPolicy і чим вона забезпечується?",
+      "correct_answer": "Декларативні правила allow для трафіку між Pod-ами; реалізуються CNI-плагіном (Calico, Cilium, Weave)",
+      "explanation": "За замовчуванням Pod-и можуть спілкуватись з усіма. NetworkPolicy за labels/namespaces дозволяє обмежити вхідний/вихідний трафік. Без CNI з підтримкою policy (наприклад, flannel без add-on) політики ігноруються.",
+      "fake_answers": [
+        "Реалізуються kube-proxy через iptables-only",
+        "Створюють правила в etcd, які виконує API server",
+        "Працюють лише в hostNetwork режимі",
+        "Реалізуються Ingress контролером",
+        "Це аналог security group AWS, керований через kubelet",
+        "Працюють тільки з ServiceMesh",
+        "Реалізуються containerd напряму",
+        "Це частина LimitRange",
+        "Це обмеження CPU/RAM",
+        "Це аналог RBAC для мережі без CNI",
+        "Це AppArmor правила"
+      ]
+    },
+    {
+      "id": "kubernetes-017",
+      "question": "Що таке RBAC у Kubernetes?",
+      "correct_answer": "Role-Based Access Control — об'єкти Role/ClusterRole і RoleBinding/ClusterRoleBinding, які дають правa суб'єктам на ресурси API",
+      "explanation": "Role обмежена namespace, ClusterRole — кластерна. RoleBinding прив'язує ServiceAccount, User або Group до ролі. Принцип найменших привілеїв: для CI давати лише потрібні verbs.",
+      "fake_answers": [
+        "Резервне відновлення кластера",
+        "Алгоритм балансування трафіку round-robin",
+        "Тип StorageClass для бекапів",
+        "Кеш для kube-proxy",
+        "Алгоритм розподілу Pod-ів між нодами",
+        "Ringfencing для контейнерів",
+        "Replication-Based Access Control для StatefulSet",
+        "Rule-Based Access Configuration для Ingress",
+        "Repository-Based Access Control для образів",
+        "Realtime Backup and Configuration",
+        "Read-Block Access Control"
+      ]
+    },
+    {
+      "id": "kubernetes-018",
+      "question": "Що робить kubectl rollout undo deployment/myapp?",
+      "correct_answer": "Повертає Deployment до попередньої ревізії, переключаючись на старий ReplicaSet",
+      "explanation": "Kubernetes зберігає історію ReplicaSet-ів (revisionHistoryLimit). undo без --to-revision відкочує на попередню. Це безпечне rolling-перемикання, а не миттєве — працює rolling update у зворотний бік.",
+      "fake_answers": [
+        "Видаляє Deployment повністю",
+        "Зупиняє всі Pod-и без рестарту",
+        "Перезапускає кластер",
+        "Видаляє історію ReplicaSet-ів",
+        "Виконує kubectl delete і потім apply",
+        "Створює snapshot etcd",
+        "Скасовує останній kubectl apply на всі ресурси",
+        "Перемикає Service на старий ClusterIP",
+        "Робить failover на інший кластер",
+        "Перемикає Ingress на попередній бекенд",
+        "Очищає кеш kubelet"
+      ]
+    },
+    {
+      "id": "kubernetes-019",
+      "question": "Що таке Helm chart?",
+      "correct_answer": "Пакет шаблонів Kubernetes-маніфестів з values.yaml для параметризації і релізами",
+      "explanation": "Helm — менеджер пакетів. Chart — це папка з templates/ (Go templates з sprig-функціями), values.yaml (дефолти) і Chart.yaml (метадані). helm install/upgrade створює release у кластері.",
+      "fake_answers": [
+        "Окремий тип Pod-а",
+        "Образ Docker з маніфестами всередині",
+        "Контролер для CronJob",
+        "Сервіс для бекапу etcd",
+        "Тип StorageClass",
+        "Sidecar контейнер для маніфестів",
+        "Replacement для kubectl apply без шаблонів",
+        "Лінтер YAML",
+        "API сервер для маніфестів",
+        "Окремий cluster controller",
+        "Алгоритм валідації CRD"
+      ]
+    },
+    {
+      "id": "kubernetes-020",
+      "question": "Що таке Kubernetes Operator?",
+      "correct_answer": "Custom controller з CRD, який автоматизує операційні задачі складних застосунків (БД, Kafka, etc.)",
+      "explanation": "Оператор постійно порівнює бажаний стан (CRD) з фактичним і доводить кластер до бажаного. Реалізує знання SRE для конкретного додатку: бекапи, фейловер, апгрейди. Шаблон 'controller pattern'.",
+      "fake_answers": [
+        "Користувач з адмінськими правами",
+        "Тип Pod-а з privileged: true",
+        "Окремий kubectl-плагін",
+        "Сервіс для логування kube-apiserver",
+        "Daemon для збору метрик",
+        "API Gateway для CRD",
+        "Sidecar для всіх Pod-ів namespace",
+        "Контролер DNS у кластері",
+        "Replacement для Helm без CRD",
+        "Окремий kubelet з розширеними правами",
+        "Інтерфейс для управління nodes"
+      ]
+    }
+  ]
+}

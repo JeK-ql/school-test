@@ -1,0 +1,102 @@
+{
+  "skill_id": "chatbots",
+  "skill_name": "Chatbots (Telegram / Discord)",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "chat-001",
+      "question": "Які два режими роботи Telegram-бота для отримання оновлень?",
+      "correct_answer": "Long polling (getUpdates) і Webhook",
+      "explanation": "Polling — бот сам опитує API. Webhook — Telegram пушить оновлення на ваш HTTPS-endpoint (потрібен публічний URL і валідний TLS).",
+      "fake_answers": [
+        "WebSocket і SSE",
+        "TCP raw і UDP",
+        "MQTT і AMQP",
+        "Push і Pull",
+        "Sync і Async",
+        "REST і GraphQL",
+        "JSON-RPC і SOAP",
+        "Webhook і Cron",
+        "gRPC і polling",
+        "STOMP і WAMP",
+        "Поллінг через cron і polling через cron"
+      ]
+    },
+    {
+      "id": "chat-002",
+      "question": "Як налаштувати inline-клавіатуру в Telegram-боті?",
+      "correct_answer": "Передати reply_markup з InlineKeyboardMarkup і масивом InlineKeyboardButton",
+      "explanation": "InlineKeyboard прикріплюється до конкретного повідомлення. Кнопки можуть мати callback_data (повертається в callback_query) або url.",
+      "fake_answers": [
+        "Через HTML-форму у відповіді",
+        "Через окремий endpoint /keyboard",
+        "Через файл keyboard.json у репозиторії",
+        "Через CSS-стилі у повідомленні",
+        "Через спеціальний WebSocket-канал",
+        "Через MIME-тип text/keyboard",
+        "Через SVG зображення з кнопками",
+        "Лише через ReplyKeyboardMarkup",
+        "Через реєстрацію у BotFather окремо",
+        "Через GraphQL мутацію setKeyboard",
+        "Через HTTP-метод OPTIONS"
+      ]
+    },
+    {
+      "id": "chat-003",
+      "question": "Що таке slash-команди в Discord?",
+      "correct_answer": "Зареєстровані через API команди, що з'являються у списку при введенні '/' і мають типізовані опції",
+      "explanation": "Замінили текстові префіксні команди. Реєструються глобально або на guild. Discord валідує опції перед викликом обробника.",
+      "fake_answers": [
+        "Команди, що працюють лише в адмін-каналі",
+        "Команди, що шифруються",
+        "Скорочення URL '/' у каналах",
+        "Лише команди для модераторів",
+        "Команди, що виконуються в shell",
+        "Команди для інтеграції з GitHub",
+        "Команди, що автоматично логуються в S3",
+        "Команди лише через webhook",
+        "Команди лише в DM",
+        "Розширення для голосових каналів",
+        "Лише emoji-команди"
+      ]
+    },
+    {
+      "id": "chat-004",
+      "question": "Як уникнути ліміту Telegram Bot API на повідомлення?",
+      "correct_answer": "Дотримуватися лімітів (≤30 msg/sec глобально, 1 msg/sec на чат), використовувати чергу з rate limiter",
+      "explanation": "При перевищенні приходить 429 з retry_after. Радять: чергу з паузами, групове повідомлення замість багатьох, sendMediaGroup для медіа.",
+      "fake_answers": [
+        "Купити PRO-підписку — лімітів не буде",
+        "Створити кілька ботів і слати з різних",
+        "Слати через webhook — там лімітів немає",
+        "Використати PUT замість POST",
+        "Запитати у BotFather збільшення ліміту",
+        "Стискати повідомлення в gzip",
+        "Слати через Telegram Web замість API",
+        "Слати через UDP",
+        "Слати з різних дата-центрів",
+        "Слати з кількох IP",
+        "Перейти на MTProto клієнт"
+      ]
+    },
+    {
+      "id": "chat-005",
+      "question": "Як зробити стан розмови в боті (наприклад, форма з кількох питань)?",
+      "correct_answer": "Зберігати стан per-user у сховищі (Redis/БД) і обробляти кожне повідомлення відповідно до поточного кроку",
+      "explanation": "Часто реалізують через FSM (finite state machine). Бібліотеки aiogram/telegraf/grammY мають вбудовані State/Scene абстракції.",
+      "fake_answers": [
+        "Зберігати стан в URL шляху callback'а",
+        "Telegram сам пам'ятає стан між повідомленнями",
+        "Зберігати у localStorage клієнта",
+        "Через cookie у заголовках Telegram",
+        "Через chat_id як єдиний ідентифікатор без даних",
+        "Стан зберігається у sessionStorage Telegram-серверу",
+        "Через окремий Telegram-канал",
+        "Через global змінну в коді бота",
+        "Стан передається у photo metadata",
+        "Через кеш CDN",
+        "Через JWT-токен у тексті повідомлення"
+      ]
+    }
+  ]
+}

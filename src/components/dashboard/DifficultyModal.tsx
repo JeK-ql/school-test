@@ -1,6 +1,7 @@
 'use client';
 import { SystemModal } from '@/components/ui/SystemModal';
 import { NeonButton } from '@/components/ui/NeonButton';
+import { Icon } from '@/components/ui/Icon';
 import { useRouter } from 'next/navigation';
 
 interface Props {
@@ -22,47 +23,64 @@ export function DifficultyModal({ open, onClose, skillId, skillName }: Props) {
       <p className="font-mono text-[10px] tracking-system text-text-muted mb-5 uppercase">
         SELECT DIFFICULTY
       </p>
-      <div className="space-y-2.5">
+
+      <div className="space-y-3">
         <button
           onClick={() => start('normal')}
-          className="group w-full text-left border border-accent/40 hover:border-accent hover:shadow-glow hover:bg-[color:var(--accent-color)]/5 p-4 transition-all"
+          className="hud-target hud-target-active group block w-full text-left p-4"
         >
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="font-display tracking-system uppercase text-accent text-sm text-glow">
-                ▶ NORMAL
+          <span className="hud-scan" aria-hidden />
+          <div className="relative z-[3] flex items-center gap-4">
+            <Icon name="sword-staff" size={40} className="shrink-0 drop-glow" />
+            <div className="min-w-0 flex-1">
+              <div className="font-display tracking-system uppercase text-accent text-[15px] text-glow">
+                NORMAL
               </div>
-              <div className="font-mono text-[10px] tracking-system text-text-muted mt-1">
-                30 SEC / QUESTION
+              <div className="font-mono text-[10px] tracking-[0.14em] text-text-muted mt-2 uppercase flex items-center gap-2">
+                <span>30s</span>
+                <span className="text-text-subtle">//</span>
+                <span className="text-accent/70">STANDARD</span>
               </div>
             </div>
-            <span className="font-mono text-[10px] text-text-subtle group-hover:text-accent">
-              STANDARD ◢
-            </span>
+            <Icon
+              name="gate-portal"
+              size={26}
+              className="shrink-0 drop-glow transition-transform duration-300 group-hover:translate-x-1"
+            />
           </div>
         </button>
 
         <button
           onClick={() => start('hardcore')}
-          className="group w-full text-left border border-danger/40 hover:border-danger hover:shadow-[0_0_14px_#FF005C] hover:bg-danger/5 p-4 transition-all"
+          className="hud-target hud-target-danger group block w-full text-left p-4"
         >
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="font-display tracking-system uppercase text-danger text-sm [text-shadow:0_0_10px_rgba(255,0,92,0.5)]">
-                ◈ HARDCORE
+          <span className="hud-scan" aria-hidden />
+          <div className="relative z-[3] flex items-center gap-4">
+            <Icon
+              name="glowing-skull"
+              size={40}
+              className="shrink-0 [filter:drop-shadow(0_0_10px_rgba(255,0,92,0.55))]"
+            />
+            <div className="min-w-0 flex-1">
+              <div className="font-display tracking-system uppercase text-danger text-[15px] [text-shadow:0_0_10px_rgba(255,0,92,0.5)]">
+                HARDCORE
               </div>
-              <div className="font-mono text-[10px] tracking-system text-text-muted mt-1">
-                10 SEC / QUESTION · NO MERCY
+              <div className="font-mono text-[10px] tracking-[0.14em] text-text-muted mt-2 uppercase flex items-center gap-2">
+                <span>10s</span>
+                <span className="text-text-subtle">//</span>
+                <span className="text-danger/80">NO MERCY</span>
               </div>
             </div>
-            <span className="font-mono text-[10px] text-text-subtle group-hover:text-danger">
-              S-RANK ONLY ◢
-            </span>
+            <Icon
+              name="gate-portal"
+              size={26}
+              className="shrink-0 opacity-55 transition-[opacity,transform,filter] duration-300 group-hover:opacity-100 group-hover:translate-x-1 group-hover:[filter:drop-shadow(0_0_10px_#FF005C)]"
+            />
           </div>
         </button>
       </div>
 
-      <div className="mt-5 flex justify-center">
+      <div className="mt-6 flex justify-center">
         <NeonButton variant="ghost" size="sm" onClick={onClose}>
           ⎋&nbsp;&nbsp;CANCEL
         </NeonButton>

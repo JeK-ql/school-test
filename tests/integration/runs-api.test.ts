@@ -28,6 +28,7 @@ beforeEach(async () => {
   const db = client.db('shadow-leveling');
   await db.collection('runs').deleteMany({});
   await db.collection('progress').deleteMany({});
+  await db.collection('userStats').deleteMany({});
 });
 
 function makeBody(overrides: Partial<{ skillId: string; answers: Array<{ questionId: string; result: string }> }> = {}) {
@@ -97,6 +98,61 @@ describe('POST /api/runs', () => {
     expect(data.leveledUp).toBe(true);
     expect(data.previousLevel).toBe(1);
     expect(data.newLevel).toBe(2);
+  });
+
+  it('mirrors xpDelta into account XP and backfills from existing skill progress', async () => {
+    const db = client.db('shadow-leveling');
+    // Pre-existing progress on another skill should backfill into accountXP
+    await db.collection('progress').insertOne({
+      userId: USER_ID,
+      skillId: 'css-basics',
+      totalXP: 17,
+      level: 2,
+      bestStreak: 0,
+      lastRunAccuracy: 0,
+      lastRunAt: null,
+      updatedAt: new Date(),
+    });
+    const { POST } = await import('@/app/api/runs/route');
+    await POST(
+      new Request('http://x/api/runs', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(
+          makeBody({
+            answers: [
+              { questionId: 'q1', result: 'correct' },
+              { questionId: 'q2', result: 'correct' },
+              { questionId: 'q3', result: 'correct' },
+            ],
+          }),
+        ),
+      }),
+    );
+    const stats = await db.collection('userStats').findOne({ _id: USER_ID });
+    expect(stats?.accountXP).toBe(17 + 3);
+  });
+
+  it('clamps account XP at 0 when xpDelta would push it negative', async () => {
+    const { POST } = await import('@/app/api/runs/route');
+    await POST(
+      new Request('http://x/api/runs', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(
+          makeBody({
+            answers: [
+              { questionId: 'q1', result: 'wrong' },
+              { questionId: 'q2', result: 'wrong' },
+              { questionId: 'q3', result: 'wrong' },
+            ],
+          }),
+        ),
+      }),
+    );
+    const db = client.db('shadow-leveling');
+    const stats = await db.collection('userStats').findOne({ _id: USER_ID });
+    expect(stats?.accountXP).toBe(0);
   });
 
   it('clamps totalXP at 0 when losing more than earned', async () => {

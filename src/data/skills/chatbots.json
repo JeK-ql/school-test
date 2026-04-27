@@ -1,0 +1,387 @@
+{
+  "skill_id": "chatbots",
+  "skill_name": "Chatbots (Telegram / Discord)",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "bot-001",
+      "question": "Чим відрізняється long polling (getUpdates) від webhook у Telegram Bot API?",
+      "correct_answer": "Long polling: бот сам періодично запитує сервер Telegram (getUpdates), простий локальний розвиток без публічного URL; Webhook: Telegram сам POST'ить оновлення на ваш HTTPS endpoint, ефективніший для production",
+      "explanation": "Webhook вимагає публічного HTTPS з валідним сертифікатом. Long polling зручний у dev, але не масштабується. Не можна використовувати обидва одночасно — Telegram повертає conflict. setWebhook включає, deleteWebhook вимикає.",
+      "fake_answers": [
+        "Long polling — для груп, webhook — для каналів",
+        "Long polling — для desktop, webhook — для mobile",
+        "Це абсолютні синоніми",
+        "Webhook лише для платних ботів",
+        "Long polling — для відео, webhook — для тексту",
+        "Webhook використовує HTTP без TLS",
+        "Long polling потребує webhook URL, webhook ні",
+        "Webhook не підтримує медіа",
+        "Long polling — це WebSocket з'єднання",
+        "Webhook працює лише з grammY",
+        "Long polling не передає update_id"
+      ]
+    },
+    {
+      "id": "bot-002",
+      "question": "Через що отримують і як зберігають Telegram bot token?",
+      "correct_answer": "Через @BotFather (створення/керування ботом); токен — секрет, зберігається у env vars / secrets manager, ніколи не комітити у git; компрометація = повний контроль над ботом, треба негайно ротувати через /revoke у BotFather",
+      "explanation": "Формат токена: 123456789:AABBCC..., перша частина — bot user id. BotFather також налаштовує commands, description, profile photo, inline mode, payments, web app URL.",
+      "fake_answers": [
+        "Через Telegram Web App API, зберігати у localStorage",
+        "Через @TelegramSupport, у hardcoded константі",
+        "Через Telegram Premium, у файлі token.txt",
+        "Через mtproto, у MongoDB як plain text",
+        "Через Telegram Passport, у session cookie",
+        "Через Telegram OAuth, у JWT",
+        "Через @SpamBot, у GitHub repo",
+        "Через @OfficialBot, у відкритому README",
+        "Через Telegram CLI, у sudo файлі",
+        "Через Telegram Web K, у URL параметрі",
+        "Через Telegraph API, у заголовках"
+      ]
+    },
+    {
+      "id": "bot-003",
+      "question": "Чим відрізняються InlineKeyboardMarkup і ReplyKeyboardMarkup?",
+      "correct_answer": "InlineKeyboard — кнопки прикріплені до конкретного повідомлення (callback_data, URL, web_app); ReplyKeyboard — клавіатура замість стандартної, кнопки надсилають свій текст як повідомлення від користувача",
+      "explanation": "Inline — для interactive меню (пагінація, голосування) — обробляється через callback_query. Reply — для швидких відповідей замість набору тексту. Опції reply: one_time_keyboard, resize_keyboard, selective. ForceReply — змусити користувача відповісти на конкретне повідомлення.",
+      "fake_answers": [
+        "Inline — для груп, Reply — для DM",
+        "Inline — для desktop, Reply — для mobile",
+        "Це абсолютні синоніми",
+        "Reply — для preview посилань, Inline — для тексту",
+        "Inline — для премі, Reply — для безкоштовних ботів",
+        "Reply показується завжди, Inline — лише на запит admin",
+        "Inline відсилає у канал, Reply у DM",
+        "Reply підтримує лише emoji, Inline — текст",
+        "Inline — лише через webhook, Reply — через polling",
+        "Reply — для inline mode, Inline — для bot commands",
+        "Inline зберігається у callback_data, Reply — у session"
+      ]
+    },
+    {
+      "id": "bot-004",
+      "question": "Що таке callback_query і як обробляти натискання Inline-кнопки?",
+      "correct_answer": "Update, що приходить коли юзер натискає Inline-кнопку з callback_data; обов'язково відповісти answerCallbackQuery (інакше у юзера крутиться loader); далі можна editMessageText/editMessageReplyMarkup",
+      "explanation": "callback_data — до 64 байт. Часто кодують як action:id:param (наприклад page:2:items). Великі стейти — зберігати у БД/Redis і у callback_data передавати ID. show_alert: true — показати popup. URL-кнопки і WebApp-кнопки не генерують callback_query.",
+      "fake_answers": [
+        "Це webhook на чужому сервері з HTTP callback",
+        "API запит, що повертається через певний час",
+        "Це різновид cron-задачі у боті",
+        "OAuth callback URL після авторизації",
+        "Це тип помилки HTTP 4xx",
+        "Це Promise resolve у JavaScript",
+        "Запит, що повертається через WebSocket",
+        "Це tracing span у моніторингу",
+        "Подія DOM при натисканні кнопки на сайті",
+        "RPC-виклик до іншого мікросервісу",
+        "GraphQL subscription"
+      ]
+    },
+    {
+      "id": "bot-005",
+      "question": "Які основні rate limits Telegram Bot API?",
+      "correct_answer": "30 повідомлень/сек глобально по боту; 1 повідомлення/сек у конкретний чат; ~20 повідомлень/хвилину у групу/канал; bulk-розсилки потребують throttle і backoff на 429 (retry_after у відповіді)",
+      "explanation": "Перевищення ліміту — 429 Too Many Requests з полем retry_after (секунди очікування). Для масових розсилок: розтягнути у часі (queue), використовувати Redis-based rate limiter. У великих групах ліміт строгіший. forwardMessage/sendMediaGroup мають окремі ліміти.",
+      "fake_answers": [
+        "Без обмежень — для всіх ботів",
+        "1 повідомлення/добу у бесплатних, безліч у Premium",
+        "100 повідомлень/секунду у будь-який чат",
+        "Лише 5 повідомлень/день у канал",
+        "Жодних — Telegram не має rate limit",
+        "1000 повідомлень/година глобально",
+        "10 повідомлень/секунду лише у групи",
+        "1 повідомлення/місяць — це політика антиспаму",
+        "Без обмежень для верифікованих ботів",
+        "Залежить лише від тарифу Telegram Stars",
+        "30 повідомлень/добу — це ліміт BotFather"
+      ]
+    },
+    {
+      "id": "bot-006",
+      "question": "Що таке FSM (Finite State Machine) у контексті ботів і коли потрібен?",
+      "correct_answer": "Машина станів для багатокрокових діалогів (наприклад, реєстрація: ім'я → email → телефон) — кожен стан очікує конкретного типу вводу; зберігає state per-user; реалізовано у aiogram (FSM), grammY (conversations), telegraf (scenes)",
+      "explanation": "Без FSM довгі діалоги перетворюються на спагеті з if/else. State storage: memory (втрачається при рестарті), Redis (production), MongoDB. Завжди передбачити /cancel і timeout стейту. Обережно з відновленням після рестарту бота.",
+      "fake_answers": [
+        "Filesystem Manager — менеджер файлів бота",
+        "Fast State Memory — оптимізація RAM",
+        "Function Stream Mux — мультиплексор",
+        "Frozen State Module — для read-only ботів",
+        "Friendly Service Messenger — Microsoft Bot Framework",
+        "Final Storage Mongo — конфіг MongoDB",
+        "Federated State Mesh — service mesh",
+        "Forward Stream Method — пересилання повідомлень",
+        "Filter Spam Manager — антиспам",
+        "Free Subscription Mode — для каналів",
+        "Form Submit Method — обробка форм"
+      ]
+    },
+    {
+      "id": "bot-007",
+      "question": "Що таке file_id у Telegram і чому його варто перевикористовувати?",
+      "correct_answer": "Унікальний ідентифікатор файлу на серверах Telegram, що приходить після завантаження; повторне відправлення з file_id не передає файл повторно — миттєве і не витрачає ваш bandwidth/час",
+      "explanation": "file_id специфічний для кожного бота і середовища (test/prod). file_unique_id — стабільний між ботами/сесіями для того ж файлу (для дедуплікації). Після першого upload зберігайте file_id у БД для повторних надсилань.",
+      "fake_answers": [
+        "Локальний шлях до файлу на сервері бота",
+        "URL до файлу у CDN Telegram",
+        "MD5 хеш файлу",
+        "Назва файлу з розширенням",
+        "Розмір файлу у байтах",
+        "MIME-type файлу",
+        "ID користувача, що завантажив файл",
+        "Часова мітка завантаження",
+        "Filesystem inode на сервері",
+        "S3 bucket key файлу",
+        "JWT токен доступу до файлу"
+      ]
+    },
+    {
+      "id": "bot-008",
+      "question": "Чим відрізняються канали, групи і приватні чати у Telegram з точки зору бота?",
+      "correct_answer": "Приватний чат — 1-to-1 з юзером, бачить усе; група — багато юзерів, бот за замовчуванням бачить лише команди (privacy mode), потрібно вимкнути privacy у BotFather або зробити admin; канал — broadcast, бот має бути admin для постингу",
+      "explanation": "Privacy mode у групах — захист від bot-spam. У супергрупах ботам надають специфічні права (delete messages, ban users). Канали можуть мати обговорення — пов'язана група. Discussion threads — окремий тип чату.",
+      "fake_answers": [
+        "Усі три однакові з точки зору бота",
+        "Канали для відео, групи для тексту, чати для голосу",
+        "Бот завжди бачить усі повідомлення скрізь",
+        "Канали — це групи з більше ніж 100 учасників",
+        "Чати — для preview, групи — для commit, канали — для merge",
+        "Канали — лише для верифікованих юзерів",
+        "Групи — для P2P, канали — для broadcast WebSocket",
+        "Чати лише з ботом, групи лише з юзерами",
+        "Канали мають GraphQL API, групи REST",
+        "Чати — TCP, групи — UDP, канали — WebRTC",
+        "Канали лише для платних користувачів"
+      ]
+    },
+    {
+      "id": "bot-009",
+      "question": "Чим відрізняється Discord Gateway від Discord REST API?",
+      "correct_answer": "Gateway — постійне WebSocket-з'єднання, через яке бот отримує події (повідомлення, presence, voice) у реальному часі; REST API — для виконання дій (надіслати повідомлення, банити, керувати каналами)",
+      "explanation": "Gateway вимагає intent-ів (явно вказати, які типи подій вас цікавлять — privileged intents треба активувати). REST використовує HTTP з Authorization: Bot <token>. Slash commands реєструються через REST, отримуються через Gateway.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "Gateway — для DM, REST — для серверів",
+        "Gateway — для voice, REST — для text",
+        "REST через WebSocket, Gateway через HTTP",
+        "Gateway лише для slash commands, REST для іншого",
+        "Gateway — для embeds, REST — для тексту",
+        "REST — лише для адмінів, Gateway — для всіх",
+        "Gateway — для music bots, REST — для moderation",
+        "REST вимагає WebSocket, Gateway — HTTP",
+        "Gateway — лише для платних ботів",
+        "REST не підтримує автентифікацію"
+      ]
+    },
+    {
+      "id": "bot-010",
+      "question": "Що таке Discord intents і як privileged intents?",
+      "correct_answer": "Intents — біт-маска, що вказує Discord, які події надсилати боту через Gateway (зменшує bandwidth); Privileged intents (PRESENCE, GUILD_MEMBERS, MESSAGE_CONTENT) вимагають окремої активації у Developer Portal і верифікації для ботів на 100+ серверах",
+      "explanation": "MESSAGE_CONTENT з 2022 року privileged — без нього бот не бачить тексту звичайних повідомлень (лише команди/mention/DM). Без правильних intents потрібні події не приходять — типова помилка новачків.",
+      "fake_answers": [
+        "Intents — це ролі сервера",
+        "Intents — це типи каналів (text/voice)",
+        "Intents — це permission level юзера",
+        "Intents — це webhook URL налаштування",
+        "Intents — це rate limit категорії",
+        "Intents — це OAuth scopes для users",
+        "Intents — це embeds стилі",
+        "Intents — це slash command категорії",
+        "Intents — це boost level сервера",
+        "Intents — це verification level",
+        "Intents — це Nitro tier"
+      ]
+    },
+    {
+      "id": "bot-011",
+      "question": "Що таке slash commands у Discord і як їх реєструвати?",
+      "correct_answer": "Інтерактивні команди формату /command, що з'являються у autocomplete; реєструються через REST API (PUT /applications/{id}/commands для глобальних або /guilds/{gid}/commands для серверних) — глобальні оновлюються до 1 години, серверні миттєво",
+      "explanation": "Slash command повертає Interaction event. Обов'язково відповісти за 3 секунди (defer/respond) — інакше Discord покаже помилку. Підтримують options (string, integer, user, channel, attachment), subcommands, autocomplete, choices.",
+      "fake_answers": [
+        "Команди починаються з ! (як старі prefix-команди)",
+        "Реєструються через webhook у каналі",
+        "Команди оновлюються миттєво для всіх типів",
+        "Реєструються лише через Discord UI вручну",
+        "Slash commands працюють лише у DM",
+        "Команди обов'язково мають префікс /bot",
+        "Реєструються через email до Discord support",
+        "Slash commands доступні лише Nitro користувачам",
+        "Обов'язково починаються з \\\\",
+        "Реєструються лише через CLI tool",
+        "Slash commands працюють лише з прямою адресацією"
+      ]
+    },
+    {
+      "id": "bot-012",
+      "question": "Що таке ephemeral response у Discord?",
+      "correct_answer": "Відповідь на interaction, видима лише користувачу, який натиснув; передається через flags: 64 (MessageFlags.Ephemeral) у респонсі — корисно для приватних повідомлень помилок, settings, секретних дій",
+      "explanation": "Ephemeral не зберігається у history каналу і зникає при reload. Не можна edit ephemeral після певного часу. Корисно для зменшення спаму у каналі від bot interactions. Доступно лише для interaction responses.",
+      "fake_answers": [
+        "Повідомлення, що автоматично видаляється через 24 год",
+        "Тимчасовий канал для одного юзера",
+        "Голосовий канал на 5 хвилин",
+        "Повідомлення з лімітом перегляду 100 разів",
+        "Канал, що зникає після рестарту бота",
+        "Embed з обмеженням TTL",
+        "Webhook, що працює лише раз",
+        "Тимчасовий бот без верифікації",
+        "Повідомлення лише для admin",
+        "Канал, що видаляється автоматично",
+        "Запрошення, що працює 1 раз"
+      ]
+    },
+    {
+      "id": "bot-013",
+      "question": "Що таке Discord embeds і їхні обмеження?",
+      "correct_answer": "Структуроване повідомлення з заголовком, описом, кольоровою смугою, полями, footer, image, thumbnail, author; ліміти: title 256, description 4096, до 25 fields, field name 256/value 1024, загальний sum усіх текстів 6000 символів, до 10 embeds на повідомлення",
+      "explanation": "Хороший embed зручніший за простий текст для презентації даних. Колір вказується hex без #. Timestamps — ISO8601. URL у title робить його клікабельним. Перевищення лімітів — Discord відхилить повідомлення.",
+      "fake_answers": [
+        "Embed може бути будь-якого розміру без обмежень",
+        "Embed підтримує лише plain text без кольорів",
+        "Embed — це лише для preview посилань",
+        "Embed — це YouTube-плеєр у каналі",
+        "Embed — це iframe з зовнішнім сайтом",
+        "Embed — це лише для bot commands",
+        "Embed обмежено 100 символами загалом",
+        "Embed підтримує JavaScript",
+        "Embed — це webhook стиль",
+        "Embed — це лише для emoji",
+        "Embed — це форма для introduction"
+      ]
+    },
+    {
+      "id": "bot-014",
+      "question": "Що таке Discord sharding і коли воно потрібно?",
+      "correct_answer": "Розподіл навантаження бота на кілька WebSocket-з'єднань (shards), кожен обробляє підмножину серверів; обов'язкове для ботів на 2500+ серверів (Discord відмовляє у з'єднанні без shards)",
+      "explanation": "Shard count визначається через Get Gateway Bot endpoint. Кожен shard = окремий процес/воркер. Spread events рівномірно (guild_id % shard_count). Для крос-shard стейту — Redis pub/sub. Sharding ускладнює багато речей — починайте без нього.",
+      "fake_answers": [
+        "Розділення коду бота на кілька файлів",
+        "Поділ команд на категорії",
+        "Розділення embeds на сторінки",
+        "Поділ голосових каналів на ролі",
+        "Розділення серверів на категорії в UI",
+        "Поділ ролей на permission groups",
+        "Розділення BD на колонки",
+        "Поділ Gateway на public/private",
+        "Розділення REST API на microservices",
+        "Поділ webhook URL на groups",
+        "Розділення інтенцій на групи"
+      ]
+    },
+    {
+      "id": "bot-015",
+      "question": "Як масштабувати бот на кілька воркерів і чому потрібен shared state?",
+      "correct_answer": "Webhook-режим за load balancer + shared state у Redis (FSM, кеш, locks); кожен воркер має stateless код; для in-memory FSM розподілений запит обробить інший воркер і втратить контекст — обов'язково Redis/MongoDB",
+      "explanation": "З polling-режимом масштабування складніше — лише один процес може робити getUpdates. У Discord — sharding обов'язковий, кожен shard може бути окремим процесом, координуються через Redis. Idempotent handlers важливі при retry.",
+      "fake_answers": [
+        "Просто запустити кілька процесів — Telegram сам розподілить",
+        "Shared state не потрібен — кожен бот працює окремо",
+        "Достатньо синхронізувати ноди через CRON",
+        "Розподіляти лише команди /admin між workers",
+        "Bot не можна масштабувати за визначенням",
+        "Лише через сервіс Cloudflare Workers",
+        "Реплікувати state через файлову систему NFS",
+        "Через broadcast UDP пакети між нодами",
+        "Через email-нотифікації між instances",
+        "Лише через мануальну синхронізацію",
+        "Через polling БД кожні 100 мс"
+      ]
+    },
+    {
+      "id": "bot-016",
+      "question": "Що таке inline mode у Telegram і як активувати?",
+      "correct_answer": "Режим, у якому користувач у будь-якому чаті пише @your_bot query і бот повертає список результатів (InlineQueryResult), які можна вибрати і відправити; активується через /setinline у BotFather",
+      "explanation": "Корисно для пошуку (GIF, статті, музика). Бот отримує InlineQuery, повертає масив результатів (article, photo, video, audio, etc) через answerInlineQuery. Cache_time зменшує навантаження. У відповіді можна додати inline keyboard.",
+      "fake_answers": [
+        "Режим, де бот працює тільки у inline-кнопках",
+        "Режим без webhook",
+        "Режим прямих DM з ботом",
+        "Режим з форматуванням Markdown",
+        "Режим публічних коментарів у каналах",
+        "Режим відображення коду inline у повідомленні",
+        "Режим обробки media файлів inline",
+        "Режим reply на конкретне повідомлення",
+        "Режим статусу online/offline",
+        "Режим transcription voice messages",
+        "Режим inline-edit повідомлень"
+      ]
+    },
+    {
+      "id": "bot-017",
+      "question": "Що таке Telegram Web App (TWA) і навіщо?",
+      "correct_answer": "Інтерактивний веб-додаток, що відкривається всередині Telegram (через WebApp button у keyboard або menu), має JS API для інтеграції (тема, haptic, headerColor, sendData до бота); дозволяє багаті UI без виходу з месенджера",
+      "explanation": "Telegram WebApp надає window.Telegram.WebApp API. initData містить підписані дані юзера — обов'язково перевіряти signature на сервері (HMAC з token). Використовується для shop, mini-games, settings panels. Не плутати з Telegram Web Login.",
+      "fake_answers": [
+        "Це Telegram Desktop додаток для Windows",
+        "Це WhatsApp Web альтернатива",
+        "PWA версія Telegram у браузері",
+        "Twitter Web App API",
+        "Telegram Web Application Programming для Java",
+        "Web Application Firewall від Telegram",
+        "Time-Weighted Average — статистика",
+        "Token-based Web Authorization",
+        "TWA — це WebRTC streaming у Telegram",
+        "Це OAuth Telegram для сторонніх сайтів",
+        "TWA — це backup протокол Telegram"
+      ]
+    },
+    {
+      "id": "bot-018",
+      "question": "Як безпечно валідувати, що webhook прийшов саме від Telegram/Discord?",
+      "correct_answer": "Telegram: secret_token у setWebhook + перевірка X-Telegram-Bot-Api-Secret-Token заголовку; обмежити IP-адреси Telegram через firewall; Discord: перевірити signature заголовок X-Signature-Ed25519 і X-Signature-Timestamp через public key",
+      "explanation": "Без валідації будь-хто може POST'ити фейкові updates на ваш endpoint. Telegram secret_token — простий рядок у заголовку. Discord використовує Ed25519 cryptographic signature — обов'язково для interactions endpoint. Discord також тестує endpoint PING.",
+      "fake_answers": [
+        "Перевіряти Origin header — достатньо",
+        "Перевіряти User-Agent на Telegram/Discord",
+        "Просто покластися на HTTPS — нічого більше не треба",
+        "Валідувати лише через CSRF токен",
+        "Перевіряти Cookie у запиті",
+        "Лише через basic auth username/password",
+        "Через mutual TLS — обов'язково",
+        "Через WAF Cloudflare правила",
+        "Через rate limit за IP",
+        "Через перевірку Referer header",
+        "Через перевірку JWT у body"
+      ]
+    },
+    {
+      "id": "bot-019",
+      "question": "Що таке threads у Discord і чим відрізняються від каналів?",
+      "correct_answer": "Threads — тимчасові sub-канали всередині основного каналу для організації обговорень; типи: public, private, announcement; auto-archive після 1h/24h/3d/7d бездіяльності; не вимагають окремих permissions як канали",
+      "explanation": "Боту треба intent для threads. Можна створити: startThreadFromMessage, threads.create. Архівований тред не отримує нові повідомлення поки не unarchive. Корисно для FAQ, support tickets, обговорень окремих feature.",
+      "fake_answers": [
+        "Threads — це JavaScript Worker threads у боті",
+        "Threads — це окремі процеси Node.js",
+        "Threads — це OS threads віртуальної машини",
+        "Threads — це посилання на зовнішні сайти",
+        "Threads — це embeds з декількох частин",
+        "Threads — це форумні топіки на форумі",
+        "Threads — це webhook URLs",
+        "Threads — це slash command groups",
+        "Threads — це OAuth scopes",
+        "Threads — це BD таблиці",
+        "Threads — це канали лише для admin"
+      ]
+    },
+    {
+      "id": "bot-020",
+      "question": "Як обробляти deep links / start parameters у Telegram?",
+      "correct_answer": "URL формату t.me/your_bot?start=PARAM (DM) або t.me/your_bot?startgroup=PARAM (для додавання у групу); параметр приходить як аргумент команди /start PARAM — використовується для referral, сесійних flows, OAuth callbacks",
+      "explanation": "Параметр обмежений 64 символами alphanumeric + _-. Часто кодують як base64url. Use cases: referral programs, посилання на конкретний продукт, OAuth state, magic links для auth з зовнішнього сайту. /start без параметра — звичайний welcome.",
+      "fake_answers": [
+        "Через webhook URL з параметрами",
+        "Через NFC tag у мобільному додатку",
+        "Через QR-код в офлайні без URL",
+        "Через email-посилання",
+        "Через Push notification",
+        "Через SMS-посилання",
+        "Через WebSocket connection string",
+        "Через CSRF token у URL",
+        "Через JWT у URL parameter",
+        "Через basic auth у URL",
+        "Через DNS-link записи"
+      ]
+    }
+  ]
+}

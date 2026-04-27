@@ -1,9 +1,11 @@
 import { SkillCard } from '@/components/dashboard/SkillCard';
+import { HunterStatusPanel } from '@/components/dashboard/HunterStatusPanel';
 import { auth } from '@/lib/auth';
 import { getDb } from '@/lib/mongo';
 import { ObjectId } from 'mongodb';
 import { getSkillMetadata } from '@/lib/skills-loader';
 import { levelFromXP, xpProgressWithinLevel } from '@/lib/level';
+import { recordDailyVisit } from '@/lib/streak';
 import { getThemeForDay } from '@/lib/theme';
 import type { DashboardProgress } from '@/types/progress';
 
@@ -31,9 +33,11 @@ async function fetchProgress(userId: string): Promise<DashboardProgress[]> {
 
 export default async function DashboardPage() {
   const session = await auth();
+  const userId = new ObjectId(session!.user.id!);
+  const db = await getDb();
+  const visit = await recordDailyVisit(db, userId);
   const progress = await fetchProgress(session!.user.id!);
   const theme = getThemeForDay(new Date().getDay());
-  const totalXP = progress.reduce((a, p) => a + p.totalXP, 0);
   const totalRuns = progress.filter((p) => p.lastRunAt).length;
   const avgLevel = Math.round(
     progress.reduce((a, p) => a + p.level, 0) / Math.max(progress.length, 1),
@@ -59,23 +63,32 @@ export default async function DashboardPage() {
         <div className="mt-4 flex flex-wrap gap-x-10 gap-y-2 font-mono text-[11px] tracking-wider">
           <Stat label="SKILLS" value={progress.length} />
           <Stat label="AVG LVL" value={avgLevel} />
-          <Stat label="TOTAL XP" value={totalXP} />
-          <Stat label="RUNS" value={totalRuns} />
+          <Stat label="ACTIVE" value={totalRuns} />
         </div>
+      </header>
 
-        <div className="mt-5 flex items-center gap-2 text-text-subtle font-mono text-[10px] tracking-system">
+      <HunterStatusPanel
+        accountXP={visit.accountXP}
+        currentStreak={visit.currentStreak}
+        longestStreak={visit.longestStreak}
+        awarded={visit.awarded}
+        alreadyToday={visit.alreadyToday}
+      />
+
+      <div>
+        <div className="mb-5 flex items-center gap-2 text-text-subtle font-mono text-[10px] tracking-system">
           <span className="h-px flex-1 bg-accent/25" />
           <span className="caret">SELECT A DUNGEON TO ENTER</span>
           <span className="h-px flex-1 bg-accent/25" />
         </div>
-      </header>
 
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {progress.map((p, i) => (
-          <div key={p.skillId} style={{ animationDelay: `${80 + i * 60}ms` }} className="animate-scan-in">
-            <SkillCard p={p} />
-          </div>
-        ))}
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {progress.map((p, i) => (
+            <div key={p.skillId} style={{ animationDelay: `${80 + i * 60}ms` }} className="animate-scan-in">
+              <SkillCard p={p} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

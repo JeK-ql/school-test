@@ -1,0 +1,387 @@
+{
+  "skill_id": "python",
+  "skill_name": "Python",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "py-001",
+      "question": "Що таке GIL у CPython і як він впливає на багатопоточність?",
+      "correct_answer": "Глобальне блокування інтерпретатора, що дозволяє виконувати лише один Python-байткод одночасно",
+      "explanation": "GIL (Global Interpreter Lock) серіалізує виконання Python-байткоду. Threading дає прискорення лише для I/O-bound задач. Для CPU-bound треба multiprocessing або відпустити GIL у C-extension (NumPy).",
+      "fake_answers": [
+        "Менеджер пам'яті, що видаляє циклічні посилання",
+        "Кеш імпортованих модулів",
+        "Інструмент профілювання потоків",
+        "Системний дескриптор файлу",
+        "Глобальний логгер інтерпретатора",
+        "Інтерфейс GTK для GUI",
+        "Бібліотека для криптографії",
+        "Модуль для роботи з картами",
+        "Системний планувальник процесів ОС",
+        "Глобальний registry імпортів",
+        "Lock на рівні файлової системи"
+      ]
+    },
+    {
+      "id": "py-002",
+      "question": "Яка часова складність доступу до елемента списку Python за індексом?",
+      "correct_answer": "O(1)",
+      "explanation": "list у Python — динамічний масив (PyListObject), доступ за індексом O(1). Вставка в кінець amortized O(1), у середину — O(n) через зсув. Пошук значення — O(n).",
+      "fake_answers": [
+        "O(log n)",
+        "O(n)",
+        "O(n log n)",
+        "O(n²)",
+        "O(sqrt(n))",
+        "O(1) amortized only",
+        "O(log² n)",
+        "O(2 log n)",
+        "O(log n + k)",
+        "O(n + k)",
+        "Залежить від типу елемента"
+      ]
+    },
+    {
+      "id": "py-003",
+      "question": "У чому головна відмінність генератора від звичайного списку?",
+      "correct_answer": "Генератор обчислює елементи лінькаво, не зберігаючи всі в пам'яті",
+      "explanation": "Generator (yield або генераторний вираз) — lazy iterable з мінімальною пам'яттю, можна пройти лише один раз. Список тримає всі елементи в RAM, дозволяє багаторазовий random access.",
+      "fake_answers": [
+        "Генератор завжди швидший за list comprehension",
+        "Генератор підтримує індексацію за O(1)",
+        "Генератор автоматично кешує результати",
+        "Генератор не може використовуватись у циклі for",
+        "Генератор завжди типізований через generic",
+        "Генератор працює тільки з числами",
+        "Генератор зберігає елементи у файл",
+        "Генератор виконується паралельно",
+        "Генератор завжди потокобезпечний",
+        "Генератор реалізує __getitem__",
+        "Генератор підтримує len() з коробки"
+      ]
+    },
+    {
+      "id": "py-004",
+      "question": "Що поверне вираз: `[x for x in range(3)]` vs `(x for x in range(3))`?",
+      "correct_answer": "Перший — list, другий — generator object",
+      "explanation": "Квадратні дужки — list comprehension (матеріалізує список). Круглі — generator expression (lazy iterator). Для перетворення в list треба обгорнути list(...).",
+      "fake_answers": [
+        "Обидва — list",
+        "Обидва — tuple",
+        "Перший — tuple, другий — list",
+        "Перший — set, другий — frozenset",
+        "Перший — dict, другий — generator",
+        "Перший — generator, другий — list",
+        "Обидва — generator",
+        "Перший — list, другий — tuple",
+        "Перший — list, другий — iterator з кешем",
+        "Перший — array, другий — list",
+        "Перший — sequence, другий — collection"
+      ]
+    },
+    {
+      "id": "py-005",
+      "question": "Що таке декоратор у Python?",
+      "correct_answer": "Функція або клас, що приймає об'єкт і повертає його модифікований варіант",
+      "explanation": "Декоратор обгортає функцію/клас, додаючи поведінку без зміни оригіналу. Синтаксис @decorator еквівалентний func = decorator(func). Класичні приклади: @staticmethod, @property, @lru_cache.",
+      "fake_answers": [
+        "Спеціальний тип коментаря для документації",
+        "Анотація типу аргументу",
+        "Магічний метод __decorate__",
+        "Метаклас для створення класів",
+        "Функція, що змінює globals()",
+        "Спеціальний імпорт з __future__",
+        "Конструкція для роботи з файлами",
+        "Альтернатива try/except",
+        "Системний хук інтерпретатора",
+        "Інструмент для серіалізації",
+        "Атрибут модуля __all__"
+      ]
+    },
+    {
+      "id": "py-006",
+      "question": "Який результат поверне `0.1 + 0.2 == 0.3` у Python?",
+      "correct_answer": "False через особливості IEEE 754",
+      "explanation": "Числа з плаваючою комою у IEEE 754 double не представляють точно 0.1, 0.2, 0.3. Сума 0.1+0.2 = 0.30000000000000004. Для точних обчислень — decimal.Decimal або math.isclose().",
+      "fake_answers": [
+        "True завжди",
+        "TypeError при порівнянні",
+        "None",
+        "ValueError",
+        "OverflowError",
+        "ArithmeticError",
+        "Залежить від платформи (32 vs 64 біт)",
+        "True у Python 3, False у Python 2",
+        "0",
+        "1.0",
+        "RuntimeWarning"
+      ]
+    },
+    {
+      "id": "py-007",
+      "question": "Який класичний gotcha з мутабельними дефолтними аргументами?",
+      "correct_answer": "Дефолт обчислюється раз при визначенні функції і шариться між викликами",
+      "explanation": "def f(x=[]): x.append(1); return x — список створюється один раз. Кожен виклик f() повертає той самий список, що росте. Правильно: def f(x=None): x = x or [].",
+      "fake_answers": [
+        "Дефолт обчислюється на кожен виклик заново",
+        "Дефолт автоматично заморожується через frozen",
+        "Дефолт неявно копіюється deep-copy",
+        "Дефолт зберігається в окремому модулі",
+        "Дефолт скидається після GC",
+        "Дефолт автоматично потокобезпечний",
+        "Дефолт ігнорується в ASYNC-функціях",
+        "Дефолт завжди None для list",
+        "Дефолт зберігається в __defaults__ як tuple",
+        "Дефолт працює лише з immutable",
+        "Дефолт викликає DeprecationWarning"
+      ]
+    },
+    {
+      "id": "py-008",
+      "question": "Що таке context manager і як його реалізувати?",
+      "correct_answer": "Об'єкт з методами __enter__/__exit__ для роботи з ресурсами через with",
+      "explanation": "Context manager керує життєвим циклом ресурсу (файл, lock, connection). __enter__ повертає об'єкт, __exit__ обробляє очищення/винятки. Альтернатива — @contextlib.contextmanager на генератор.",
+      "fake_answers": [
+        "Об'єкт з методами __init__/__del__",
+        "Спеціальний клас з __getitem__",
+        "Декоратор @contextfree",
+        "Магічний метод __with__",
+        "Інструмент для імпортів",
+        "Хук інтерпретатора sys.settrace",
+        "Об'єкт з __call__",
+        "Метод close() у класі",
+        "Try/finally без with",
+        "Атрибут __exit_handler__",
+        "Інтерфейс ContextProtocol"
+      ]
+    },
+    {
+      "id": "py-009",
+      "question": "Яка різниця між `is` і `==`?",
+      "correct_answer": "`is` порівнює ідентичність (id), `==` — рівність значень",
+      "explanation": "a is b => id(a) == id(b) — той самий об'єкт у пам'яті. a == b викликає __eq__. Малі int (-5..256) і короткі рядки кешуються, тому 256 is 256 → True, 257 is 257 → False (interpreter-specific).",
+      "fake_answers": [
+        "`is` для класів, `==` для функцій",
+        "`is` сильніше типізоване",
+        "`is` — для рядків, `==` — для чисел",
+        "`is` ігнорує __eq__, `==` — ні",
+        "`is` рекурсивне, `==` — ні",
+        "`is` deep, `==` — shallow",
+        "`is` — sync, `==` — async",
+        "`is` потокобезпечне, `==` — ні",
+        "`is` працює тільки з None",
+        "`is` deprecated у Python 3.10",
+        "`is` для immutable, `==` для mutable"
+      ]
+    },
+    {
+      "id": "py-010",
+      "question": "Чим asyncio відрізняється від threading?",
+      "correct_answer": "asyncio — кооперативна багатозадачність в одному потоці; threading — паралельні OS-потоки",
+      "explanation": "asyncio працює через event loop і await: задачі добровільно віддають керування. Підходить для I/O-bound (мережа, файли). threading дає справжню паралельність, але обмежений GIL для CPU.",
+      "fake_answers": [
+        "asyncio запускає окремі процеси",
+        "threading використовує goroutines",
+        "asyncio працює тільки на Linux",
+        "threading не підтримує lock-и",
+        "asyncio автоматично ігнорує GIL",
+        "threading завжди швидше для I/O",
+        "asyncio не має event loop",
+        "threading використовує асинхронні coroutines",
+        "asyncio створює новий процес на task",
+        "threading вимагає async/await",
+        "asyncio працює тільки з http"
+      ]
+    },
+    {
+      "id": "py-011",
+      "question": "Що означає MRO у контексті множинного успадкування?",
+      "correct_answer": "Method Resolution Order — порядок пошуку методів за алгоритмом C3-лінеаризації",
+      "explanation": "MRO визначає, у якому порядку Python шукає методи в ієрархії класів. C3 linearization гарантує монотонність і коректність super(). Дивитися через ClassName.__mro__ або mro().",
+      "fake_answers": [
+        "Multiple Reference Object",
+        "Modular Resource Optimization",
+        "Memory Ranking Order",
+        "Module Reload Operator",
+        "Method Reflection Output",
+        "Mutex Reentrant Order",
+        "Magic Reference Operator",
+        "Method Recursion Optimization",
+        "Multi-Return Object",
+        "Mock Replacement Order",
+        "Managed Runtime Object"
+      ]
+    },
+    {
+      "id": "py-012",
+      "question": "Яка різниця між shallow copy і deep copy?",
+      "correct_answer": "Shallow копіює лише верхній рівень; deep — рекурсивно всі вкладені об'єкти",
+      "explanation": "copy.copy() створює новий контейнер, але вкладені об'єкти спільні. copy.deepcopy() рекурсивно копіює все. Для простих типів різниці немає; для list of lists — критично.",
+      "fake_answers": [
+        "Shallow зберігає на диск, deep — у RAM",
+        "Shallow для immutable, deep для mutable",
+        "Shallow атомарний, deep — ні",
+        "Shallow синхронний, deep — async",
+        "Shallow стискає, deep — шифрує",
+        "Shallow для рядків, deep для чисел",
+        "Shallow ігнорує приватні атрибути",
+        "Shallow повертає None для вкладених",
+        "Shallow завжди швидший на 50%",
+        "Shallow створює weak reference",
+        "Shallow обмежений 1 KB"
+      ]
+    },
+    {
+      "id": "py-013",
+      "question": "Що робить __slots__ у класі?",
+      "correct_answer": "Обмежує дозволені атрибути і прибирає __dict__, економлячи пам'ять",
+      "explanation": "__slots__ = ('a', 'b') створює фіксований набір slot-ів замість dict. Знижує пам'ять (~40-50%) для багатьох екземплярів, прискорює доступ до атрибутів. Не можна додати нові атрибути динамічно.",
+      "fake_answers": [
+        "Дозволяє множинне успадкування",
+        "Створює thread-safe об'єкт",
+        "Включає кешування методів",
+        "Робить клас imutable",
+        "Замінює __init__ автоматично",
+        "Включає JSON-серіалізацію",
+        "Робить клас singleton",
+        "Створює read-only атрибути за замовчуванням",
+        "Реєструє клас у global registry",
+        "Включає лог усіх змін атрибутів",
+        "Дозволяє multiple dispatch"
+      ]
+    },
+    {
+      "id": "py-014",
+      "question": "Що таке dataclass і чим відрізняється від звичайного класу?",
+      "correct_answer": "@dataclass автоматично генерує __init__, __repr__, __eq__ за анотованими полями",
+      "explanation": "from dataclasses import dataclass генерує boilerplate-методи. Підтримує default, default_factory, frozen=True (immutable), order=True (порівняння). Альтернативи: NamedTuple, attrs, Pydantic (з валідацією).",
+      "fake_answers": [
+        "@dataclass робить клас singleton",
+        "@dataclass автоматично серіалізує у JSON",
+        "@dataclass замінює __slots__",
+        "@dataclass створює thread-safe інстанси",
+        "@dataclass генерує SQL-схему",
+        "@dataclass валідує типи у runtime",
+        "@dataclass додає async-методи",
+        "@dataclass робить клас abstract",
+        "@dataclass генерує REST-ендпоінти",
+        "@dataclass лінеаризує MRO",
+        "@dataclass додає logger автоматично"
+      ]
+    },
+    {
+      "id": "py-015",
+      "question": "Що повертає `try/except/else/finally` у послідовності виконання?",
+      "correct_answer": "try → except (якщо помилка) АБО else (якщо без помилки) → finally завжди",
+      "explanation": "else виконується тільки якщо try пройшов без винятку. finally — завжди, навіть при return/raise. Корисно для розділення happy path від обробки помилок.",
+      "fake_answers": [
+        "try → except → finally → else завжди",
+        "try → finally → except → else",
+        "else виконується завжди як finally",
+        "finally виконується тільки при винятку",
+        "else виконується замість except",
+        "finally блокує raise",
+        "else виконується тільки в async",
+        "finally виконується перед except",
+        "else виконується паралельно з try",
+        "finally виконується тільки якщо немає except",
+        "else і finally взаємовиключні"
+      ]
+    },
+    {
+      "id": "py-016",
+      "question": "Як в Python типово реалізують singleton?",
+      "correct_answer": "Через метаклас, __new__ або декоратор з кешем інстансу",
+      "explanation": "Класичні підходи: 1) перевизначити __new__ для повернення існуючого інстансу, 2) метаклас, що контролює створення, 3) module-level singleton (модуль і так один). Pythonic — модуль.",
+      "fake_answers": [
+        "Через @singleton з stdlib",
+        "Через __init_subclass__",
+        "Через клас з __slots__ = ['_instance']",
+        "Через global перемінну без класу",
+        "Через abstract base class",
+        "Через атрибут __unique__",
+        "Через декоратор @once з functools",
+        "Через ContextVar",
+        "Через threading.local",
+        "Через @property у класі",
+        "Через __setattr__ із блокуванням"
+      ]
+    },
+    {
+      "id": "py-017",
+      "question": "Чим typing.Optional[X] відрізняється від Union[X, None]?",
+      "correct_answer": "Це повний синонім, Optional[X] = Union[X, None]",
+      "explanation": "Optional[X] — синтаксичний цукор для Union[X, None] з модуля typing. У Python 3.10+ ще можна писати X | None. Не плутати з аргументом, що може бути не переданий — для цього використовують default.",
+      "fake_answers": [
+        "Optional дозволяє X або відсутній аргумент",
+        "Union[X, None] не підтримує None",
+        "Optional працює тільки в Python 2",
+        "Union перевіряється у runtime, Optional — ні",
+        "Optional кешує тип у __annotations__",
+        "Union генерує __slots__",
+        "Optional — generic, Union — concrete",
+        "Optional обмежений одним типом",
+        "Union вимагає List[]",
+        "Optional валідує через Pydantic",
+        "Union eq Tuple[X, None]"
+      ]
+    },
+    {
+      "id": "py-018",
+      "question": "Що таке virtual environment і навіщо потрібен?",
+      "correct_answer": "Ізольоване оточення з власним інтерпретатором і пакетами для проєкту",
+      "explanation": "venv (стандартний), poetry, uv створюють ізольовану директорію з python і site-packages. Уникає конфліктів версій бібліотек між проєктами і не засмічує системний Python.",
+      "fake_answers": [
+        "Емулятор іншої ОС всередині Python",
+        "Контейнер Docker для Python",
+        "Кеш імпортованих модулів",
+        "Бекап інтерпретатора",
+        "Sandbox для виконання коду в безпеці",
+        "Альтернатива GIL для concurrency",
+        "Емуляція PyPy",
+        "Спосіб скомпілювати Python у бінарник",
+        "Інструмент дебагу залежностей",
+        "Реплікація pip-індексу локально",
+        "Інкрементальна збірка C-розширень"
+      ]
+    },
+    {
+      "id": "py-019",
+      "question": "Що таке walrus operator у Python 3.8+?",
+      "correct_answer": "Оператор := присвоєння як вираз",
+      "explanation": "Walrus (:=) дозволяє присвоїти і одразу використати значення у виразі: while (line := f.readline()): ... Корисний у comprehension і умовах для уникнення повторних обчислень.",
+      "fake_answers": [
+        "Оператор глибокого копіювання",
+        "Оператор для multi-assign кортежів",
+        "Перевірка типу під час виконання",
+        "Безпечний доступ до атрибута, як ?. у JS",
+        "Pipe оператор як | у Bash",
+        "Конкатенація рядків як +",
+        "Спред оператор для словників",
+        "Операція unpacking списків",
+        "Оператор приведення типу",
+        "Оператор null-coalescing",
+        "Оператор bitwise XOR"
+      ]
+    },
+    {
+      "id": "py-020",
+      "question": "Як Python GC обробляє циклічні посилання?",
+      "correct_answer": "Reference counting + cyclic GC, що періодично шукає недосяжні цикли",
+      "explanation": "Основний механізм — reference counting (миттєве звільнення при reach=0). Окремий gc-модуль періодично виявляє і прибирає циклічні посилання. Можна керувати через gc.collect(), gc.disable().",
+      "fake_answers": [
+        "Тільки reference counting, циклы не звільняються",
+        "Mark-and-sweep без reference counting",
+        "Generational GC як у JVM без RC",
+        "Tracing GC як у Go",
+        "Manual управління через free()",
+        "Compact GC з дефрагментацією",
+        "Concurrent GC у фоні без RC",
+        "Region-based GC як у Rust",
+        "Stop-the-world кожні 100 ms",
+        "GC через weakref тільки",
+        "Borrow-checker під час компіляції"
+      ]
+    }
+  ]
+}

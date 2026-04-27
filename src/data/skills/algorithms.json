@@ -5,13 +5,382 @@
   "questions": [
     {
       "id": "algo-001",
-      "question": "Яка часова складність пошуку елемента у збалансованому BST у середньому випадку?",
+      "question": "Яка часова складність бінарного пошуку у відсортованому масиві?",
       "correct_answer": "O(log n)",
-      "explanation": "У збалансованому бінарному дереві пошуку висота дерева пропорційна log n, тож пошук виконується за O(log n).",
+      "explanation": "На кожному кроці область пошуку зменшується вдвічі, тому кількість кроків — log₂(n). Працює лише на відсортованих структурах з прямим доступом за індексом.",
       "fake_answers": [
-        "O(1)", "O(n)", "O(n log n)", "O(n^2)",
-        "O(2^n)", "O(n!)", "O(sqrt(n))", "O(log log n)",
-        "O(n^3)", "O(n + log n)", "O(k * n)"
+        "O(1)",
+        "O(n)",
+        "O(n log n)",
+        "O(n²)",
+        "O(2^n)",
+        "O(n!)",
+        "O(sqrt(n))",
+        "O(log log n)",
+        "O(n + log n)",
+        "O(n³)",
+        "O(log² n)"
+      ]
+    },
+    {
+      "id": "algo-002",
+      "question": "Яка структура даних реалізує принцип LIFO (Last In, First Out)?",
+      "correct_answer": "Stack",
+      "explanation": "Stack — push додає елемент на вершину, pop знімає з вершини. Використовується у викликах функцій, парсерах, undo-операціях, обході DFS.",
+      "fake_answers": [
+        "Queue",
+        "Linked List",
+        "Hash Map",
+        "Heap",
+        "BST",
+        "Graph",
+        "Trie",
+        "Deque",
+        "Set",
+        "Priority Queue",
+        "Bloom Filter"
+      ]
+    },
+    {
+      "id": "algo-003",
+      "question": "Який алгоритм сортування має середню складність O(n log n), але є нестабільним і працює in-place?",
+      "correct_answer": "Quicksort",
+      "explanation": "Quicksort у середньому O(n log n), у найгіршому O(n²) при поганому виборі pivot. Не стабільний (порядок рівних елементів не гарантовано), in-place з O(log n) пам'яті на стек рекурсії.",
+      "fake_answers": [
+        "Bubble sort",
+        "Insertion sort",
+        "Mergesort",
+        "Counting sort",
+        "Radix sort",
+        "Bucket sort",
+        "Selection sort",
+        "Tim sort",
+        "Shell sort",
+        "Cocktail sort",
+        "Gnome sort"
+      ]
+    },
+    {
+      "id": "algo-004",
+      "question": "Яка часова складність вставки в кінець динамічного масиву (amortized)?",
+      "correct_answer": "O(1) amortized",
+      "explanation": "Більшість push — O(1), але коли capacity вичерпано, відбувається перевиділення з копіюванням O(n). Усереднено по серії операцій — O(1) amortized.",
+      "fake_answers": [
+        "O(1) worst case",
+        "O(log n)",
+        "O(n) worst case завжди",
+        "O(n log n)",
+        "O(sqrt(n))",
+        "O(n²) amortized",
+        "O(2n)",
+        "O(log² n)",
+        "O(n) amortized",
+        "O(n!)",
+        "O(log n) amortized"
+      ]
+    },
+    {
+      "id": "algo-005",
+      "question": "Який алгоритм знаходить найкоротший шлях у графі з невід'ємними вагами ребер?",
+      "correct_answer": "Dijkstra",
+      "explanation": "Dijkstra з пріоритетною чергою працює за O((V+E) log V). Не підходить для від'ємних ваг — у такому випадку треба Bellman-Ford O(V·E).",
+      "fake_answers": [
+        "Bellman-Ford",
+        "Floyd-Warshall",
+        "Kruskal",
+        "Prim",
+        "BFS",
+        "DFS",
+        "Topological sort",
+        "Tarjan",
+        "Kosaraju",
+        "A* без heuristic",
+        "Union-Find"
+      ]
+    },
+    {
+      "id": "algo-006",
+      "question": "Яка структура даних найкраще підходить для реалізації кешу LRU з операціями O(1)?",
+      "correct_answer": "Doubly linked list + hash map",
+      "explanation": "Hash map дає O(1) доступ за ключем, а doubly linked list дозволяє за O(1) переносити вузол у голову (most recent) і видаляти з хвоста (least recent).",
+      "fake_answers": [
+        "Singly linked list + array",
+        "Tільки hash map",
+        "BST + queue",
+        "Heap",
+        "Trie",
+        "Skip list",
+        "Stack + queue",
+        "Bloom filter + array",
+        "Red-Black tree",
+        "B-tree",
+        "Fenwick tree"
+      ]
+    },
+    {
+      "id": "algo-007",
+      "question": "Що таке мемоїзація у контексті динамічного програмування?",
+      "correct_answer": "Top-down кешування результатів рекурсивних викликів",
+      "explanation": "Мемоїзація — top-down підхід DP: рекурсія + кеш. Tabulation — bottom-up підхід з ітеративним заповненням таблиці. Обидва уникають повторних обчислень підзадач.",
+      "fake_answers": [
+        "Bottom-up ітеративне заповнення таблиці",
+        "Видалення дублікатів з масиву",
+        "Стиснення пам'яті",
+        "Збереження проміжних масивів на диск",
+        "Lazy ініціалізація змінних",
+        "Кешування HTTP-відповідей",
+        "Передобчислення префіксних сум",
+        "Парсинг із backtracking",
+        "Сортування з підрахунком",
+        "Hashing з відкритою адресацією",
+        "Розгортання рекурсії в цикл"
+      ]
+    },
+    {
+      "id": "algo-008",
+      "question": "Яка часова складність обходу графа BFS/DFS з N вершинами і M ребрами?",
+      "correct_answer": "O(V + E)",
+      "explanation": "Кожна вершина відвідується один раз (V), кожне ребро розглядається один раз для невзважених графів (E). Потрібен visited set, щоб не зациклитися.",
+      "fake_answers": [
+        "O(V * E)",
+        "O(V²)",
+        "O(E log V)",
+        "O((V+E) log V)",
+        "O(V + E²)",
+        "O(V log V)",
+        "O(V! )",
+        "O(E²)",
+        "O(V + log E)",
+        "O(V³)",
+        "O(2^V)"
+      ]
+    },
+    {
+      "id": "algo-009",
+      "question": "Яка структура даних дає O(1) на average для insert/lookup/delete?",
+      "correct_answer": "Hash Table",
+      "explanation": "Hash Table з гарною геш-функцією дає O(1) average. У worst case (всі колізії в одному bucket) — O(n). Стратегії розв'язання колізій: chaining, open addressing (linear/quadratic probing).",
+      "fake_answers": [
+        "BST",
+        "AVL tree",
+        "Red-Black tree",
+        "Sorted array",
+        "Heap",
+        "Linked list",
+        "Trie",
+        "Skip list",
+        "Segment tree",
+        "B-tree",
+        "Stack"
+      ]
+    },
+    {
+      "id": "algo-010",
+      "question": "Який алгоритм MST (мінімального остовного дерева) використовує Union-Find?",
+      "correct_answer": "Kruskal",
+      "explanation": "Kruskal сортує ребра за вагою і додає по черзі, відкидаючи ті, що утворюють цикл. Union-Find з path compression і union by rank дає O(E log E). Prim натомість використовує priority queue.",
+      "fake_answers": [
+        "Prim",
+        "Dijkstra",
+        "Bellman-Ford",
+        "Floyd-Warshall",
+        "BFS",
+        "DFS",
+        "Topological sort",
+        "Tarjan SCC",
+        "A*",
+        "Johnson",
+        "Edmonds-Karp"
+      ]
+    },
+    {
+      "id": "algo-011",
+      "question": "Що таке стабільне сортування?",
+      "correct_answer": "Зберігає відносний порядок рівних елементів",
+      "explanation": "Стабільне сортування не міняє порядок елементів з однаковим ключем. Стабільні: mergesort, insertion sort, bubble sort, counting sort, Tim sort. Нестабільні: quicksort, heapsort, selection sort.",
+      "fake_answers": [
+        "Працює in-place без додаткової пам'яті",
+        "Має складність O(n) у найгіршому випадку",
+        "Завжди швидше за нестабільні алгоритми",
+        "Гарантує O(log n) на вставку",
+        "Не використовує рекурсію",
+        "Працює тільки з числами",
+        "Підтримує паралельне виконання",
+        "Не використовує порівняння",
+        "Сортує одразу за кількома ключами",
+        "Не змінює оригінальний масив",
+        "Стійке до помилок процесора"
+      ]
+    },
+    {
+      "id": "algo-012",
+      "question": "Яка структура даних оптимальна для autocomplete і пошуку рядків за префіксом?",
+      "correct_answer": "Trie",
+      "explanation": "Trie (префіксне дерево) дає O(L) на пошук, де L — довжина рядка, незалежно від кількості ключів. Кожен вузол — символ, шляхи від кореня — префікси. Споживає більше пам'яті, ніж hash map.",
+      "fake_answers": [
+        "Hash Map",
+        "BST",
+        "Heap",
+        "Linked List",
+        "Array",
+        "Bloom Filter",
+        "Skip List",
+        "Segment Tree",
+        "Fenwick Tree",
+        "Stack",
+        "Red-Black Tree"
+      ]
+    },
+    {
+      "id": "algo-013",
+      "question": "Яка часова складність алгоритму Floyd-Warshall для всіх пар найкоротших шляхів?",
+      "correct_answer": "O(V³)",
+      "explanation": "Floyd-Warshall працює за O(V³) пам'яті O(V²). Підходить для щільних графів і працює з від'ємними вагами (без від'ємних циклів). Альтернатива — Johnson за O(V² log V + V·E).",
+      "fake_answers": [
+        "O(V²)",
+        "O(V·E)",
+        "O((V+E) log V)",
+        "O(V² log V)",
+        "O(V·E·log V)",
+        "O(V! )",
+        "O(2^V)",
+        "O(V + E)",
+        "O(V² · E)",
+        "O(E² log V)",
+        "O(V log V)"
+      ]
+    },
+    {
+      "id": "algo-014",
+      "question": "Що таке backtracking?",
+      "correct_answer": "Пошук з відкатом при невідповідності умов",
+      "explanation": "Backtracking — рекурсивне дослідження варіантів з відкатом, коли поточний шлях не веде до розв'язку. Класика: N-queens, sudoku, перестановки, comb sum. Часто експоненційна складність, оптимізується через pruning.",
+      "fake_answers": [
+        "Сортування злиттям з кешем",
+        "Бінарний пошук з повторами",
+        "Hash з відкритою адресацією",
+        "DP з мемоїзацією",
+        "Жадібний вибір локального оптимуму",
+        "Поділяй і володарюй без рекурсії",
+        "Побудова MST",
+        "Обхід графа в ширину",
+        "Двопрохідний обхід дерева",
+        "Топологічне сортування DAG",
+        "Зворотне поширення помилки"
+      ]
+    },
+    {
+      "id": "algo-015",
+      "question": "Яка структура даних дає O(log n) на insert/delete/findMin і часто реалізується через бінарну купу?",
+      "correct_answer": "Priority Queue",
+      "explanation": "Priority Queue зазвичай реалізується через binary heap: insert і extractMin за O(log n), peek за O(1). Використовується в Dijkstra, Huffman coding, scheduler-ах.",
+      "fake_answers": [
+        "Stack",
+        "Queue",
+        "Deque",
+        "Hash Map",
+        "Linked List",
+        "Trie",
+        "BST без балансування",
+        "Bloom Filter",
+        "Skip List",
+        "Set",
+        "Array"
+      ]
+    },
+    {
+      "id": "algo-016",
+      "question": "Яка техніка використовується для задач типу 'знайти підмасив з сумою X' за O(n)?",
+      "correct_answer": "Sliding window",
+      "explanation": "Sliding window підтримує вікно (left, right) і рухає його по масиву, оновлюючи стан за O(1). Підходить для задач на підрядки/підмасиви фіксованої або змінної довжини.",
+      "fake_answers": [
+        "Backtracking",
+        "Divide and conquer",
+        "Bellman-Ford",
+        "Heap traversal",
+        "Trie search",
+        "Hashing з колізіями",
+        "Topological sort",
+        "Union-Find",
+        "Memoized BFS",
+        "Floyd cycle detection",
+        "Quickselect"
+      ]
+    },
+    {
+      "id": "algo-017",
+      "question": "Який алгоритм сортування не використовує порівнянь і працює за O(n + k)?",
+      "correct_answer": "Counting sort",
+      "explanation": "Counting sort підраховує входження кожного значення з діапазону [0, k] і відновлює відсортований масив. Стабільний, O(n + k) часу і пам'яті. Ефективний при малому k.",
+      "fake_answers": [
+        "Quicksort",
+        "Mergesort",
+        "Heapsort",
+        "Insertion sort",
+        "Bubble sort",
+        "Selection sort",
+        "Shell sort",
+        "Tim sort",
+        "Tree sort",
+        "Cocktail sort",
+        "Gnome sort"
+      ]
+    },
+    {
+      "id": "algo-018",
+      "question": "Яка структура даних дозволяє за O(log n) обчислювати суму на діапазоні і оновлювати елемент?",
+      "correct_answer": "Fenwick tree (BIT)",
+      "explanation": "Fenwick tree (Binary Indexed Tree) — O(log n) на prefix sum і point update, проста реалізація через біти. Segment tree більш універсальне (range update, lazy propagation), але складніше.",
+      "fake_answers": [
+        "Hash Map",
+        "Trie",
+        "Heap",
+        "BST без балансування",
+        "Linked List",
+        "Bloom Filter",
+        "Skip List",
+        "Stack",
+        "Queue",
+        "Set",
+        "Deque"
+      ]
+    },
+    {
+      "id": "algo-019",
+      "question": "Що таке amortized складність?",
+      "correct_answer": "Усереднена складність по серії операцій у найгіршому випадку",
+      "explanation": "Amortized analysis оцінює середню вартість операції в серії, навіть якщо окремі операції дорогі. Класичний приклад — push у динамічний масив: O(1) amortized, попри O(n) при ресайзі.",
+      "fake_answers": [
+        "Середня складність по випадкових даних",
+        "Складність у найкращому випадку",
+        "Складність на одну операцію в worst case",
+        "Складність з урахуванням кешу процесора",
+        "Складність після JIT-оптимізації",
+        "Складність з паралельним виконанням",
+        "Експоненційна оцінка зростання",
+        "Складність з відкиданням викидів",
+        "Час виконання з GC pause",
+        "Енергоспоживання операції",
+        "Складність моделі пам'яті"
+      ]
+    },
+    {
+      "id": "algo-020",
+      "question": "Який підхід найкраще підходить для задачі 'найдовша спільна підпослідовність' (LCS)?",
+      "correct_answer": "Dynamic programming O(n·m)",
+      "explanation": "LCS розв'язується через DP-таблицю dp[i][j] = LCS(A[..i], B[..j]) за O(n·m) часу і пам'яті. Можна оптимізувати пам'ять до O(min(n,m)). Задача — основа diff-утиліт.",
+      "fake_answers": [
+        "Greedy O(n)",
+        "Backtracking без кешу",
+        "BFS O(V+E)",
+        "Quickselect O(n)",
+        "Hashing O(n)",
+        "Bloom filter перевірка",
+        "Trie з префіксами",
+        "Sliding window O(n)",
+        "Two pointers O(n)",
+        "Union-Find O(α(n))",
+        "Divide and conquer без мемо O(2^n)"
       ]
     }
   ]

@@ -1,0 +1,387 @@
+{
+  "skill_id": "grpc",
+  "skill_name": "gRPC",
+  "difficulty": "B-Rank",
+  "questions": [
+    {
+      "id": "grpc-001",
+      "question": "Які 4 типи RPC-викликів підтримує gRPC?",
+      "correct_answer": "Unary, server streaming, client streaming, bidirectional streaming",
+      "explanation": "Unary — один запит, одна відповідь (як REST). Server streaming — клієнт шле один запит, сервер повертає стрім. Client streaming — клієнт шле стрім, сервер відповідає одним повідомленням. Bidirectional — обидві сторони стрімлять незалежно.",
+      "fake_answers": [
+        "GET, POST, PUT, DELETE",
+        "Sync, async, callback, promise",
+        "Push, pull, fetch, subscribe",
+        "Polling, long-polling, SSE, WebSocket",
+        "Request, response, ack, nack",
+        "Connect, send, receive, close",
+        "Open, write, read, end",
+        "Init, exec, fetch, finalize",
+        "Call, return, raise, retry",
+        "Synchronous, asynchronous, batch, stream",
+        "Unicast, multicast, broadcast, anycast"
+      ]
+    },
+    {
+      "id": "grpc-002",
+      "question": "На якому транспортному протоколі базується gRPC?",
+      "correct_answer": "HTTP/2 з обов'язковим бінарним фреймуванням і мультиплексуванням стрімів",
+      "explanation": "Кожен RPC — це HTTP/2-стрім. Мультиплексування дозволяє паралельні виклики через одне з'єднання. Заголовки стискаються HPACK. gRPC сильно зав'язаний на HTTP/2 — звідси проблема з браузерами (потрібен gRPC-Web через проксі).",
+      "fake_answers": [
+        "HTTP/1.1 з персистентним з'єднанням",
+        "TCP без HTTP — власний бінарний протокол",
+        "UDP з кастомним надійним шаром",
+        "WebSocket поверх HTTP/1.1",
+        "QUIC напряму без HTTP",
+        "MQTT поверх TCP",
+        "AMQP як у RabbitMQ",
+        "gRPC агностичний до транспорту",
+        "SCTP з multi-streaming",
+        "HTTP/3 ексклюзивно",
+        "RTSP як для відеостриму"
+      ]
+    },
+    {
+      "id": "grpc-003",
+      "question": "Що таке Protocol Buffers (proto3)?",
+      "correct_answer": "Бінарний формат серіалізації від Google зі строгою схемою (.proto-файли) та кодогенерацією під різні мови",
+      "explanation": "proto3 — третя версія мови. Поля мають номери (теги), типи, імена. Серіалізація компактна, швидка, має forward/backward сумісність при дотриманні правил (не міняти теги, додавати поля з новими тегами).",
+      "fake_answers": [
+        "Текстовий формат на основі YAML",
+        "Бінарний формат XML без схеми",
+        "Альтернатива JSON, що працює лише з gRPC",
+        "Формат для серіалізації Java-об'єктів",
+        "Стандарт ASN.1 від ISO",
+        "Розширення MessagePack для gRPC",
+        "Формат AVRO від Apache",
+        "Розширений CBOR від IETF",
+        "Бінарний JSON (BSON) як у MongoDB",
+        "Розширення Thrift від Facebook",
+        "Формат FlatBuffers для ігор"
+      ]
+    },
+    {
+      "id": "grpc-004",
+      "question": "Чому в proto-файлах не можна змінювати або повторно використовувати номери полів?",
+      "correct_answer": "Серіалізація залежить від тегів (номерів) — старі клієнти/сервери інтерпретують байти за номерами; зміна або повторне використання ламає сумісність",
+      "explanation": "Поле іменується для розробника, але по дроту йде як тег + значення. Видалене поле треба резервувати: reserved 5, 6; reserved 'old_field'; — щоб ніхто випадково не зайняв номер. Це основа forward/backward compatibility.",
+      "fake_answers": [
+        "Це лише стилістична рекомендація, технічно дозволено",
+        "Через GC-обмеження протобафа",
+        "Через колізії хешу імен",
+        "Через UTF-8 кодування назв",
+        "Через обмеження HTTP/2 на номери стрімів",
+        "Через автогенерацію SQL-таблиць",
+        "Через обмеження HPACK-стискання",
+        "Через використання тегів для шардування",
+        "Через несумісність з JSON-серіалізацією",
+        "Бо номери використовуються для індексації БД",
+        "Через обмеження GraphQL-конвертера"
+      ]
+    },
+    {
+      "id": "grpc-005",
+      "question": "Що таке gRPC metadata і як його передавати?",
+      "correct_answer": "Аналог HTTP-заголовків — пари ключ-значення, що передаються як HTTP/2-headers; бувають regular і binary (з суфіксом -bin)",
+      "explanation": "Metadata передає cross-cutting інформацію: токени авторизації, traceId, deadline-context. Binary metadata має ключ із суфіксом -bin (auth-token-bin) і значення — base64-кодовані байти. Зчитується з context на сервері і обгортки на клієнті.",
+      "fake_answers": [
+        "Це поля у proto-повідомленнях",
+        "Це JSON-payload запиту",
+        "Це лише для логування — не передається",
+        "Це query-параметри URL",
+        "Це cookies, що автоматично шерять",
+        "Це WebSocket-фрейми",
+        "Це HTTP/3-розширення",
+        "Це reserved-поля у proto",
+        "Це лише на стороні клієнта",
+        "Це секція у service-декларації",
+        "Це trailer-частина HTTP/1"
+      ]
+    },
+    {
+      "id": "grpc-006",
+      "question": "Які власні status codes у gRPC (а не HTTP) для UNAUTHENTICATED і PERMISSION_DENIED?",
+      "correct_answer": "UNAUTHENTICATED (16) — не визначено особу; PERMISSION_DENIED (7) — особу визначено, але немає прав",
+      "explanation": "gRPC має свій набір кодів (OK, CANCELLED, UNKNOWN, INVALID_ARGUMENT, DEADLINE_EXCEEDED, NOT_FOUND, ALREADY_EXISTS, PERMISSION_DENIED, RESOURCE_EXHAUSTED, FAILED_PRECONDITION, ABORTED, OUT_OF_RANGE, UNIMPLEMENTED, INTERNAL, UNAVAILABLE, DATA_LOSS, UNAUTHENTICATED). Передаються як grpc-status у trailers.",
+      "fake_answers": [
+        "401 і 403 як у HTTP",
+        "AUTH_FAILED і ACCESS_DENIED",
+        "UNAUTHORIZED і FORBIDDEN",
+        "NEEDS_AUTH і NO_PERMISSION",
+        "INVALID_TOKEN і INVALID_SCOPE",
+        "NOT_AUTH і NOT_ALLOWED",
+        "U_AUTH і P_DENY",
+        "AUTH_REQUIRED і AUTH_INSUFFICIENT",
+        "ANONYMOUS і RESTRICTED",
+        "401_AUTH і 403_PERMISSION",
+        "NO_IDENTITY і NO_GRANT"
+      ]
+    },
+    {
+      "id": "grpc-007",
+      "question": "Що таке deadline у gRPC і чим відрізняється від timeout?",
+      "correct_answer": "Deadline — абсолютний момент часу, до якого має завершитись виклик; передається через ланцюг сервісів і перевіряється кожним вузлом",
+      "explanation": "Timeout — відносний (5 секунд від зараз). Deadline — абсолютний (15:30:00 UTC). gRPC використовує саме deadline і пропагує його через context між сервісами — це робить cascading-таймаути коректними у глибоких ланцюгах викликів.",
+      "fake_answers": [
+        "Це псевдоніми того самого",
+        "Deadline — серверний, timeout — клієнтський",
+        "Deadline — у мілісекундах, timeout — у секундах",
+        "Deadline — для unary, timeout — для streaming",
+        "Deadline — лише для bidi, timeout — для всіх",
+        "Deadline — у proto, timeout — у metadata",
+        "Deadline вимагає TLS",
+        "Deadline лише для критичних викликів",
+        "Timeout не передається через ланцюг, deadline — лише через cookie",
+        "Deadline зберігається у БД, timeout — у пам'яті",
+        "Deadline — це обмеження пам'яті, timeout — часу"
+      ]
+    },
+    {
+      "id": "grpc-008",
+      "question": "Що таке gRPC interceptor?",
+      "correct_answer": "Middleware-функція, що загортає виклик RPC і виконує cross-cutting логіку (логування, авторизація, трасування, retries) до або після основного методу",
+      "explanation": "Аналог middleware у HTTP. Бувають unary і stream interceptors, окремо для клієнта і сервера. Часто — chain interceptors. На сервері вибирається через ServerOption, на клієнті — DialOption.",
+      "fake_answers": [
+        "Бінарне розширення proto-файлу",
+        "HTTP/2 frame для пріоритезації",
+        "DNS-розширення для service discovery",
+        "Шифрувальний шар поверх TLS",
+        "Реплікація запитів між дата-центрами",
+        "Кешування відповідей у пам'яті",
+        "Конвертер між JSON і Protobuf",
+        "Серверний proxy між клієнтом і сервером",
+        "Розширення HPACK",
+        "WebSocket-проксі для gRPC-Web",
+        "Балансувальник запитів за hash"
+      ]
+    },
+    {
+      "id": "grpc-009",
+      "question": "Що таке gRPC-Web і навіщо він потрібен?",
+      "correct_answer": "Адаптер, що дозволяє браузерам спілкуватися з gRPC-сервісами через HTTP/1.1 або HTTP/2 із обмеженнями (без client streaming і bidi у класичному режимі)",
+      "explanation": "Браузери не дають доступу до низькорівневого HTTP/2 frames, тому чистий gRPC недоступний. gRPC-Web проксі (Envoy, grpcwebproxy) транслює виклики. Підтримує unary і server streaming. Bidi і client streaming у браузері з'являються лише з HTTP/3 та WebTransport.",
+      "fake_answers": [
+        "Це версія gRPC для Node.js",
+        "Це REST-fallback для gRPC",
+        "Це SDK для Cloudflare Workers",
+        "Це WebAssembly-обгортка для protobuf",
+        "Це аналог GraphQL для gRPC",
+        "Це CLI-tool для тестування gRPC",
+        "Це браузерне розширення для дебагу",
+        "Це gRPC поверх WebSocket-only",
+        "Це REST API gateway, що ховає gRPC",
+        "Це gRPC поверх Server-Sent Events",
+        "Це gRPC, який не вимагає HTTP/2 на сервері"
+      ]
+    },
+    {
+      "id": "grpc-010",
+      "question": "Що таке oneof у proto3?",
+      "correct_answer": "Поле-об'єднання, де може бути встановлено лише одне з кількох варіантів — економить байти і чітко моделює XOR-семантику",
+      "explanation": "oneof Result { string text = 1; bytes binary = 2; ErrorInfo err = 3; } — лише одне з полів буде задано. Корисно для discriminated union. Якщо встановити друге поле, перше очищається.",
+      "fake_answers": [
+        "Поле, яке завантажується лише при першому виклику",
+        "Singleton-поле на весь сервіс",
+        "Поле з типом union of all types",
+        "Поле, що зберігається лише раз у БД",
+        "Поле, доступне лише унікальним клієнтам",
+        "Поле, яке може повторюватись, але не більше одного разу",
+        "Поле для збереження HTTP-сесії",
+        "Поле, що використовується лише в один stream",
+        "Тип enum з єдиним значенням",
+        "Поле, яке однозначно ідентифікує клієнта",
+        "Поле, що принципово не серіалізується"
+      ]
+    },
+    {
+      "id": "grpc-011",
+      "question": "У чому різниця між клієнтським і серверним балансуванням gRPC?",
+      "correct_answer": "Серверне (proxy) — балансер перед сервісами; клієнтське — клієнт сам обирає бекенд через name resolver і вибір алгоритму (round-robin/pick-first); підходить для високого throughput і HTTP/2",
+      "explanation": "HTTP/2 має постійні з'єднання, тому L4-балансер (TCP) розкине лише з'єднання, не запити, що при малій кількості клієнтів дає нерівний навант. L7-проксі (Envoy) розуміє HTTP/2 і розподіляє запити. Або клієнт сам через xDS/DNS відкриває з'єднання до всіх бекендів.",
+      "fake_answers": [
+        "Серверне швидше клієнтського завжди",
+        "Клієнтське вимагає mTLS, серверне — ні",
+        "Це псевдоніми, обирається випадково",
+        "Серверне — для unary, клієнтське — для streaming",
+        "Клієнтське неможливе без service mesh",
+        "Серверне завжди використовує round-robin",
+        "Клієнтське вимагає Java-only клієнтів",
+        "Серверне — лише на TCP-рівні, клієнтське — на UDP",
+        "Клієнтське працює лише з gRPC-Web",
+        "Серверне доступне лише на Kubernetes",
+        "Клієнтське вимагає окремого DNS-сервера"
+      ]
+    },
+    {
+      "id": "grpc-012",
+      "question": "Які well-known types з google.protobuf найчастіше використовують?",
+      "correct_answer": "Timestamp, Duration, Empty, Any, Struct, FieldMask, Wrappers (Int32Value/StringValue), BoolValue",
+      "explanation": "Empty — для викликів без параметрів/відповіді. Timestamp — час із наносекундами. Duration — інтервал. Any — type-erased payload із URL типу. FieldMask — список полів для часткового оновлення. Wrappers — щоб мати nullable scalar.",
+      "fake_answers": [
+        "UUID, Date, Time, DateTime, Decimal",
+        "List, Set, Map, Tuple, Tree",
+        "User, Role, Permission, Group",
+        "Request, Response, Header, Trailer",
+        "Page, Cursor, Filter, Sort, Limit",
+        "Cookie, Session, Token, Claim",
+        "JSON, XML, YAML, CSV, BSON",
+        "ETag, Vary, If-Match, If-Modified",
+        "Promise, Future, Task, Job",
+        "Email, Phone, Address, Geo",
+        "Error, Warning, Info, Debug"
+      ]
+    },
+    {
+      "id": "grpc-013",
+      "question": "Як реалізувати скасування виклику в gRPC?",
+      "correct_answer": "Через context cancellation: клієнт скасовує context, gRPC закриває HTTP/2-стрім, сервер отримує сигнал скасування і повинен припинити роботу",
+      "explanation": "Cancellation пропагується через ланцюг сервісів. Сервер обов'язково має перевіряти ctx.Done() (Go) або ServerCallStreamObserver.isCancelled (Java) у довгих обчисленнях. Інакше — витік ресурсів. Закриття стріму на клієнті — теж форма cancel.",
+      "fake_answers": [
+        "Через DELETE-запит на metadata-endpoint",
+        "Через спеціальний RPC CancelCall",
+        "Через TCP RST",
+        "Через закриття всього TCP-з'єднання — інакше неможливо",
+        "Через відправку CANCEL-фрейму HTTP/2 без context",
+        "Через timeout — інакше неможливо",
+        "Через CSRF-токен у metadata",
+        "Через WebSocket close frame",
+        "Через надсилання нового deadline у minus",
+        "Через рестарт сервера",
+        "Через флушинг буфера"
+      ]
+    },
+    {
+      "id": "grpc-014",
+      "question": "Який ефективний формат повідомлення в gRPC порівняно з REST/JSON?",
+      "correct_answer": "Бінарний protobuf зазвичай у 3-10 разів менший за JSON і швидше серіалізується/десеріалізується завдяки фіксованим тегам і відсутності парсингу імен полів",
+      "explanation": "JSON парсить рядки, шукає лапки, ескейпи. Protobuf читає varint-теги і одразу розкладає по полях. Менший payload = менше bandwidth і нижча латентність, особливо в мікросервісах схема-сервіс.",
+      "fake_answers": [
+        "Protobuf такий же розмір як JSON, лише швидший",
+        "Protobuf завжди більший за JSON через метадані",
+        "Protobuf дорівнює XML у розмірі",
+        "Це залежить лише від CDN, не формату",
+        "Це залежить лише від TLS-cipher",
+        "JSON завжди швидший у парсингу",
+        "Protobuf вимагає окремого розпакування на CPU",
+        "Це залежить виключно від HTTP/2 vs /1",
+        "Protobuf не серіалізує float — лише integer",
+        "JSON стискається краще за protobuf через текстовість",
+        "Protobuf не підтримує вкладені структури"
+      ]
+    },
+    {
+      "id": "grpc-015",
+      "question": "Як організувати TLS у gRPC?",
+      "correct_answer": "Через TLS на HTTP/2-рівні: серверні (server creds) або взаємні (mTLS) сертифікати; в production обов'язково; insecure — лише для dev",
+      "explanation": "gRPC підтримує TLS і mTLS через бібліотеки credentials. У service mesh (Istio, Linkerd) mTLS налаштовує sidecar автоматично. Сертифікати ротуються через cert-manager / SPIFFE.",
+      "fake_answers": [
+        "TLS неможливий через HTTP/2",
+        "TLS лише через HTTPS-проксі перед gRPC",
+        "TLS обов'язково через QUIC",
+        "TLS лише на стороні клієнта",
+        "TLS лише для metadata",
+        "TLS вмикається лише в gRPC-Web",
+        "TLS лише через WireGuard",
+        "TLS на рівні proto-файла декларативно",
+        "TLS лише для bidi-стрімів",
+        "TLS не сумісний з мультиплексуванням",
+        "TLS вмикається через переріз pre-shared key"
+      ]
+    },
+    {
+      "id": "grpc-016",
+      "question": "Що таке reflection у gRPC?",
+      "correct_answer": "Сервіс, що дозволяє клієнту отримати схему сервісів і методів у runtime — корисно для CLI-інструментів типу grpcurl без наявності .proto",
+      "explanation": "Аналог OpenAPI у REST — але через RPC. Сервер реєструє reflection.Service. grpcurl, evans, BloomRPC через нього отримують список methods і struct повідомлень. У production часто вимикають для безпеки.",
+      "fake_answers": [
+        "Авто-генерація proto з runtime типів",
+        "Дзеркалювання запитів на репліку",
+        "Серверне логування викликів",
+        "Скасування виклику reflectively",
+        "Розширення для трасування",
+        "Скрипти Python як plugin",
+        "Live-reload .proto без рестарту",
+        "Кеш повідомлень у пам'яті",
+        "Розширення TLS для автентифікації клієнта",
+        "Авто-генерація OpenAPI з .proto",
+        "Перевірка деривації типів між мовами"
+      ]
+    },
+    {
+      "id": "grpc-017",
+      "question": "Чому gRPC підходить для inter-service комунікації, а REST частіше — для public API?",
+      "correct_answer": "gRPC дає сильно типізовану схему, бінарний транспорт, низьку латентність, streaming, але потребує proto-схеми та погано підтримується браузерами; REST універсальний і human-friendly",
+      "explanation": "Public API мають охопити всі мови/платформи, REST з JSON завжди працює. Між сервісами критичні швидкість, схема, контракти — gRPC виграє. Тому часто edge — REST/GraphQL, всередині — gRPC.",
+      "fake_answers": [
+        "REST завжди швидший за gRPC",
+        "gRPC працює лише в Java і Go",
+        "REST не підтримує JSON",
+        "gRPC не підтримує авторизацію",
+        "REST не дозволяє streaming",
+        "gRPC не дозволяє RPC-семантику",
+        "REST дешевший лише для small teams",
+        "gRPC обмежений 1KB на повідомлення",
+        "REST не підтримує бінарні дані",
+        "gRPC можна використовувати лише з Kubernetes",
+        "REST вимагає GraphQL для public API"
+      ]
+    },
+    {
+      "id": "grpc-018",
+      "question": "Як додавати поля у proto без поломки сумісності?",
+      "correct_answer": "Додавати з новими унікальними тегами; не міняти теги існуючих; видалені теги відмічати через reserved; нові поля — optional/мати дефолтні значення",
+      "explanation": "У proto3 всі скаляри мають дефолти (0, '', false). Старий клієнт не знає про нове поле — просто його ігнорує (forward compatibility). Старий сервер отримає нове поле — пропустить (backward compatibility). Ламає лише зміна тегу або типу.",
+      "fake_answers": [
+        "Просто не змінювати .proto взагалі",
+        "Збільшувати версію в назві сервісу при кожній зміні",
+        "Видаляти старі поля одразу",
+        "Перенумеровувати теги при додаванні",
+        "Записувати схему в БД і робити міграцію",
+        "Передавати схему у metadata кожного виклику",
+        "Робити reflection обов'язковим",
+        "Лише через генерацію нових proto-файлів з gateway",
+        "Заміняти proto3 на proto2 для гнучкості",
+        "Слати нові поля окремим RPC",
+        "Завжди використовувати Any для нових полів"
+      ]
+    },
+    {
+      "id": "grpc-019",
+      "question": "Що таке retry policy у gRPC і коли її використовувати?",
+      "correct_answer": "Конфігурація автоматичних повторів (через service config) для безпечних кодів помилок (UNAVAILABLE) з expo backoff, jitter і max attempts; лише для idempotent методів",
+      "explanation": "Конфігурується через service config JSON. Не для DEADLINE_EXCEEDED (вже минув час) і не для FAILED_PRECONDITION чи INVALID_ARGUMENT. Для streaming — лімітований buffer для replay. Уникати retry storm — circuit breaker зверху.",
+      "fake_answers": [
+        "Retry on будь-яку помилку 3 рази",
+        "Retry лише через окремий sidecar Envoy",
+        "Retry неможливий у gRPC",
+        "Retry лише вручну через interceptor",
+        "Retry лише на UNAUTHENTICATED",
+        "Retry для bidi-стрімів автоматично без backoff",
+        "Retry через cookie-based session affinity",
+        "Retry лише для server streaming",
+        "Retry без обмеження максимальних спроб",
+        "Retry лише через REST-fallback",
+        "Retry виключно через Kubernetes liveness probe"
+      ]
+    },
+    {
+      "id": "grpc-020",
+      "question": "Що таке repeated і map у protobuf?",
+      "correct_answer": "repeated — масив значень одного типу; map<KeyType, ValueType> — асоціативний масив, де ключ — скаляр (не float/bytes/message), а значення — будь-який тип",
+      "explanation": "repeated string tags = 5; — масив рядків. map<string, int32> scores = 6; — словник. map не може бути repeated. У серіалізації map — це фактично repeated message з полями key і value.",
+      "fake_answers": [
+        "repeated — для дублювання поля; map — для геомапи",
+        "repeated — лише int; map — лише string",
+        "map — для структур БД, repeated — для кешу",
+        "repeated — це алгоритм rerun, map — функціональний map",
+        "Це псевдоніми list/dict у Python-only",
+        "repeated не серіалізується",
+        "map не підтримується у proto3",
+        "repeated лише для bytes",
+        "map підтримує float як ключ",
+        "repeated завжди оптимізується під JSON",
+        "map не може містити message-значення"
+      ]
+    }
+  ]
+}

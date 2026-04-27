@@ -29,14 +29,14 @@ export function AnswerGrid({ onAnswer }: Props) {
           key={opt}
           onClick={() => handle(opt)}
           disabled={status !== 'running'}
-          className="group relative flex items-center gap-3 p-3.5 bg-white/[0.015] text-text text-left border border-white/10 hover:border-accent hover:bg-[color:var(--accent-color)]/5 hover:shadow-[inset_0_0_18px_-4px_var(--accent-dim)] transition-[border-color,background-color,box-shadow] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="hud-answer group flex items-center gap-3 p-3.5 text-text text-left disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span className="font-display font-bold text-accent/70 text-sm tracking-system w-6 shrink-0 group-hover:text-accent group-hover:text-glow">
+          <span className="font-display font-bold text-accent/70 text-sm tracking-system w-6 shrink-0 transition-[color,text-shadow] duration-200 group-hover:text-accent group-hover:[text-shadow:0_0_10px_var(--accent-color)]">
             {labels[i] ?? ''}
           </span>
           <span className="font-body text-[14px] leading-snug flex-1">{opt}</span>
-          <span className="font-mono text-[10px] text-text-subtle group-hover:text-accent transition-opacity opacity-0 group-hover:opacity-100">
-            ENTER ◢
+          <span className="font-mono text-[10px] text-accent shrink-0 hud-reveal">
+            ENTER&nbsp;◢
           </span>
         </button>
       ))}

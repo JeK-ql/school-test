@@ -1,0 +1,102 @@
+{
+  "skill_id": "seo",
+  "skill_name": "SEO",
+  "difficulty": "C-Rank",
+  "questions": [
+    {
+      "id": "seo-001",
+      "question": "Що таке canonical URL?",
+      "correct_answer": "Тег <link rel=\"canonical\" href=\"...\">, що вказує пошуковикам кінцеву (основну) версію сторінки серед дублікатів",
+      "explanation": "Запобігає дублюванню контенту через UTM-параметри, мобільні версії, сортування. Без canonical Google може обрати випадкову версію або об'єднати сигнали неоптимально.",
+      "fake_answers": [
+        "Заголовок <title> сторінки",
+        "URL з префіксом https://",
+        "Початкова сторінка сайту (домен)",
+        "DNS A-запис",
+        "URL у заголовку Location при 301",
+        "URL у sitemap.xml лише",
+        "URL у robots.txt",
+        "URL у hreflang",
+        "URL у Schema.org",
+        "URL у favicon",
+        "URL у Open Graph"
+      ]
+    },
+    {
+      "id": "seo-002",
+      "question": "Що таке Core Web Vitals?",
+      "correct_answer": "Набір метрик користувацького досвіду від Google: LCP, INP (раніше FID), CLS",
+      "explanation": "LCP — швидкість найбільшого видимого елемента. INP — реакція на взаємодію (заміна FID у 2024). CLS — візуальна стабільність. Впливають на ранжування.",
+      "fake_answers": [
+        "Time to First Byte, DNS Lookup, TLS",
+        "PageSpeed, Lighthouse, GTmetrix",
+        "CPU, RAM, Disk I/O",
+        "DOM Size, JS Heap, Network",
+        "FPS, Jank, Memory",
+        "RPS, Latency, Errors",
+        "Bounce Rate, CTR, Sessions",
+        "Pageviews, Users, Time on Site",
+        "Speed Index, FCP, TBT (це Lab metrics)",
+        "RUM, Synthetic, Load Test",
+        "TTL, TTFB, Time to Interactive (TTI замінено)"
+      ]
+    },
+    {
+      "id": "seo-003",
+      "question": "Що робить файл robots.txt?",
+      "correct_answer": "Дає директиви crawl'ерам пошукових систем: які URL можна/не можна обходити (Disallow/Allow, Sitemap)",
+      "explanation": "Не блокує індексацію (для цього — meta robots noindex або X-Robots-Tag). Ввічливі боти його поважають, шкідливі — ні. Кешується crawler'ами.",
+      "fake_answers": [
+        "Шифрує сторінки від ботів",
+        "Створює sitemap автоматично",
+        "Видаляє сторінки з Google Index",
+        "Описує schema.org розмітку",
+        "Ставить hreflang теги",
+        "Додає сторінку в Google News",
+        "Перевіряє Core Web Vitals",
+        "Конфігурує CDN-кеш",
+        "Заміняє sitemap.xml",
+        "Призначає canonical URL",
+        "Імпортує дані в Search Console"
+      ]
+    },
+    {
+      "id": "seo-004",
+      "question": "Що таке schema.org розмітка?",
+      "correct_answer": "Структуровані дані у JSON-LD (або microdata), що описують сутності сторінки (Article, Product, FAQ) для rich results",
+      "explanation": "Не покращує позиції безпосередньо, але дає rich snippets (зірочки, ціна, FAQ-блоки), що підвищує CTR. Валідуються через Rich Results Test.",
+      "fake_answers": [
+        "CSS-фреймворк від Google",
+        "БД для зберігання SEO-метрик",
+        "Назва Google-краулера",
+        "Файл sitemap.xml розширення",
+        "Розширення Open Graph",
+        "Стандарт OAuth для пошуковиків",
+        "Розмітка для PWA",
+        "Розширення HTML5 для відео",
+        "Стандарт Web Components",
+        "Розширення WebAssembly",
+        "Стандарт WebSockets для SEO"
+      ]
+    },
+    {
+      "id": "seo-005",
+      "question": "Що таке E-E-A-T у контексті Google?",
+      "correct_answer": "Experience, Expertise, Authoritativeness, Trustworthiness — критерії оцінки якості контенту",
+      "explanation": "З Quality Rater Guidelines. Experience додано у 2022. Особливо важливо для YMYL-тем (Your Money Your Life: фінанси, здоров'я).",
+      "fake_answers": [
+        "Email, Engagement, Action, Tracking",
+        "Encryption, Endpoint, Auth, TLS",
+        "Engineering, Excellence, Agility, Teamwork",
+        "Editor, Expert, Author, Translator",
+        "Easy, Engaging, Authentic, Truthful",
+        "Evergreen, Educational, Audio, Text",
+        "Encoded, Embedded, Active, Tagged",
+        "Effective, Efficient, Accurate, Timely",
+        "Enterprise, Edge, AI, Tools",
+        "Earnings, Expense, Audit, Tax",
+        "Endpoint, Entity, Asset, Token"
+      ]
+    }
+  ]
+}

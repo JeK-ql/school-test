@@ -1,0 +1,387 @@
+{
+  "skill_id": "ui-ux",
+  "skill_name": "UI/UX",
+  "difficulty": "C-Rank",
+  "questions": [
+    {
+      "id": "uiux-001",
+      "question": "Що таке 10 евристик usability Якоба Нільсена (стисла суть)?",
+      "correct_answer": "Visibility of system status, Match between system and real world, User control & freedom, Consistency & standards, Error prevention, Recognition rather than recall, Flexibility & efficiency of use, Aesthetic & minimalist design, Help users recognize/diagnose/recover from errors, Help & documentation",
+      "explanation": "Створені у 1994 році, досі золотий стандарт експертної оцінки. Heuristic evaluation — швидкий метод знайти 70-80% проблем юзабіліті 3-5 експертами. Кожна евристика — широкий принцип, не правило.",
+      "fake_answers": [
+        "10 заповідей дизайну Apple Human Interface",
+        "Material Design 10 принципів",
+        "10 правил Дітера Рамса",
+        "10 принципів брендингу Стіва Джобса",
+        "10 законів UX Lloyd Doherty",
+        "10 принципів Ілона Маска",
+        "10 правил CSS-in-JS",
+        "10 принципів атомного дизайну",
+        "10 правил React",
+        "10 принципів Bauhaus",
+        "10 правил гештальт-дизайну Канта"
+      ]
+    },
+    {
+      "id": "uiux-002",
+      "question": "Що говорить закон Фітса (Fitts's Law)?",
+      "correct_answer": "Час досягнення цілі залежить від відстані до неї та її розміру: чим далі і чим менша ціль — тим довше; великі цілі поряд з курсором — найшвидші",
+      "explanation": "Практичні наслідки: важливі CTA — великі; кути екрану — \"безкінечний\" розмір (курсор зупиняється); pie menu біля курсора краще за лінійне; touch targets мінімум 44x44 px (Apple) або 48 dp (Google).",
+      "fake_answers": [
+        "Час реакції на анімацію має бути < 100 мс",
+        "Контраст тексту має бути не менше 4.5:1",
+        "Сторінка має завантажуватись за 2 секунди",
+        "Не більше 7±2 пунктів у меню",
+        "Кожна кнопка має тінь box-shadow",
+        "Колір CTA має бути зеленим",
+        "Шрифт має бути sans-serif",
+        "Меню розкривається не довше 200 мс",
+        "Поле вводу не довше 50 символів",
+        "Логотип у лівому верхньому куті",
+        "Footer не вище 100 px"
+      ]
+    },
+    {
+      "id": "uiux-003",
+      "question": "Що говорить закон Хіка (Hick's Law)?",
+      "correct_answer": "Час прийняття рішення зростає логарифмічно з кількістю варіантів; багато варіантів — повільніше і складніше для користувача",
+      "explanation": "Наслідки: зменшуйте кількість пунктів меню, групуйте, використовуйте progressive disclosure, не показуйте усе одразу. Не плутати з Miller's Law (7±2 у короткостроковій пам'яті).",
+      "fake_answers": [
+        "Кожна сторінка має мати лише одну кнопку",
+        "Кількість тегів div не має перевищувати 100",
+        "Кожне поле форми обов'язкове",
+        "Заборонено радіо-кнопки, тільки чекбокси",
+        "Користувачі завжди обирають перший варіант",
+        "Кількість кольорів на сторінці не більше 3",
+        "Шрифти лише з парних розмірів",
+        "Фоновий колір має бути білим",
+        "Кнопки тільки прямокутні",
+        "Не більше 3 шрифтів на сайті",
+        "Іконки не більші за 32 px"
+      ]
+    },
+    {
+      "id": "uiux-004",
+      "question": "Які основні принципи Гештальту у дизайні?",
+      "correct_answer": "Proximity (близькі об'єкти сприймаються як група), Similarity (схожі — як група), Closure (мозок добудовує форму), Continuity (плавні лінії сприймаються разом), Figure-Ground (відділення об'єкта від фону), Common fate (рух разом)",
+      "explanation": "Принципи описують, як мозок організовує візуальну інформацію у цілісні форми. Застосування: групування полів форми (proximity), кольорове кодування (similarity), мінімалістичні логотипи (closure), вирівнювання (continuity).",
+      "fake_answers": [
+        "RGB, CMYK, HSL — моделі гештальту",
+        "Margin, padding, border — три кита Гештальту",
+        "Heading, paragraph, list — гештальт-теги",
+        "Flexbox, Grid, Float — принципи Гештальту",
+        "Bauhaus, Art Deco, Modernism — гештальт-течії",
+        "Гештальт — це тип шрифту",
+        "Гештальт — це CSS-фреймворк",
+        "Гештальт — це JS-бібліотека для анімацій",
+        "Гештальт — це система іконок Material",
+        "Це принципи композиції музики",
+        "Гештальт — стандарт ISO для UI"
+      ]
+    },
+    {
+      "id": "uiux-005",
+      "question": "Які мінімальні WCAG AA вимоги до контрасту тексту?",
+      "correct_answer": "4.5:1 для звичайного тексту, 3:1 для великого тексту (від 18 pt або 14 pt bold), 3:1 для UI-компонентів і графічних об'єктів",
+      "explanation": "AAA — суворіше: 7:1 і 4.5:1. Перевіряти через axe DevTools, Lighthouse, contrast checkers. Колір не має бути єдиним способом передачі інформації (поряд має бути іконка/текст). prefers-color-scheme і prefers-reduced-motion — must-have.",
+      "fake_answers": [
+        "10:1 для всього тексту, 5:1 для UI",
+        "2:1 завжди — це базовий мінімум",
+        "1.5:1 для звичайного, 1:1 для великого",
+        "100% контраст обов'язковий завжди",
+        "Контраст не регулюється стандартами",
+        "Тільки чорний на білому",
+        "RGB > 200 для тексту, < 50 для фону",
+        "Контраст міряється у децибелах",
+        "8:1 для звичайного, 6:1 для великого",
+        "0.5:1 для AA, 1:1 для AAA",
+        "Контраст лише для зображень, не для тексту"
+      ]
+    },
+    {
+      "id": "uiux-006",
+      "question": "Що таке POUR-принципи у WCAG?",
+      "correct_answer": "Perceivable (інформація має бути доступна для сприйняття), Operable (інтерфейс має бути керованим), Understandable (зрозумілим), Robust (надійним для різних технологій, включно з assistive)",
+      "explanation": "Чотири фундаментальні принципи WCAG, з яких випливають усі guidelines. Perceivable — alt-тексти, captions. Operable — keyboard nav, достатньо часу. Understandable — readable, predictable. Robust — semantic HTML, валідний код.",
+      "fake_answers": [
+        "Performance, Optimization, Usability, Reliability",
+        "Plan, Optimize, Use, Review",
+        "Pixel, Order, Unit, Ratio",
+        "Padding, Outline, Underline, Radius",
+        "Position, Overflow, Underline, Right",
+        "Performance, Outdoor, UX, Responsive",
+        "Page, Order, URL, Route",
+        "Picture, Outline, User, Result",
+        "Prefer, Override, Use, Reset",
+        "Process, Operate, Update, Restore",
+        "Print, Output, URL, Render"
+      ]
+    },
+    {
+      "id": "uiux-007",
+      "question": "Які мінімальні розміри touch targets?",
+      "correct_answer": "Apple HIG: 44x44 pt; Google Material: 48x48 dp; WCAG 2.5.5 AAA: 44x44 CSS px (нова WCAG 2.2 AA — 24x24 px з винятками)",
+      "explanation": "Маленькі touch targets — основна причина mistaps на мобільному. Між сусідніми targets має бути spacing. Якщо візуально елемент менший (іконка) — збільшуйте hit area через padding/pseudo-elements.",
+      "fake_answers": [
+        "16x16 px для всіх touch елементів",
+        "100x100 px мінімум — рекомендує Google",
+        "Розмір не регулюється — залежить від UX-дизайнера",
+        "Лише пропорційно до екрану — 5%",
+        "Кратно 8: 8, 16, 24, 32 — будь-який підходить",
+        "Не менше шрифту body тексту",
+        "10x10 mm — стандарт ISO",
+        "Як на iPhone першого покоління — 32x32 px",
+        "Залежить лише від ширини екрану",
+        "Мінімум — розмір cursor 12 px",
+        "60x60 dpi — універсальний стандарт"
+      ]
+    },
+    {
+      "id": "uiux-008",
+      "question": "Що таке prefers-reduced-motion і чому це важливо?",
+      "correct_answer": "CSS media query, що відображає системне налаштування користувача про зменшення анімацій (для людей з вестибулярними розладами); коли активне — анімації мають бути вимкнені або суттєво спрощені",
+      "explanation": "Парсинг-вестибулярні розлади можуть викликати запаморочення/нудоту від parallax, autoplay, великих рухів. @media (prefers-reduced-motion: reduce) — обов'язковий accessibility-чек. Залишайте essential анімації (loading), вимикайте декоративні.",
+      "fake_answers": [
+        "JavaScript API для зменшення FPS",
+        "Налаштування браузера, що відключає JS",
+        "CSS-властивість для зменшення розміру шрифту",
+        "Опція оптимізації для слабких CPU",
+        "Атрибут HTML для зменшення зображень",
+        "Налаштування CDN для повільної мережі",
+        "Параметр Lighthouse для тестів",
+        "Стандарт ISO для відеоплеєрів",
+        "API для зменшення розміру cookies",
+        "Режим браузера для економії батареї",
+        "DOM-подія при низькій швидкості мережі"
+      ]
+    },
+    {
+      "id": "uiux-009",
+      "question": "Чим відрізняються wireframe, mockup і prototype?",
+      "correct_answer": "Wireframe — низькодеталізований ескіз структури (без кольору, лише блоки); Mockup — статичний візуал з кольорами/шрифтами/контентом; Prototype — інтерактивний, з переходами, можна клікати/тестувати",
+      "explanation": "Послідовність: wireframe (швидко перевірити layout) → mockup (затвердити візуальний стиль) → prototype (тестування з користувачами). Інструменти: Figma, Sketch, Adobe XD, Framer. Lo-fi vs Hi-fi prototype.",
+      "fake_answers": [
+        "Це абсолютні синоніми",
+        "Wireframe — для бекенду, mockup — для frontend, prototype — для QA",
+        "Mockup — це готовий UI у production",
+        "Prototype — це тестове середовище серверів",
+        "Wireframe — у CSS, mockup — у HTML, prototype — у JS",
+        "Wireframe — для junior, mockup — middle, prototype — senior",
+        "Mockup — це файл .psd, wireframe — .ai, prototype — .fig",
+        "Prototype — це final design",
+        "Wireframe — фоновий ескіз без структури",
+        "Mockup — це презентація для клієнта без візуалу",
+        "Prototype — лише на папері"
+      ]
+    },
+    {
+      "id": "uiux-010",
+      "question": "Що таке F-pattern і Z-pattern reading?",
+      "correct_answer": "F-pattern — користувачі сканують текстові сторінки літерою F (горизонтально вгорі, потім нижче, потім вертикально лівим краєм); Z-pattern — для сторінок з мало текстом, рух як Z: верхній рядок → діагональ → нижній рядок",
+      "explanation": "F-pattern актуальний для блогів, новин, результатів пошуку. Z-pattern — для landing pages. Розміщуйте важливе у \"гарячих\" зонах. Heatmaps eye-tracking досліджень Nielsen Norman Group підтверджують ці патерни.",
+      "fake_answers": [
+        "Це формати файлів зображень",
+        "Назви layout у Bootstrap",
+        "Типи шрифтів F і Z",
+        "Назви CSS-класів",
+        "Типи бордерів у Tailwind",
+        "Назви reset.css правил",
+        "Стилі заголовків H1-H6",
+        "Типи тіней box-shadow",
+        "Назви breakpoints media queries",
+        "Типи animation easing",
+        "Алгоритми компресії зображень"
+      ]
+    },
+    {
+      "id": "uiux-011",
+      "question": "Що таке атомний дизайн (Atomic Design) Бреда Фроста?",
+      "correct_answer": "Методологія побудови дизайн-систем з 5 рівнів: Atoms (button, input, label) → Molecules (search bar = input + button) → Organisms (header) → Templates (layout) → Pages (templates з реальним контентом)",
+      "explanation": "Дозволяє reusability і консистентність. Часто реалізується у Storybook. Перетинається з compound components у React. Дизайн-токени (color, spacing, typography) — найменший рівень, нижче атомів.",
+      "fake_answers": [
+        "Дизайн з використанням ядерних символів",
+        "Підхід до UI без використання компонентів",
+        "Методологія тільки для Material Design",
+        "Архітектура мікросервісів для frontend",
+        "Стиль Brutalism у дизайні",
+        "Підхід де кожен елемент — окрема сторінка",
+        "Методологія для тестування атомарності транзакцій",
+        "Підхід до E2E-тестів",
+        "Bundling-стратегія Webpack",
+        "Назва дизайн-системи Apple",
+        "Підхід до управління state у Redux"
+      ]
+    },
+    {
+      "id": "uiux-012",
+      "question": "Які основні правила UX-форм?",
+      "correct_answer": "Лейбли над полями (не плейсхолдери), inline-валідація з зрозумілими помилками, мінімум обов'язкових полів, логічне групування, чіткі CTA, autofocus на першому полі, autocomplete атрибути, видимі помилки, не блокувати paste у password",
+      "explanation": "Плейсхолдер як лейбл — антипаттерн (зникає при фокусі, проблеми accessibility, низький контраст). Multi-step form для довгих форм. Запам'ятовувати progress. Disable submit лише після помилок (не до спроби).",
+      "fake_answers": [
+        "Лейбли всередині поля як placeholder, без зовнішнього лейблу",
+        "Усі поля обов'язкові — менше плутанини",
+        "Помилки показувати лише після submit",
+        "Не використовувати autofocus — це шкодить accessibility",
+        "Вимикати paste у всіх полях — захист від атак",
+        "Captcha на кожному полі",
+        "Кнопка submit лише в кінці формы і прихована",
+        "Лейбли праворуч від поля — стандарт",
+        "Поля без лейблів — мінімалізм",
+        "Усі поля одного типу text — простіше",
+        "Не використовувати autocomplete — security risk"
+      ]
+    },
+    {
+      "id": "uiux-013",
+      "question": "Що таке design tokens?",
+      "correct_answer": "Атомарні значення дизайн-системи (кольори, відступи, типографіка, радіуси, тіні), що зберігаються як змінні (CSS-variables, JSON, JS) і використовуються по всьому продукту — гарантують консистентність і легкі глобальні зміни",
+      "explanation": "Tokens мають семантичні назви (color-primary, spacing-md), а не описові (blue-500). Розділяють на primitive (raw) і semantic (alias). Інструменти: Style Dictionary, Tokens Studio. Підтримують dark mode через token aliases.",
+      "fake_answers": [
+        "Унікальні ID користувачів у дизайні",
+        "OAuth-токени для Figma API",
+        "JWT-токени у Storybook",
+        "API-ключі для дизайн-сервісів",
+        "Бінарні файли .figma",
+        "Шрифти, конвертовані у token формат",
+        "Токени GraphQL запитів",
+        "Стилі CSS у форматі strings",
+        "Назви файлів іконок у CDN",
+        "Унікальні класи Tailwind",
+        "Hash-значення зображень"
+      ]
+    },
+    {
+      "id": "uiux-014",
+      "question": "Що таке візуальна ієрархія і як її створити?",
+      "correct_answer": "Принцип організації елементів за важливістю, щоб око природно переходило по контенту у потрібному порядку; інструменти: розмір, колір, контраст, відступи, типографіка, позиція, ефекти (тінь)",
+      "explanation": "Чітка ієрархія знижує когнітивне навантаження і веде користувача до дій. CTA має бути найпомітнішим. Squint test — примружте око, зловіть, що видно першим. Без ієрархії все важливо — отже нічого не важливо.",
+      "fake_answers": [
+        "Структура HTML-тегів H1-H6 — і все",
+        "Ієрархія CSS-селекторів за специфічністю",
+        "Ієрархія папок у файловій системі проекту",
+        "Z-index усіх елементів на сторінці",
+        "Порядок завантаження JS-модулів",
+        "Структура BEM-класів",
+        "Ієрархія API endpoint у RESTful",
+        "Порядок props у React-компоненті",
+        "Структура папок у дизайн-системі",
+        "Ієрархія назв layers у Figma",
+        "Послідовність CSS animation keyframes"
+      ]
+    },
+    {
+      "id": "uiux-015",
+      "question": "Які 12 принципів анімації Disney актуальні для UI?",
+      "correct_answer": "Squash and stretch, Anticipation, Staging, Straight ahead/Pose to pose, Follow through and overlapping action, Slow in/out (easing), Arc, Secondary action, Timing, Exaggeration, Solid drawing, Appeal — для UI критичні easing, anticipation, follow through, timing",
+      "explanation": "Adaptовані Disney-аніматорами у 1981. У UI: easing (не linear), правильна тривалість (200-500 мс типово), staggering для списків, overshoot для playful interactions, anticipation для confidence перед діями.",
+      "fake_answers": [
+        "12 принципів Material Motion",
+        "12 правил CSS animation",
+        "12 принципів React-анімацій",
+        "12 правил Framer Motion",
+        "12 принципів Lottie",
+        "12 правил GSAP",
+        "12 принципів SVG-анімації",
+        "12 правил canvas-анімації",
+        "12 принципів WebGL",
+        "12 правил Three.js",
+        "12 принципів CSS transitions"
+      ]
+    },
+    {
+      "id": "uiux-016",
+      "question": "Яка рекомендована тривалість UI-анімацій?",
+      "correct_answer": "Більшість мікроінтеракцій — 100-300 мс; модальні переходи — 200-500 мс; складніші — до 700 мс; > 1 секунди — користувач починає нудитися; різна для входу/виходу (вихід швидший)",
+      "explanation": "Material Design рекомендує 100 мс (small), 250 мс (medium), 400+ мс (large). Меншу тривалість використовуйте для відомих/повторюваних дій. easing — ease-out для появи, ease-in для зникнення, ease-in-out для трансформацій.",
+      "fake_answers": [
+        "Завжди 1000 мс — стандарт",
+        "5000 мс мінімум для ефекту",
+        "Залежить лише від FPS GPU",
+        "Не більше 50 мс — інакше вважається лагом",
+        "Точно 16.67 мс — один кадр",
+        "Стільки, скільки користувач натискає клавішу",
+        "10 секунд — рекомендує Apple HIG",
+        "Залежить лише від ширини екрану",
+        "Мінімум 2 секунди для accessibility",
+        "Анімації заборонені у production",
+        "0 мс — без анімацій кращий UX"
+      ]
+    },
+    {
+      "id": "uiux-017",
+      "question": "Чим різняться skeleton screens і spinners?",
+      "correct_answer": "Skeleton — placeholder, що нагадує форму майбутнього контенту (сірі прямокутники), створює відчуття швидкої появи; Spinner — індикатор невизначеного очікування. Skeleton перцептивно швидший, краще для контентних блоків",
+      "explanation": "Spinner використовуйте для коротких операцій (< 1 сек) і дій після події (saving). Skeleton — для початкового завантаження сторінок/списків. Progress bar — коли можна виміряти прогрес. Empty state замість spinner якщо очікувано порожньо.",
+      "fake_answers": [
+        "Skeleton — для backend, spinner — для frontend",
+        "Це абсолютні синоніми",
+        "Spinner — для desktop, skeleton — для mobile",
+        "Skeleton — для зображень, spinner — для тексту",
+        "Spinner показується у production, skeleton — у dev",
+        "Skeleton працює лише з SSR, spinner — з CSR",
+        "Spinner — це скелет HTML, skeleton — обертова іконка",
+        "Skeleton тільки для landing, spinner — для dashboard",
+        "Spinner може бути будь-якої форми, skeleton — лише круг",
+        "Skeleton — це різновид CSS reset",
+        "Spinner — це animation у Framer, skeleton — у GSAP"
+      ]
+    },
+    {
+      "id": "uiux-018",
+      "question": "Що таке semantic HTML і чому це важливо для accessibility?",
+      "correct_answer": "Використання HTML-тегів за призначенням: <button> для кнопок, <a> для посилань, <nav>, <main>, <article>, <section>, <header>, <footer>, <h1>-<h6>; screen readers і assistive tech правильно інтерпретують структуру",
+      "explanation": "<div onClick> замість <button> зламає keyboard nav, ARIA roles, focus, screen reader. Тег несе built-in accessibility (роль, фокус, клавіатурні події). ARIA — \"no ARIA is better than bad ARIA\": використовуйте semantic, ARIA лише коли неможливо.",
+      "fake_answers": [
+        "HTML, який валідується W3C валідатором",
+        "HTML без inline styles",
+        "HTML, що використовує лише class замість ID",
+        "HTML без JavaScript",
+        "HTML лише з flex і grid",
+        "HTML, що пройшов SEO-аудит",
+        "HTML без тегів div",
+        "HTML, що компілюється у Webpack",
+        "HTML, що працює без CSS",
+        "HTML без external ресурсів",
+        "HTML тільки з тегами в lowercase"
+      ]
+    },
+    {
+      "id": "uiux-019",
+      "question": "Що таке mobile-first дизайн і його переваги?",
+      "correct_answer": "Підхід, при якому дизайн і CSS пишуть спочатку для мобільних (мінімальна ширина), потім розширюють для більших екранів через media queries (min-width); змушує фокусуватися на найважливішому контенті/функціях",
+      "explanation": "Альтернатива — desktop-first з max-width queries. Mobile-first простіший: базові стилі для всіх, потім додаються features. Більшість трафіку у світі — mobile. Performance оптимізація з обмежень mobile.",
+      "fake_answers": [
+        "Розробка лише для iPhone, потім порт на Android",
+        "Дизайн лише у мобільному редакторі Figma",
+        "Підхід з мобільним додатком замість веб",
+        "Розробка для smartwatch, потім для phone",
+        "Підхід без media queries",
+        "Стиль лише для мобільних — desktop ігнорується",
+        "Підхід, де mobile dev-середовище для всього",
+        "Тестування лише у Chrome DevTools mobile mode",
+        "Стандарт лише для PWA",
+        "Підхід де backend mobile-only",
+        "Дизайн лише з Material Design"
+      ]
+    },
+    {
+      "id": "uiux-020",
+      "question": "Які основні стани (states) UI-компонентів треба передбачати?",
+      "correct_answer": "Default, Hover, Focus (visible!), Active/Pressed, Disabled, Loading, Empty (порожній стан), Error, Success; для контейнерів даних — empty, loading, error, partial, populated",
+      "explanation": "Часта помилка — лише default state. Focus visible — обов'язково для keyboard nav (не видаляйте outline без заміни). Empty/error states критичні для UX — не лишайте користувача у вакуумі (\"нічого не знайдено\" з ілюстрацією і CTA).",
+      "fake_answers": [
+        "Лише два: enabled і disabled",
+        "Тільки default — все інше зайве",
+        "Active, Inactive, Hidden — і все",
+        "Public, Private, Protected — стани компонентів",
+        "Mounted, Unmounted, Updating — стани React",
+        "Class, ID, Tag — стани CSS",
+        "Get, Post, Put, Delete — стани CRUD",
+        "Index, Show, Edit, Update — стани REST",
+        "Online, Offline, Idle — стани мережі",
+        "Open, Closed, Pending — стани GitHub PR",
+        "Draft, Published, Archived — стани контенту"
+      ]
+    }
+  ]
+}

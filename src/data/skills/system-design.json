@@ -5,13 +5,382 @@
   "questions": [
     {
       "id": "sd-001",
-      "question": "Який патерн дозволяє відокремити запис і читання в БД для різного навантаження?",
-      "correct_answer": "CQRS",
-      "explanation": "CQRS (Command Query Responsibility Segregation) розділяє модель запису (Command) і читання (Query), що дозволяє масштабувати їх незалежно.",
+      "question": "Що означає теорема CAP?",
+      "correct_answer": "При network partition система обирає або consistency, або availability",
+      "explanation": "CAP: Consistency, Availability, Partition tolerance — у разі мережевого розколу можна гарантувати лише два з трьох. На практиці P неминуче, тому обирається CP або AP.",
       "fake_answers": [
-        "Sharding", "Replication", "Event Sourcing", "Saga",
-        "Circuit Breaker", "Bulkhead", "Sidecar", "API Gateway",
-        "Service Mesh", "Pub/Sub", "Leader Election"
+        "Гарантує всі три властивості одночасно",
+        "Стосується тільки SQL баз даних",
+        "Описує рівні ізоляції транзакцій",
+        "Класифікує алгоритми консенсусу",
+        "Обмежує throughput системи",
+        "Регулює latency між дата-центрами",
+        "Описує модель пам'яті процесора",
+        "Стосується кешування на CDN",
+        "Визначає типи балансувальників",
+        "Описує rate limiting стратегії",
+        "Стосується тільки in-memory систем"
+      ]
+    },
+    {
+      "id": "sd-002",
+      "question": "Яка різниця між vertical і horizontal scaling?",
+      "correct_answer": "Vertical — потужніший сервер, horizontal — більше серверів",
+      "explanation": "Vertical scaling (scale up) збільшує ресурси одного вузла, але має фізичну межу і SPOF. Horizontal scaling (scale out) додає вузли, потребує load balancer і stateless-дизайну, але дає кращу відмовостійкість.",
+      "fake_answers": [
+        "Vertical — нові регіони, horizontal — нові зони",
+        "Vertical — replication, horizontal — sharding",
+        "Vertical — кешування, horizontal — CDN",
+        "Vertical — sync, horizontal — async",
+        "Vertical — CPU, horizontal — RAM",
+        "Vertical — SQL, horizontal — NoSQL",
+        "Vertical — read replicas, horizontal — write masters",
+        "Vertical — kubernetes pods, horizontal — VMs",
+        "Vertical — пропускна, horizontal — throughput",
+        "Vertical — синхронізація часу, horizontal — DNS",
+        "Vertical — TLS termination, horizontal — gRPC"
+      ]
+    },
+    {
+      "id": "sd-003",
+      "question": "Яка стратегія балансування використовує хеш від IP клієнта для прив'язки до сервера?",
+      "correct_answer": "IP hash",
+      "explanation": "IP hash гарантує session affinity без cookies — клієнт з тим самим IP завжди потрапляє на той самий backend. Альтернативи: round-robin, least connections, weighted round-robin, consistent hashing.",
+      "fake_answers": [
+        "Round-robin",
+        "Least connections",
+        "Random",
+        "Weighted round-robin",
+        "Power of two choices",
+        "Sticky session via cookie",
+        "URL hash",
+        "Header hash",
+        "Geo-based",
+        "Latency-based",
+        "Resource-aware"
+      ]
+    },
+    {
+      "id": "sd-004",
+      "question": "Що таке cache-aside (lazy loading) стратегія?",
+      "correct_answer": "Додаток читає кеш, при miss завантажує з БД і записує в кеш",
+      "explanation": "Cache-aside — додаток сам керує кешем: спершу cache.get, при miss — db.get + cache.set. Інші стратегії: write-through (синхронний запис у кеш і БД), write-behind (асинхронний запис у БД).",
+      "fake_answers": [
+        "Кеш записує в БД синхронно при кожному запиті",
+        "Кеш записує в БД асинхронно з буфером",
+        "Кеш повністю замінює БД",
+        "Кеш заповнюється тільки при старті системи",
+        "Кеш оновлюється тільки через pub/sub",
+        "Кеш реплікується у всі вузли при старті",
+        "Кеш оновлюється тригерами БД",
+        "Кеш зберігається тільки на CDN",
+        "Кеш видаляється після кожного запиту",
+        "Кеш оновлюється раз на добу",
+        "Кеш доступний тільки на запис"
+      ]
+    },
+    {
+      "id": "sd-005",
+      "question": "Що таке consistent hashing і навіщо потрібен?",
+      "correct_answer": "Хешування з мінімальним перерозподілом ключів при додаванні/видаленні вузлів",
+      "explanation": "Consistent hashing розміщує ключі і вузли на колі. При зміні топології переносяться лише ~K/N ключів, а не всі. Використовується у sharding (Cassandra, DynamoDB), CDN, distributed cache (Memcached).",
+      "fake_answers": [
+        "Хешування, що завжди дає однаковий результат на всіх вузлах",
+        "Криптографічне хешування паролів",
+        "Хешування з гарантією відсутності колізій",
+        "Хешування для індексів у SQL",
+        "Хешування для bloom-фільтрів",
+        "Хешування TLS-сертифікатів",
+        "Хешування для merkle-дерев",
+        "Хешування URL для CDN",
+        "Хешування для checksum-перевірки",
+        "Хешування для перевірки цілісності",
+        "Двопрохідне хешування"
+      ]
+    },
+    {
+      "id": "sd-006",
+      "question": "Який алгоритм rate limiting дозволяє burst-и до межі ємності bucket-а?",
+      "correct_answer": "Token bucket",
+      "explanation": "Token bucket поповнюється з фіксованою швидкістю, кожен запит споживає токен. Дозволяє короткі сплески, поки є токени. Leaky bucket натомість обробляє запити з постійною швидкістю.",
+      "fake_answers": [
+        "Leaky bucket",
+        "Fixed window counter",
+        "Sliding window log",
+        "Sliding window counter",
+        "Concurrent semaphore",
+        "Round-robin throttle",
+        "Adaptive rate limiter",
+        "Backpressure queue",
+        "Circuit breaker",
+        "Bulkhead pattern",
+        "Token ring"
+      ]
+    },
+    {
+      "id": "sd-007",
+      "question": "У чому різниця між sharding і replication?",
+      "correct_answer": "Sharding ділить дані за ключем; replication дублює дані на кілька вузлів",
+      "explanation": "Sharding (партиціонування) розподіляє різні дані по вузлах для масштабування запису. Replication дублює одні й ті ж дані для відмовостійкості і масштабування читання. Часто застосовуються разом.",
+      "fake_answers": [
+        "Sharding — копії, replication — фрагменти",
+        "Sharding — індекси, replication — кеш",
+        "Sharding — рядки, replication — стовпці",
+        "Sharding — SQL, replication — NoSQL",
+        "Sharding — write-only, replication — read-only",
+        "Sharding — sync, replication — async",
+        "Sharding — мережа, replication — диск",
+        "Sharding — primary, replication — secondary",
+        "Sharding — leader, replication — followers",
+        "Sharding — backup, replication — restore",
+        "Sharding — log, replication — snapshot"
+      ]
+    },
+    {
+      "id": "sd-008",
+      "question": "Що таке eventual consistency?",
+      "correct_answer": "За відсутності нових записів усі репліки зрештою сходяться до однакового стану",
+      "explanation": "Eventual consistency допускає тимчасову розбіжність реплік (read after write може повернути stale data), але гарантує конвергенцію за відсутності записів. Типове для AP-систем (DynamoDB, Cassandra).",
+      "fake_answers": [
+        "Гарантує миттєву видимість запису для всіх клієнтів",
+        "Працює тільки в одному дата-центрі",
+        "Потребує двофазного коміту на кожен запис",
+        "Ігнорує конфлікти запису",
+        "Гарантує лінеаризованість",
+        "Підтримує тільки read-only операції",
+        "Реплікує тільки snapshot-и раз на добу",
+        "Гарантує тільки порядок читання",
+        "Обмежує запити одним вузлом",
+        "Працює тільки з SQL",
+        "Гарантує causal порядок завжди"
+      ]
+    },
+    {
+      "id": "sd-009",
+      "question": "У якому випадку доцільно використовувати NoSQL document database (наприклад, MongoDB)?",
+      "correct_answer": "Гнучка структура даних і вкладені документи",
+      "explanation": "Document store підходить для напівструктурованих даних, швидких ітерацій схеми, агрегації по документу. Не оптимальний для складних JOIN-ів і ACID-транзакцій між документами (хоча MongoDB це підтримує з 4.0+).",
+      "fake_answers": [
+        "Жорстко нормалізовані реляційні дані",
+        "Транзакції з суворою ACID-гарантією через таблиці",
+        "Складні багатотабличні JOIN-и",
+        "Облік фінансових проводок",
+        "Графові обходи з тисячами hop-ів",
+        "Time-series метрики з high cardinality",
+        "Великі бінарні файли як основне сховище",
+        "Дані з суворими foreign key",
+        "OLAP cube-аналітика",
+        "Full-text пошук без індексів",
+        "Гарячі ключі з мільйонами writes/sec"
+      ]
+    },
+    {
+      "id": "sd-010",
+      "question": "Що таке message queue на відміну від pub/sub?",
+      "correct_answer": "Message queue — point-to-point, кожне повідомлення отримує один споживач",
+      "explanation": "Queue (SQS, RabbitMQ direct) — повідомлення йде одному consumer-у. Pub/Sub (Kafka topics, GCP PubSub) — broadcast на всіх підписників. Stream (Kafka) додає replay-able log з offset-ами.",
+      "fake_answers": [
+        "Pub/sub зберігає повідомлення довше за queue",
+        "Queue не підтримує acknowledgement",
+        "Pub/sub завжди синхронний",
+        "Queue потребує Zookeeper",
+        "Pub/sub використовує тільки UDP",
+        "Queue не підтримує persistence",
+        "Pub/sub не масштабується горизонтально",
+        "Queue завжди ordered, pub/sub — ні",
+        "Queue — tcp, pub/sub — websocket",
+        "Pub/sub потребує stateful consumer-ів",
+        "Queue використовується тільки для логів"
+      ]
+    },
+    {
+      "id": "sd-011",
+      "question": "Що таке idempotency у контексті API?",
+      "correct_answer": "Повторний виклик з тим самим запитом дає той самий результат без побічних ефектів",
+      "explanation": "Idempotent операції безпечно повторювати при retry (типово через Idempotency-Key). GET, PUT, DELETE — idempotent за специфікацією HTTP. POST зазвичай ні, тому додають idempotency token.",
+      "fake_answers": [
+        "Запит виконується атомарно з транзакцією БД",
+        "Запит шифрується TLS на всіх етапах",
+        "Запит виконується тільки в одному регіоні",
+        "Запит має time-to-live 24 години",
+        "Запит автоматично зберігається в кеш",
+        "Запит проходить через rate limiter",
+        "Запит виконується в окремому процесі",
+        "Запит не змінює стан системи взагалі",
+        "Запит обмежений 1 KB у тілі",
+        "Запит зберігається в audit log",
+        "Запит обробляється тільки лідером"
+      ]
+    },
+    {
+      "id": "sd-012",
+      "question": "Який алгоритм консенсусу використовується в etcd і Consul?",
+      "correct_answer": "Raft",
+      "explanation": "Raft — простіший за Paxos протокол консенсусу: лідер обирається через голосування, всі записи йдуть через нього і реплікуються в log. Використовується в etcd, Consul, CockroachDB, RethinkDB.",
+      "fake_answers": [
+        "Paxos",
+        "Two-phase commit",
+        "Three-phase commit",
+        "Gossip",
+        "Vector clock",
+        "Lamport timestamp",
+        "Byzantine fault tolerance (PBFT)",
+        "Proof of work",
+        "Proof of stake",
+        "Quorum read",
+        "Chain replication"
+      ]
+    },
+    {
+      "id": "sd-013",
+      "question": "Що дозволяє WebSocket на відміну від HTTP polling?",
+      "correct_answer": "Двостороннє full-duplex з'єднання з низькою latency",
+      "explanation": "WebSocket встановлює персистентне TCP-з'єднання після HTTP upgrade, дозволяючи серверу пушити дані без запиту клієнта. Long polling імітує push, але з більшим overhead. SSE — однонапрямний від сервера.",
+      "fake_answers": [
+        "Гарантоване доставлення повідомлень exactly-once",
+        "Шифрування на рівні повідомлень за замовчуванням",
+        "Автоматичне відновлення після збою без логіки клієнта",
+        "Підтримка multicast із коробки",
+        "Балансування навантаження без LB",
+        "Підтримка HTTP/3 без додаткових налаштувань",
+        "Автоматична компресія всіх повідомлень",
+        "Відсутність обмежень провайдерів і проксі",
+        "Гарантований порядок між кількома з'єднаннями",
+        "Безкоштовне обхід CORS",
+        "Підтримка stateless горизонтального масштабування без sticky"
+      ]
+    },
+    {
+      "id": "sd-014",
+      "question": "Як приблизно оцінити storage для 100 млн користувачів з 1 KB даних кожен?",
+      "correct_answer": "Близько 100 GB",
+      "explanation": "100M × 1KB = 10^8 × 10^3 байт = 10^11 байт = 100 GB. Back-of-envelope-обчислення — критичний навик system design: QPS, storage, bandwidth, latency бюджет.",
+      "fake_answers": [
+        "Близько 1 TB",
+        "Близько 10 GB",
+        "Близько 1 PB",
+        "Близько 100 MB",
+        "Близько 10 TB",
+        "Близько 100 TB",
+        "Близько 1 GB",
+        "Близько 10 PB",
+        "Близько 500 MB",
+        "Близько 50 GB",
+        "Близько 200 TB"
+      ]
+    },
+    {
+      "id": "sd-015",
+      "question": "Яка стратегія eviction видаляє найменш нещодавно використаний елемент?",
+      "correct_answer": "LRU",
+      "explanation": "LRU (Least Recently Used) видаляє найдавніше використаний. LFU (Least Frequently Used) — найрідше використаний. FIFO — у порядку додавання. TTL — за часом життя. Redis підтримує всі.",
+      "fake_answers": [
+        "LFU",
+        "FIFO",
+        "LIFO",
+        "Random",
+        "MRU",
+        "TTL only",
+        "Clock",
+        "ARC",
+        "2Q",
+        "SLRU",
+        "MFU"
+      ]
+    },
+    {
+      "id": "sd-016",
+      "question": "У чому головна перевага мікросервісної архітектури над монолітом?",
+      "correct_answer": "Незалежний деплой і масштабування окремих сервісів",
+      "explanation": "Мікросервіси дозволяють командам деплоїти і масштабувати сервіси незалежно, обирати різні стеки. Платою є складність розподіленої системи: мережа, observability, distributed tracing, eventual consistency.",
+      "fake_answers": [
+        "Завжди вища продуктивність",
+        "Менше мережевого трафіку",
+        "Легша налагодження",
+        "Сильніша консистентність",
+        "Простіший локальний dev",
+        "Менші витрати на інфраструктуру",
+        "Гарантована відсутність cascading failures",
+        "Автоматичні розподілені транзакції",
+        "Не потребує observability",
+        "Менша когнітивна складність системи",
+        "Спільна база даних для всіх"
+      ]
+    },
+    {
+      "id": "sd-017",
+      "question": "Що таке API Gateway?",
+      "correct_answer": "Єдина точка входу, що маршрутизує і обробляє auth, rate limiting, transformation",
+      "explanation": "API Gateway (Kong, AWS API Gateway, Envoy) приховує мікросервіси за єдиним endpoint, виконує auth, rate limit, request/response transform, aggregation, caching. Спрощує клієнтів і централізує cross-cutting concerns.",
+      "fake_answers": [
+        "База даних метаданих API",
+        "Інструмент моніторингу метрик",
+        "DNS-сервер для сервісів",
+        "Кеш-сервер для статики",
+        "CDN edge node",
+        "Service mesh sidecar",
+        "Реверс-проксі без логіки",
+        "Документація OpenAPI",
+        "Тестовий клієнт API",
+        "Агрегатор логів",
+        "Сертифікат-менеджер"
+      ]
+    },
+    {
+      "id": "sd-018",
+      "question": "Що таке CDN і як він пришвидшує доставку?",
+      "correct_answer": "Мережа edge-серверів, що кешують контент ближче до користувача",
+      "explanation": "CDN (Cloudflare, CloudFront, Fastly) кешує статичний (а інколи динамічний) контент на edge-локаціях по всьому світу. Зменшує latency, розвантажує origin, забезпечує DDoS-захист і TLS termination.",
+      "fake_answers": [
+        "Сервіс DNS-резолвінгу",
+        "Інструмент для бекапів",
+        "Менеджер контейнерів",
+        "Шифрувальник TCP-трафіку",
+        "Балансувальник TCP без HTTP-логіки",
+        "Реляційна база геоданих",
+        "Стрімінговий протокол на UDP",
+        "Розподілений кеш у RAM одного DC",
+        "Сервіс реплікації БД",
+        "Менеджер сертифікатів",
+        "Платформа для serverless-функцій"
+      ]
+    },
+    {
+      "id": "sd-019",
+      "question": "Який тип бази даних підходить для зберігання сильно зв'язаних даних, як соціальний граф?",
+      "correct_answer": "Graph database (Neo4j, JanusGraph)",
+      "explanation": "Graph DB зберігає вершини, ребра і їх властивості, ефективно виконує обходи з тисячами hop-ів через index-free adjacency. SQL і document-store погано справляються з рекурсивними JOIN-ами.",
+      "fake_answers": [
+        "Wide-column (Cassandra)",
+        "Key-value (Redis)",
+        "Document (MongoDB)",
+        "Relational (PostgreSQL) без рекурсивних CTE",
+        "Time-series (InfluxDB)",
+        "Search engine (Elasticsearch)",
+        "Block storage (S3)",
+        "In-memory cache",
+        "Object storage",
+        "OLAP-куб",
+        "Columnar warehouse (Redshift)"
+      ]
+    },
+    {
+      "id": "sd-020",
+      "question": "Що таке PACELC?",
+      "correct_answer": "Розширення CAP: під час partition (PA/PC), інакше — latency vs consistency (LE/LC)",
+      "explanation": "PACELC: якщо є Partition (P), обираємо Availability чи Consistency; Else (E) — обираємо Latency чи Consistency. Описує trade-off навіть без partition: приклад — DynamoDB PA/EL, Spanner PC/EC.",
+      "fake_answers": [
+        "Протокол двофазного коміту з кешем",
+        "Класифікація рівнів ізоляції транзакцій",
+        "Рейтинг алгоритмів консенсусу",
+        "Стандарт автентифікації API",
+        "Метрика SLA для cloud-провайдерів",
+        "Шифрувальний стек TLS",
+        "Архітектурний шаблон сервіс-мешу",
+        "Алгоритм rate limiting",
+        "Стратегія партиціонування Kafka",
+        "Опис рівнів кешу процесора",
+        "Модель безпеки zero-trust"
       ]
     }
   ]

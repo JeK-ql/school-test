@@ -1,0 +1,387 @@
+{
+  "skill_id": "security",
+  "skill_name": "Application Security",
+  "difficulty": "A-Rank",
+  "questions": [
+    {
+      "id": "sec-001",
+      "question": "Що таке OWASP Top 10?",
+      "correct_answer": "Список 10 найкритичніших ризиків безпеки веб-додатків, що оновлюється OWASP кожні кілька років",
+      "explanation": "Поточний (2021) Top 10: Broken Access Control, Cryptographic Failures, Injection, Insecure Design, Security Misconfiguration, Vulnerable Components, Auth Failures, Software/Data Integrity, Logging Failures, SSRF.",
+      "fake_answers": [
+        "Список з 10 найкращих веб-фреймворків",
+        "10 правил кодування за стандартом ISO",
+        "Топ-10 CVE минулого року",
+        "10 найбільш безпечних мов програмування",
+        "10 атак на BIOS",
+        "10 найпопулярніших інструментів пентесту",
+        "10 кращих хостинг-провайдерів",
+        "10 правил написання README",
+        "Список 10 шифрів за NIST",
+        "10 заборонених функцій у JavaScript",
+        "10 правил GDPR-сумісності"
+      ]
+    },
+    {
+      "id": "sec-002",
+      "question": "Що таке SQL Injection і як від неї захиститися?",
+      "correct_answer": "Атака, при якій зловмисник вставляє SQL-код через вхідні дані; захист — параметризовані запити (prepared statements) та ORM",
+      "explanation": "Конкатенація рядків у SQL ('SELECT * FROM users WHERE name=' + input) — діра. Prepared statements відокремлюють код від даних. Додатково: allowlist валідація, принцип найменших привілеїв для БД-користувача.",
+      "fake_answers": [
+        "Атака на структуру SQL-сервера; захист — apt-get update",
+        "Помилка синтаксису SQL; захист — кращий формат коду",
+        "Інше ім'я для DDoS на БД; захист — CDN",
+        "Ін'єкція реклами в результати; захист — adblock",
+        "Атака на DNS бази даних; захист — DNSSEC",
+        "Заплутування коду; захист — мінімізація JS",
+        "Атака через cookies; захист — HttpOnly",
+        "Шифрування SQL-коду без захисту даних",
+        "Атака на UDP-порт MySQL; захист — закрити порт",
+        "Заміна MySQL на NoSQL; захист — PostgreSQL",
+        "Атака на пам'ять SQL-engine; захист — більше RAM"
+      ]
+    },
+    {
+      "id": "sec-003",
+      "question": "Які типи XSS існують?",
+      "correct_answer": "Reflected (echo-нуто з запиту), Stored (збережено в БД і показано іншим), DOM-based (без сервера, через клієнтський JS)",
+      "explanation": "Reflected: ?msg=<script> у URL. Stored: коментар із <script> зберігається. DOM-based: location.hash → innerHTML без санітізації. Захист: вихідне кодування, CSP, Trusted Types, не використовувати innerHTML/eval.",
+      "fake_answers": [
+        "External, Internal, Mixed",
+        "Hot, Cold, Warm",
+        "TCP, UDP, ICMP",
+        "GET, POST, PUT",
+        "JSON, XML, YAML",
+        "Active, Passive, Hybrid",
+        "Forward, Reverse, Transparent",
+        "Synchronous, Asynchronous, Deferred",
+        "Strict, Loose, Mixed",
+        "Light, Dark, Auto",
+        "Static, Dynamic, Inline"
+      ]
+    },
+    {
+      "id": "sec-004",
+      "question": "Що таке Content Security Policy (CSP) і як він допомагає проти XSS?",
+      "correct_answer": "HTTP-заголовок, що задає список дозволених джерел скриптів/стилів/зображень тощо; забороняє inline-script та eval за замовчуванням",
+      "explanation": "Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.example.com. Браузер блокує підкачку/виконання з інших джерел, навіть якщо XSS уже впровадив скрипт. Найкраще використовувати nonce/hash замість 'unsafe-inline'.",
+      "fake_answers": [
+        "Алгоритм шифрування контенту в БД",
+        "Поліс компанії щодо публікацій у соцмережах",
+        "Заголовок Cache-Control",
+        "Метатег для SEO",
+        "API для перевірки авторських прав",
+        "Заголовок, що шифрує HTTP-відповідь",
+        "Полісі для CDN з обмеженням географії",
+        "Інша назва для CORS",
+        "Полісі для обмеження кількості запитів",
+        "Заголовок для блокування cookies",
+        "Polісі для перевірки SSL-сертифіката"
+      ]
+    },
+    {
+      "id": "sec-005",
+      "question": "Що таке CSRF атака і як від неї захиститися?",
+      "correct_answer": "Cross-Site Request Forgery — атака, де зловмисний сайт змушує браузер користувача надіслати запит з його cookies; захист — CSRF-токен, SameSite cookies, перевірка Origin/Referer",
+      "explanation": "Жертва залогінена в банк, відвідує evil.com, що сабмітить форму на bank.com — браузер автоматично прикріпить cookie. SameSite=Lax/Strict блокує крос-сайт cookies. Double-submit cookie + state-changing operations лише через POST.",
+      "fake_answers": [
+        "Атака на CSS, що ламає верстку",
+        "Атака, що краде сертифікати TLS",
+        "Атака на CSRF-сервер бази даних",
+        "Атака, що змінює DNS",
+        "Атака brute-force на паролі",
+        "Атака на CDN-провайдера",
+        "Атака MITM на HTTPS",
+        "Атака на JS-код через інспектор",
+        "Атака на CRC-перевірку файлів",
+        "Атака, що відключає Wi-Fi",
+        "Атака на CSP-заголовок"
+      ]
+    },
+    {
+      "id": "sec-006",
+      "question": "Які алгоритми правильно використовувати для зберігання паролів?",
+      "correct_answer": "bcrypt, argon2 або scrypt з достатнім work factor та унікальним per-user salt",
+      "explanation": "MD5/SHA1/SHA256 — занадто швидкі для перебору на GPU. bcrypt/scrypt/argon2 спеціально повільні та memory-hard. Argon2id — рекомендований OWASP. Salt запобігає rainbow tables. Pepper (server-side secret) додає захисту при витоку БД.",
+      "fake_answers": [
+        "MD5 з подвійним хешуванням",
+        "SHA1 з salt",
+        "Base64 кодування паролів",
+        "ROT13 з secret-prefix",
+        "AES-128 для шифрування паролів",
+        "RSA-2048",
+        "CRC32 з salt",
+        "DES з 3 ітераціями",
+        "Plain text у БД, але в окремій таблиці",
+        "XOR з фіксованим ключем",
+        "Зберігання SHA256 хешу email + password"
+      ]
+    },
+    {
+      "id": "sec-007",
+      "question": "Що таке HSTS заголовок?",
+      "correct_answer": "HTTP Strict-Transport-Security — заголовок, що змушує браузер використовувати лише HTTPS для домену протягом max-age",
+      "explanation": "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload. Захищає від downgrade-атак та strip-attack (sslstrip). Preload-список вшитий у браузери — навіть перший запит уже HTTPS.",
+      "fake_answers": [
+        "Hash-Salted Token Storage — формат токенів",
+        "HTTP-Server-Token-Sec — заголовок версії сервера",
+        "Heap Stack Trace Sec — рівень логування",
+        "Hyper Speed TLS — алгоритм шифрування",
+        "Hash-Stream Token Service — служба токенів",
+        "Hidden Server Time Stamp — захист від replay",
+        "HTTPS Server Trust Store — сховище сертифікатів",
+        "Header Strict Token Sec — обмеження токенів",
+        "Hot Standby Transit Service — сервіс репликації",
+        "Hash Symmetric TLS — інша назва AES",
+        "High Security Transfer Standard — стандарт PCI"
+      ]
+    },
+    {
+      "id": "sec-008",
+      "question": "Що означають атрибути Secure, HttpOnly та SameSite у cookies?",
+      "correct_answer": "Secure — лише через HTTPS; HttpOnly — недоступно з JS (захист від XSS-крадіжки); SameSite — обмежує крос-сайт відправку (Lax/Strict/None)",
+      "explanation": "Set-Cookie: id=...; Secure; HttpOnly; SameSite=Lax. Сесійні cookies мають усі три. SameSite=None потребує Secure. Без HttpOnly XSS може украсти токен через document.cookie.",
+      "fake_answers": [
+        "Secure — для админ-панелі, HttpOnly — для логів, SameSite — для CDN",
+        "Secure — стиснення, HttpOnly — base64, SameSite — підпис",
+        "Secure — шифрування AES, HttpOnly — RSA, SameSite — HMAC",
+        "Усі три — про термін дії cookies",
+        "Secure — про порт 443, HttpOnly — про HTTP/2, SameSite — про IPv6",
+        "Secure — про CORS, HttpOnly — про CSP, SameSite — про CSRF",
+        "Secure — це лише застаріла назва для HttpOnly",
+        "SameSite=None блокує всі cookies",
+        "HttpOnly означає 'тільки для HTTP, не HTTPS'",
+        "SameSite=Strict дозволяє всі крос-сайт запити",
+        "Secure означає, що cookie шифрується на клієнті"
+      ]
+    },
+    {
+      "id": "sec-009",
+      "question": "Що таке SSRF атака?",
+      "correct_answer": "Server-Side Request Forgery — змусити сервер надіслати запит на адресу, обрану зловмисником (часто внутрішню)",
+      "explanation": "Якщо застосунок приймає URL і завантажує (image proxy, webhook), зловмисник може запросити http://169.254.169.254/ (AWS metadata) і вкрасти креденшли. Захист: allowlist доменів, заборона приватних IP, окрема мережа для outbound.",
+      "fake_answers": [
+        "Single Sign Reset Failure — помилка SSO",
+        "Server-Side Resource Forging — підробка ресурсів",
+        "Secure Socket Reset Forgery — атака на TLS",
+        "Stream Server Response Forgery — атака на streaming",
+        "Static Site Render Forgery — атака на SSG",
+        "Session Storage Resource Forgery — атака на localStorage",
+        "Server Sync Request Forgery — атака на репликацію",
+        "Synchronous Server Recovery Failure — DoS",
+        "SQL Server Resource Forgery — атака на MSSQL",
+        "Single Service Restart Forgery — атака на systemd",
+        "Static Server Response Forgery — атака на cache"
+      ]
+    },
+    {
+      "id": "sec-010",
+      "question": "Що таке IDOR (Insecure Direct Object Reference)?",
+      "correct_answer": "Уразливість, коли застосунок приймає ID об'єкта без перевірки, чи має поточний користувач доступ до нього",
+      "explanation": "GET /api/orders/123 повертає чужий заказ, якщо нема перевірки order.userId === currentUser. Класичний випадок Broken Access Control. Захист: явна авторизація на кожен ресурс, opaque/UUID ID не панацея.",
+      "fake_answers": [
+        "Internal Direct Object Reload — кешовий exploit",
+        "Indirect Object Routing — атака на маршрути",
+        "Insecure Database ORM Reference — помилка ORM",
+        "Identity Direct Owner Resolution — атака на ACL",
+        "Improper Default Object Read — баг у defaults",
+        "Internal Domain Object Race — гонитва",
+        "Indirect DOM Object Render — XSS-варіант",
+        "Inconsistent Data Object Reference — помилка реплікації",
+        "Identity Decoder Object Recursion — DoS",
+        "Internet Direct Open Resource — атака на CORS",
+        "Insecure Dynamic Object Resolver — DI exploit"
+      ]
+    },
+    {
+      "id": "sec-011",
+      "question": "Які основні проблеми з JWT при невірному використанні?",
+      "correct_answer": "alg=none, слабкий секрет, відсутність exp, відсутність revocation, зберігання чутливих даних у відкритому payload, плутанина HS256/RS256",
+      "explanation": "alg=none дозволяє підробити токен без підпису. Слабкий HMAC-секрет ламається brute-force. JWT без exp = вічний доступ. Payload — base64, не шифрований. Краще короткий TTL + refresh token, jti для revocation.",
+      "fake_answers": [
+        "JWT — це шифрування, тому він безпечний",
+        "JWT не має проблем — він стандартизований",
+        "JWT не може зберігати дані",
+        "JWT обов'язково шифрується AES",
+        "JWT не використовується в OAuth",
+        "JWT можна підробити лише з приватним ключем сервера",
+        "JWT видається лише адміністратором",
+        "JWT завжди потребує блокчейну",
+        "JWT не може бути decoded на клієнті",
+        "JWT — це інша назва для cookie",
+        "JWT не передається через Authorization header"
+      ]
+    },
+    {
+      "id": "sec-012",
+      "question": "Що таке принцип найменших привілеїв (Principle of Least Privilege)?",
+      "correct_answer": "Кожен суб'єкт (користувач/процес/сервіс) має мати лише ті права, що необхідні для його функцій — не більше",
+      "explanation": "БД-юзер для read-API має лише SELECT, не DROP. IAM-роль сервісу — конкретні дії на конкретні ресурси, не *. Зменшує blast radius при компрометації. Перевіряти регулярно (access review), бо привілеї накопичуються.",
+      "fake_answers": [
+        "Усі користувачі мають root-доступ для зручності",
+        "Адміни мають менше прав, ніж користувачі",
+        "Привілеї роздаються за стажем у компанії",
+        "Принцип забороняє адмінів узагалі",
+        "Привілеї керуються лише через групи AD",
+        "Принцип означає мінімум адмінів — лише один",
+        "Принцип забороняє створення сервісних акаунтів",
+        "Привілеї видаються лише в робочий час",
+        "Принцип означає, що кожен має повний доступ протягом 5 хвилин на день",
+        "Привілеї керуються лише через MFA",
+        "Принцип забороняє делегування прав"
+      ]
+    },
+    {
+      "id": "sec-013",
+      "question": "Що таке Defense in Depth?",
+      "correct_answer": "Стратегія багатошарової безпеки: WAF, аутентифікація, авторизація, валідація, шифрування, моніторинг — кожен шар як страховка для інших",
+      "explanation": "Якщо одна лінія впала (наприклад, є SQL injection), наступна лінія (мінімальні права БД-юзера, шифрування PII, моніторинг аномалій) обмежить шкоду. 'Усі замки замість одного'.",
+      "fake_answers": [
+        "Захист лише периметра — фаєрволу досить",
+        "Глибина в сенсі поверх deep learning",
+        "Концепція, що один сильний пароль захистить усе",
+        "Захист, що залежить лише від HTTPS",
+        "Стратегія, де лише розробники відповідають за безпеку",
+        "Захист, де всі шари однакові за функціями",
+        "Концепція single point of trust",
+        "Стратегія, де security перевіряється лише раз на рік",
+        "Захист, де кожен модуль має власну ідентифікацію без зв'язку",
+        "Концепція, що зашифрувати — означає захистити",
+        "Стратегія, що використовує лише open source"
+      ]
+    },
+    {
+      "id": "sec-014",
+      "question": "Які security-заголовки HTTP важливо встановлювати?",
+      "correct_answer": "Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options: nosniff, Referrer-Policy, Permissions-Policy, X-Frame-Options/frame-ancestors",
+      "explanation": "CSP — XSS, HSTS — downgrade, X-Content-Type-Options — MIME sniffing, Referrer-Policy — leak referrer, Permissions-Policy — обмеження API (camera, mic), frame-ancestors — clickjacking. Перевіряти через securityheaders.com.",
+      "fake_answers": [
+        "X-Powered-By, Server, ETag",
+        "User-Agent, Accept, Cookie",
+        "Cache-Control, Pragma, Expires",
+        "Content-Type, Content-Length, Date",
+        "Authorization, WWW-Authenticate, Proxy-Authorization",
+        "Connection, Keep-Alive, Upgrade",
+        "Range, If-Match, Last-Modified",
+        "X-Custom-Header, X-Request-Id",
+        "Origin, Host, Via",
+        "TE, Trailer, Transfer-Encoding",
+        "X-Real-IP, X-Forwarded-For"
+      ]
+    },
+    {
+      "id": "sec-015",
+      "question": "Що таке clickjacking і як від нього захиститися?",
+      "correct_answer": "Атака, при якій сайт жертви завантажується в прозорому iframe поверх іншого, спонукаючи користувача клікати на приховані елементи; захист — frame-ancestors у CSP або X-Frame-Options",
+      "explanation": "Зловмисник вбудовує bank.com у прозорий iframe, користувач 'клікає на кнопку гри' = реально клікає 'Перевести гроші'. Захист: Content-Security-Policy: frame-ancestors 'none' або 'self', або X-Frame-Options: DENY.",
+      "fake_answers": [
+        "Атака на CDN, що підміняє JS-файли",
+        "Атака brute-force на форму логіну",
+        "Атака, що генерує клікфрод на рекламі",
+        "Атака на mouse-driver",
+        "Захист: блокування JavaScript",
+        "Захист: відключення iframe у налаштуваннях браузера користувачем",
+        "Атака, що завантажує тисячі сторінок одночасно",
+        "Захист: HTTPS",
+        "Захист: rate limiting",
+        "Атака, що ламає курсор у браузері",
+        "Захист: Cache-Control: no-store"
+      ]
+    },
+    {
+      "id": "sec-016",
+      "question": "У чому різниця між валідацією, санітізацією та encoding?",
+      "correct_answer": "Валідація — перевірка вхідних даних (allow/deny); Санітізація — видалення/нейтралізація небезпечних частин; Encoding — кодування при виводі під відповідний контекст (HTML/JS/URL/SQL)",
+      "explanation": "Валідація: email matches regex. Санітізація: strip <script>. Encoding: '&' → '&amp;' у HTML, '\\u0026' у JS. Encoding виконується НА ВИХОДІ, бо одне і те ж значення безпечне в одному контексті, небезпечне в іншому.",
+      "fake_answers": [
+        "Це синоніми — одне і те саме",
+        "Валідація на сервері, санітізація на клієнті, encoding в БД",
+        "Encoding — це шифрування",
+        "Санітізація — це видалення HTML повністю завжди",
+        "Валідація потрібна лише для login-форм",
+        "Encoding виконується лише в URL",
+        "Санітізація — це нормалізація юнікоду",
+        "Валідація — це лише regex-перевірка",
+        "Encoding не потрібен, якщо є санітізація",
+        "Санітізація заборонена OWASP",
+        "Валідація — для строк, encoding — для чисел"
+      ]
+    },
+    {
+      "id": "sec-017",
+      "question": "Що таке Supply Chain Attack у контексті розробки?",
+      "correct_answer": "Атака через скомпрометовану залежність (npm/pypi/maven), CI-інструмент або update-канал, що дозволяє виконати код у багатьох жертв",
+      "explanation": "event-stream, ua-parser-js, SolarWinds. Захист: lockfiles, audit-команди, SBOM, scoped tokens, 2FA на публікацію, scanning (Snyk/Dependabot), reproducible builds, мінімізація залежностей.",
+      "fake_answers": [
+        "Атака на ланцюг постачання товарів через сайт",
+        "DDoS на CDN-провайдера",
+        "Атака на logistics-software",
+        "Атака на ERP-систему",
+        "MITM на email-розсилку",
+        "Атака на блокчейн-ланцюг",
+        "Атака, де крадуть пакети під час доставки",
+        "Атака на інтерком офісу",
+        "Атака, що змінює контракти SLA",
+        "Атака на supply.com домен",
+        "Атака на банківські перекази"
+      ]
+    },
+    {
+      "id": "sec-018",
+      "question": "Як правильно зберігати секрети (API-ключі, паролі БД)?",
+      "correct_answer": "У secret manager (Vault, AWS Secrets Manager, GCP Secret Manager) або через env-перемінні з безпечного джерела; ніколи не комітити в код",
+      "explanation": "Секрети в Git навіть приватного репо — leak (forks, history). Vault дає rotation, audit, динамічні секрети. CI/CD підтягує через short-lived credentials. Для локальної розробки .env у gitignore + .env.example.",
+      "fake_answers": [
+        "У публічному GitHub-репозиторії, але закодовані base64",
+        "У JS-файлі на frontend з obfuscation",
+        "У README.md з позначкою TODO",
+        "У документації Confluence без обмежень",
+        "У localStorage браузера",
+        "У публічному Slack-каналі компанії",
+        "У константах коду — компілятор їх захистить",
+        "У cookie без HttpOnly",
+        "У Wiki без авторизації",
+        "У docker image як hardcoded ENV",
+        "У публічному S3-bucket без шифрування"
+      ]
+    },
+    {
+      "id": "sec-019",
+      "question": "Що таке Zero Trust модель безпеки?",
+      "correct_answer": "Модель 'never trust, always verify' — кожен запит автентифікується/авторизується незалежно від мережевого положення, без неявної довіри до 'внутрішньої мережі'",
+      "explanation": "Класична модель 'periметр захищений' зруйнована хмарою/remote work. Zero Trust: mTLS між сервісами, SSO+MFA для людей, мінімальні привілеї, мікросегментація, безперервна перевірка контексту (device, location).",
+      "fake_answers": [
+        "Модель з нульовим бюджетом на security",
+        "Модель повної анонімності користувачів",
+        "Модель, де trust перевіряється лише раз при вході",
+        "Модель, що відключає всі security-перевірки",
+        "Модель з обов'язковим VPN на весь трафік",
+        "Модель, де довіряють лише приватній мережі",
+        "Модель з нульовою кількістю адмінів",
+        "Модель, де всі секрети у відкритому вигляді — Zero Trust 'у кожного'",
+        "Модель з обов'язковим air-gap",
+        "Модель безпеки blockchain-додатків",
+        "Модель, де trust надається лише через email-підтвердження"
+      ]
+    },
+    {
+      "id": "sec-020",
+      "question": "Що таке rate limiting і навіщо він?",
+      "correct_answer": "Обмеження кількості запитів від одного клієнта за період; захищає від brute-force, DoS, abuse API та контролює costs",
+      "explanation": "Реалізації: token bucket, sliding window. На різних рівнях: WAF/CDN, API gateway, application. Різні ліміти для unauth/auth/premium. Відповідь 429 Too Many Requests з Retry-After.",
+      "fake_answers": [
+        "Обмеження швидкості CPU процесу",
+        "Налаштування TCP-вікна",
+        "Compression rate для відповідей",
+        "Обмеження bitrate для відео",
+        "Налаштування QoS на роутері",
+        "Обмеження частоти GC у JVM",
+        "Інша назва для CDN",
+        "Налаштування швидкості SSD",
+        "Обмеження кількості процесів у systemd",
+        "Налаштування backoff алгоритму",
+        "Обмеження частоти оновлень UI"
+      ]
+    }
+  ]
+}
