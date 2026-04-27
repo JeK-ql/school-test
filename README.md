@@ -1,4 +1,4 @@
-# Shadow Leveling4
+# Shadow Leveling5
 
 Solo Leveling-themed skill testing app. Built with Next.js 15 + MongoDB Atlas + NextAuth v5.
 
