@@ -143,16 +143,7 @@ export function DungeonModal({ open, skills, index, onClose, onIndexChange }: Pr
             </div>
           </div>
 
-          {skill.description && (
-            <div className="mb-6 border-l-2 border-accent/50 pl-4">
-              <div className="font-mono text-[9px] tracking-system text-accent/80 uppercase mb-1.5">
-                ◢ INTEL
-              </div>
-              <p className="font-mono text-[12px] leading-relaxed text-text">
-                {skill.description}
-              </p>
-            </div>
-          )}
+        
 
           <div className="mb-6">
             <div className="flex items-baseline justify-between font-mono text-[10px] tracking-system uppercase mb-2">
