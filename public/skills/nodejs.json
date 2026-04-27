@@ -1,0 +1,388 @@
+{
+  "skill_id": "nodejs",
+  "skill_name": "Node.js",
+  "difficulty": "B-Rank",
+  "description": "Event loop, async patterns, streams, cluster vs worker_threads, error handling. JS runtime на V8 + libuv.",
+  "questions": [
+    {
+      "id": "node-001",
+      "question": "Що таке Node.js?",
+      "correct_answer": "JavaScript runtime поза браузером на базі V8 + libuv для async I/O",
+      "explanation": "Node.js = V8 (JS engine від Chrome) + libuv (C-бібліотека для async I/O і event loop) + стандартні модулі (fs, http, net). Single-threaded JS + thread pool libuv для блокуючих операцій.",
+      "fake_answers": [
+        "Фреймворк для написання SPA-додатків",
+        "Транспілятор JavaScript у машинний код AOT",
+        "Багатопотоковий сервер як Apache",
+        "Браузерний движок з підтримкою DOM",
+        "Інтерпретатор Python з JS-синтаксисом",
+        "JIT-компілятор тільки для TypeScript",
+        "Контейнерний runtime як Docker для JS",
+        "Заміна для PHP-FPM на тому ж сокеті",
+        "Системний демон для cron-задач",
+        "Plugin для nginx що виконує JS",
+        "WebAssembly runtime з V8 fallback"
+      ]
+    },
+    {
+      "id": "node-002",
+      "question": "З яких головних фаз складається event loop?",
+      "correct_answer": "timers → pending callbacks → idle/prepare → poll → check → close callbacks",
+      "explanation": "Кожна фаза має свою чергу. timers — setTimeout/setInterval. poll — нові I/O події. check — setImmediate. Між фазами обробляються microtasks (Promise.then) і process.nextTick.",
+      "fake_answers": [
+        "main → render → paint → composite",
+        "request → response → flush → close",
+        "stack → heap → queue → registry",
+        "fetch → parse → execute → idle",
+        "init → bind → listen → accept",
+        "macro → micro → render → idle",
+        "poll → push → pop → drain",
+        "setup → tick → teardown → exit",
+        "input → output → error → close",
+        "load → run → wait → resume",
+        "open → read → write → close"
+      ]
+    },
+    {
+      "id": "node-003",
+      "question": "У якому порядку виконаються: console.log('A'); setTimeout(()=>log('B'),0); Promise.resolve().then(()=>log('C')); console.log('D');",
+      "correct_answer": "A, D, C, B",
+      "explanation": "Спочатку синхронний код (A, D). Після стека — microtasks (Promise.then → C). Потім macrotasks (timers → B). Microtasks ВЖЕ перед наступним macrotask.",
+      "fake_answers": [
+        "A, B, C, D",
+        "A, C, D, B",
+        "A, D, B, C",
+        "A, B, D, C",
+        "C, A, D, B",
+        "A, C, B, D",
+        "D, A, C, B",
+        "A, D, C, B одночасно у різних threads",
+        "B, A, D, C",
+        "A, B, C, D — порядок не визначений",
+        "C, B, A, D"
+      ]
+    },
+    {
+      "id": "node-004",
+      "question": "У чому різниця між process.nextTick і setImmediate?",
+      "correct_answer": "nextTick виконується одразу після поточної операції до наступної фази event loop; setImmediate — у фазі check після poll",
+      "explanation": "process.nextTick має найвищий пріоритет — виконується між будь-якими операціями ще до microtasks Promise. setImmediate планується на фазу check, тобто після I/O. Зловживання nextTick може заблокувати event loop (I/O starvation).",
+      "fake_answers": [
+        "Обидва — синоніми, різниці немає",
+        "nextTick виконується у наступній фазі, setImmediate — у поточній",
+        "nextTick працює в worker thread, setImmediate — у головному",
+        "setImmediate має вищий пріоритет за nextTick",
+        "nextTick виконується через 1ms, setImmediate — через 0ms",
+        "nextTick — для browser, setImmediate — для Node",
+        "setImmediate — це alias до setTimeout(fn, 0)",
+        "nextTick гарантовано не блокує event loop",
+        "setImmediate виконується у мікротасках разом з Promise",
+        "nextTick — для CPU задач, setImmediate — для I/O",
+        "nextTick виконується тільки у фазі timers"
+      ]
+    },
+    {
+      "id": "node-005",
+      "question": "Node.js — однопотоковий?",
+      "correct_answer": "JavaScript-код виконується в одному потоці, але I/O і деякі crypto/zlib операції — у thread pool libuv (за замовчуванням 4 потоки)",
+      "explanation": "JS — single-threaded (один call stack). libuv тримає UV_THREADPOOL_SIZE=4 (можна збільшити до 1024) для fs, dns.lookup, crypto.pbkdf2, zlib. Worker Threads — окремий API для CPU-bound JS у власних потоках.",
+      "fake_answers": [
+        "Так, повністю однопотоковий, без винятків",
+        "Ні, кожен запит у власному потоці як в Apache",
+        "Ні, кількість потоків = кількості ядер автоматично",
+        "Так, але через GIL як у Python",
+        "Створює новий процес на кожне з'єднання",
+        "Multithreaded з shared memory між JS",
+        "Однопотоковий тільки в Linux, у Windows — багато",
+        "Один потік на CPU + N потоків на I/O без обмежень",
+        "Так, Worker Threads використовують ту саму V8-isolate",
+        "Кожен Promise виконується в окремому потоці",
+        "Ні, V8 розпаралелює функції автоматично"
+      ]
+    },
+    {
+      "id": "node-006",
+      "question": "Чому CPU-bound задача (наприклад, важкий хеш) — проблема для Node.js?",
+      "correct_answer": "Вона блокує event loop і весь сервер не обробляє інші запити поки рахує",
+      "explanation": "JS виконується в одному потоці. Поки triggered цикл рахує — нові HTTP-запити чекають у черзі. Рішення: винести у Worker Thread, у child process, або у зовнішній сервіс. libuv pool тут не допоможе — він для I/O і конкретних crypto API.",
+      "fake_answers": [
+        "Не проблема — Node розпаралелить її автоматично",
+        "Проблема через GIL який блокує V8",
+        "Проблема тому що libuv не підтримує CPU операції",
+        "Проблема бо GC зупиняє виконання повністю",
+        "Не проблема якщо обгорнути в Promise",
+        "Не проблема якщо викликати через setTimeout(fn, 0)",
+        "Проблема тому що V8 не вміє в JIT для циклів",
+        "Не проблема — вона піде у thread pool автоматично",
+        "Проблема бо порушує неблокуючу природу browser API",
+        "Не проблема якщо використати async/await",
+        "Проблема через WebAssembly sandbox"
+      ]
+    },
+    {
+      "id": "node-007",
+      "question": "Які є 4 типи Streams у Node.js?",
+      "correct_answer": "Readable, Writable, Duplex, Transform",
+      "explanation": "Readable — джерело (fs.createReadStream). Writable — приймач (res, fs.createWriteStream). Duplex — і читання і запис незалежно (TCP socket). Transform — Duplex що трансформує (zlib.createGzip, crypto.createCipheriv).",
+      "fake_answers": [
+        "Input, Output, Error, Log",
+        "Sync, Async, Buffer, Pipe",
+        "Read, Write, Append, Truncate",
+        "Source, Sink, Filter, Tee",
+        "FileStream, NetStream, MemoryStream, NullStream",
+        "Push, Pull, Throttle, Debounce",
+        "Active, Passive, Bidirectional, Multiplex",
+        "BufferStream, StringStream, ObjectStream, BinaryStream",
+        "Hot, Cold, Subject, Observable",
+        "Enqueue, Dequeue, Peek, Flush",
+        "TextStream, BinaryStream, NetworkStream, FileStream"
+      ]
+    },
+    {
+      "id": "node-008",
+      "question": "Що таке backpressure у streams?",
+      "correct_answer": "Ситуація коли writable не встигає приймати дані з readable і треба сповільнити постачальника",
+      "explanation": "writable.write() повертає false коли внутрішній буфер заповнений (highWaterMark). Тоді треба зачекати подію 'drain' і тільки тоді писати знову. pipe()/pipeline() це робить автоматично, ручний цикл — ні.",
+      "fake_answers": [
+        "Помилка коли потік закривається без flush",
+        "Зворотній виклик з помилкою при I/O",
+        "Авторестарт стрима при втраті з'єднання",
+        "Кешування даних у Redis при перевантаженні",
+        "Стиснення даних у Transform stream",
+        "Подвоєння швидкості коли клієнт відстає",
+        "Throttling запитів на рівні nginx",
+        "Перенаправлення стриму у dev/null при помилці",
+        "Алгоритм TCP retransmission",
+        "Механізм rate-limit у Express",
+        "Автоматичний rollback streaming-транзакції"
+      ]
+    },
+    {
+      "id": "node-009",
+      "question": "Яка головна різниця між stream.pipe() і stream.pipeline()?",
+      "correct_answer": "pipeline автоматично обробляє помилки і закриває всі стріми при failure; pipe — ні",
+      "explanation": "pipe() при помилці у проміжному стримі залишає інші відкритими — витік ресурсів. pipeline() (з Node 10+) приймає callback або повертає Promise (stream/promises), коректно знищує всі стріми при error. Для production — завжди pipeline.",
+      "fake_answers": [
+        "pipe — синхронний, pipeline — асинхронний",
+        "pipeline працює тільки з Transform streams",
+        "pipe швидший, але без backpressure",
+        "pipeline пише у файл, pipe — у мережу",
+        "pipe — для Readable, pipeline — для Writable",
+        "pipeline вимагає TypeScript",
+        "pipe підтримує тільки 2 стріми, pipeline — необмежено лише в одну сторону",
+        "pipeline компресує дані автоматично",
+        "pipe створює нову goroutine, pipeline — ні",
+        "pipeline працює тільки у Worker Thread",
+        "pipe — застаріле API і видалене у Node 20"
+      ]
+    },
+    {
+      "id": "node-010",
+      "question": "Для чого використовують Cluster module?",
+      "correct_answer": "Запустити N процесів Node.js, що ділять один порт через master, для використання всіх ядер CPU",
+      "explanation": "Один Node-процес = одне ядро. cluster.fork() створює worker-процеси з shared listening port (round-robin на Linux). Кожен має власний event loop і пам'ять. Альтернативи: PM2, Docker + load balancer, native Cluster API.",
+      "fake_answers": [
+        "Об'єднати кілька серверів у Kubernetes pod",
+        "Запустити Node всередині Redis Cluster",
+        "Реплікувати дані MongoDB між нодами",
+        "Створити memory-shared потоки в одному процесі",
+        "Підключитися до Hadoop кластера для MapReduce",
+        "Розгорнути додаток у sharded режимі автоматично",
+        "Створити VPN-тунель між нодами",
+        "Запустити WebSocket кластер з sticky session out-of-the-box",
+        "Інтегрувати Node з Service Mesh",
+        "Замінити nginx як reverse proxy",
+        "Об'єднати event loops кількох процесів в один"
+      ]
+    },
+    {
+      "id": "node-011",
+      "question": "У чому різниця між Cluster і Worker Threads?",
+      "correct_answer": "Cluster — окремі процеси з власною пам'яттю; Worker Threads — потоки в одному процесі з можливістю SharedArrayBuffer",
+      "explanation": "Cluster: ізоляція пам'яті, IPC через JSON-серіалізацію, для масштабування I/O. Worker Threads: спільна пам'ять (SharedArrayBuffer/ArrayBuffer transfer), MessageChannel, для CPU-bound задач у тому ж процесі.",
+      "fake_answers": [
+        "Cluster — для CPU-bound, Workers — для I/O-bound",
+        "Cluster — синхронний, Workers — асинхронний",
+        "Cluster використовує V8 isolate, Workers — окремий V8",
+        "Workers — це alias для child_process.fork",
+        "Cluster працює тільки на Linux, Workers — кросплатформа",
+        "Workers не можуть робити мережеві запити",
+        "Cluster створює до 4 копій, Workers — необмежено",
+        "Workers ділять той самий event loop",
+        "Cluster потребує Redis для синхронізації стану",
+        "Workers не підтримують async/await",
+        "Cluster — ESM only, Workers — CommonJS only"
+      ]
+    },
+    {
+      "id": "node-012",
+      "question": "Що таке EventEmitter і де він застосовується у Node?",
+      "correct_answer": "Клас для патерна publish-subscribe: .on(event, listener) реєструє слухача, .emit(event, ...args) викликає всіх синхронно",
+      "explanation": "Базовий механізм у Node для подій. Streams, http.Server, process — всі extend EventEmitter. Listeners викликаються синхронно у порядку реєстрації. Більше 10 listeners — попередження memory leak (можна налаштувати setMaxListeners).",
+      "fake_answers": [
+        "Менеджер DOM-подій з браузера",
+        "Async-версія Promise.all для подій",
+        "Reactive Stream як в RxJS з backpressure",
+        "Вбудована подія clock-tick кожну ms",
+        "Глобальний event bus поверх Redis pub/sub",
+        "Wrap навколо setImmediate з пріоритетами",
+        "Asynchronous queue з retry policy",
+        "Telemetry-агент для надсилання метрик",
+        "Cron-планувальник з re-emission",
+        "Системний syscall до kqueue/epoll",
+        "Адаптер до Kafka producer API"
+      ]
+    },
+    {
+      "id": "node-013",
+      "question": "У чому ключова різниця між CommonJS і ES Modules?",
+      "correct_answer": "CommonJS — синхронний require і динамічний; ESM — асинхронний import зі статичною структурою (tree-shaking)",
+      "explanation": "CJS: require() — синхронно завантажує і виконує, module.exports мутабельний, тільки в Node. ESM: import — статично аналізується (tree-shaking), асинхронний, працює в browser і Node, top-level await, file URL для шляхів.",
+      "fake_answers": [
+        "CommonJS швидший, ESM — повільніший але безпечніший",
+        "CommonJS працює тільки в Node, ESM — лише в браузері",
+        "ESM не підтримує default export",
+        "CommonJS використовує JSON, ESM — YAML",
+        "ESM завжди CommonJS під капотом у Node",
+        "CommonJS асинхронний, ESM — синхронний",
+        "ESM не підтримує named imports",
+        "CommonJS не підтримує модулі більше 1 МБ",
+        "ESM не може імпортувати CJS взагалі",
+        "CommonJS видалено у Node 20",
+        "ESM працює тільки з TypeScript"
+      ]
+    },
+    {
+      "id": "node-014",
+      "question": "Promise.all vs Promise.allSettled vs Promise.race — чим відрізняються?",
+      "correct_answer": "all — fail-fast при першій помилці; allSettled — чекає всі і повертає масив результатів/помилок; race — повертає перший fulfilled або rejected",
+      "explanation": "all: відхиляється одразу при першій помилці, інші не скасовуються (тільки ігноруються). allSettled: завжди fulfilled з масивом {status, value/reason}. race: перший settled — і fulfilled і rejected. any: перший FULFILLED (ігнорує rejected).",
+      "fake_answers": [
+        "all — паралельно, allSettled — послідовно, race — випадково",
+        "Усі три — синоніми, лише назви різні",
+        "race повертає всі результати у масиві",
+        "allSettled працює тільки з 2 Promise",
+        "all чекає тільки fulfilled, ігноруючи rejected",
+        "race повертає останній Promise",
+        "allSettled скасовує інші Promise після першого fail",
+        "all виконує паралельно у Workers",
+        "race — це alias до Promise.any",
+        "allSettled повертає тільки rejected результати",
+        "all чекає таймаут 30 секунд за замовчуванням"
+      ]
+    },
+    {
+      "id": "node-015",
+      "question": "Як обробити помилку в async-функції щоб не отримати unhandledRejection?",
+      "correct_answer": "Або await у try/catch, або .catch() на повернутому Promise",
+      "explanation": "async-функція завжди повертає Promise. Кинутий усередині throw або відхилений await перетворюється на rejected Promise. Якщо ніхто не зловив — спрацьовує process.on('unhandledRejection'). У Node 15+ unhandled rejection за замовчуванням завершує процес.",
+      "fake_answers": [
+        "Достатньо try/catch навколо виклику без await",
+        "Async-функції автоматично ловлять помилки самі",
+        "Загорнути у setTimeout — Node ловить через timers",
+        "Помилки в async ніколи не доходять до event loop",
+        "Тільки через global error handler у V8",
+        "Через addEventListener('error') як у браузері",
+        "Помилки async-функцій ігноруються за замовчуванням",
+        "Через decorator @CatchAll() на функцію",
+        "Перенаправити у Worker Thread з error channel",
+        "Достатньо .then() — він ловить і resolve і reject",
+        "У Node немає unhandledRejection — це браузерне поняття"
+      ]
+    },
+    {
+      "id": "node-016",
+      "question": "Що таке Buffer і навіщо він потрібен?",
+      "correct_answer": "Об'єкт фіксованого розміру для роботи з бінарними даними поза V8 heap",
+      "explanation": "JS-рядки — UTF-16 і не годяться для binary I/O. Buffer = масив байтів у пам'яті поза V8 heap (uint8 array). Використовується у fs, net, crypto, streams. У сучасному коді часто заміняють на Uint8Array (web-сумісно).",
+      "fake_answers": [
+        "Кеш для HTTP-відповідей у пам'яті процесу",
+        "Тимчасова черга для логів",
+        "Reactive Subject для backpressure",
+        "Резервна копія event loop queue",
+        "Структура для збереження PNG-зображень",
+        "JSON-серіалізатор бінарних даних",
+        "Вбудований gzip-компресор",
+        "Контейнер для Promise з очищенням GC",
+        "Pool потоків libuv для blocking I/O",
+        "Snapshot V8 heap у дамп-файл",
+        "Емуляція shared memory між процесами"
+      ]
+    },
+    {
+      "id": "node-017",
+      "question": "Які поля package.json є ключовими для Node-додатку?",
+      "correct_answer": "name, version, main/exports, scripts, dependencies, type, engines",
+      "explanation": "name+version — ідентифікація. main — точка входу для CJS, exports — сучасний підхід (умовні експорти ESM/CJS). scripts — npm-команди. type: \"module\" — ESM. engines — обмеження версії Node. dependencies vs devDependencies vs peerDependencies.",
+      "fake_answers": [
+        "title, author, description, keywords",
+        "entry, output, loaders, plugins",
+        "compilerOptions, include, exclude",
+        "host, port, env, secret",
+        "framework, runtime, target, mode",
+        "build, start, deploy, rollback",
+        "image, ports, volumes, networks",
+        "lockfile, registry, proxy, cache",
+        "module, source, dest, watch",
+        "schema, table, column, index",
+        "router, controller, service, model"
+      ]
+    },
+    {
+      "id": "node-018",
+      "question": "Як працює Express middleware?",
+      "correct_answer": "Функція (req, res, next) => ..., викликає next() щоб передати керування наступному middleware у ланцюжку",
+      "explanation": "Middleware виконуються по порядку реєстрації app.use(). Не викликати next() — запит зависне. Викликати next(err) — перейти до error-handling middleware (4 параметри: err, req, res, next). Можна модифікувати req/res, відправити response — і ланцюжок зупиниться.",
+      "fake_answers": [
+        "Виконуються паралельно у Worker Threads",
+        "Це Service у Dependency Injection контейнері",
+        "Stateful actor з власною чергою повідомлень",
+        "Plugin завантажується через require у runtime",
+        "ORM-перетворювач JSON у SQL",
+        "Background job у черзі BullMQ",
+        "Стрім-трансформер для request body тільки",
+        "Декоратор класу контролера",
+        "WebSocket frame interceptor",
+        "Hook системного syscall перехоплює HTTP",
+        "Auto-generated handler з OpenAPI specs"
+      ]
+    },
+    {
+      "id": "node-019",
+      "question": "Які типові причини memory leak у Node.js?",
+      "correct_answer": "Глобальні змінні, забуті listeners, замикання, кеші без обмежень, циклічні посилання у closures",
+      "explanation": "EventEmitter listeners що накопичуються (слідкуй за warning MaxListenersExceeded). Closures які тримають великі об'єкти. Глобальні Map/Set без cleanup. Timers що не очищені. Діагностика: --inspect → Chrome DevTools → Memory → heap snapshot, або clinic.js / 0x.",
+      "fake_answers": [
+        "GC у Node взагалі немає — пам'ять не очищається",
+        "Async/await блокує GC поки не зарезолвиться",
+        "Promise.all ніколи не звільняє пам'ять",
+        "JS на Node не має memory leaks — V8 чистить все",
+        "Витоки тільки коли використовуєш WebAssembly",
+        "Витоки виникають лише через неправильний package.json",
+        "Витоки від require() тих самих модулів двічі",
+        "Витоки через використання let замість const",
+        "Через відсутність TypeScript типів",
+        "Через використання Buffer замість Uint8Array",
+        "Через виклик process.exit без callback"
+      ]
+    },
+    {
+      "id": "node-020",
+      "question": "Як коректно зробити graceful shutdown HTTP-сервера на Node?",
+      "correct_answer": "Слухати SIGTERM, викликати server.close() щоб не приймати нових з'єднань, дочекатися завершення активних запитів, закрити DB pool",
+      "explanation": "process.on('SIGTERM') → server.close(cb) (перестає приймати нові, ждет існуючих). Паралельно: закрити Redis/DB connections, dropу in-flight задачі. Таймаут (наприклад 30s) на форс-вихід process.exit(1) щоб не висіти. Важливо у k8s — ставить SIGTERM перед kill.",
+      "fake_answers": [
+        "Викликати process.exit(0) одразу при SIGTERM",
+        "Перезавантажити сервер через cluster.disconnect()",
+        "Викликати server.destroy() — закриває все миттєво",
+        "Достатньо повернути 503 з middleware",
+        "Скинути всі активні з'єднання через socket.destroy()",
+        "Викликати pm2 reload без коду в додатку",
+        "Дочекатися закриття event loop через setTimeout(exit, 0)",
+        "Поставити process.title = 'shutdown' і чекати",
+        "Використати throw new Error('shutdown') у головному модулі",
+        "Просто проігнорувати SIGTERM — процес сам завершиться",
+        "Слухати SIGKILL і вже там закривати з'єднання"
+      ]
+    }
+  ]
+}
