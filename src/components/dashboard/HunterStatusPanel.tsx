@@ -44,7 +44,7 @@ export function HunterStatusPanel({
 
       <div className="grid gap-5 md:grid-cols-[auto_1fr] md:items-end">
         <div className="flex items-center gap-3">
-          <Icon name="rising-chart" size={48} className="drop-glow shrink-0" />
+          <Icon name="rising-chart" size={48} tint={true} className="drop-glow shrink-0" />
           <div className="flex items-baseline gap-3">
             <span className="font-mono text-[10px] tracking-system text-text-muted uppercase">
               LEVEL
@@ -163,6 +163,7 @@ function StreakCell({
         <Icon
           name={iconName}
           size={40}
+          
           className={
             'shrink-0 ' +
             (dim ? 'opacity-35 grayscale' : accent ? 'drop-glow' : 'opacity-80')

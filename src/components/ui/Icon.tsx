@@ -40,7 +40,7 @@ interface Props {
   tint?: boolean;
 }
 
-export function Icon({ name, size = 40, className, tint = true }: Props) {
+export function Icon({ name, size = 40, className, tint = false }: Props) {
   const entry = byId.get(name);
   if (!entry) return null;
 

@@ -12,6 +12,7 @@ import { NoCorrectButton } from './NoCorrectButton';
 import { ExplanationPanel } from './ExplanationPanel';
 import { PenaltyOverlay } from './PenaltyOverlay';
 import { LevelUpOverlay } from './LevelUpOverlay';
+import { AbortRunModal } from './AbortRunModal';
 import type { Difficulty } from '@/types/run';
 
 interface FinishedState {
@@ -31,6 +32,7 @@ export function TestRunner({ skillId, mode }: { skillId: SkillId; mode: Difficul
   const [submitting, setSubmitting] = useState(false);
   const [finished, setFinished] = useState<FinishedState | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [abortOpen, setAbortOpen] = useState(false);
 
   useEffect(() => {
     loadSkill(skillId).then((skill) => {
@@ -186,19 +188,26 @@ export function TestRunner({ skillId, mode }: { skillId: SkillId; mode: Difficul
       </NeonCard>
 
       <div className="flex justify-center">
-        <NeonButton
-          variant="ghost"
-          size="sm"
-          onClick={() => {
-            if (confirm('Вийти із забігу? Прогрес сесії буде скинутий.')) {
-              state.reset();
-              window.location.href = '/dashboard';
-            }
-          }}
-        >
+        <NeonButton variant="ghost" size="sm" onClick={() => setAbortOpen(true)}>
           ⎋&nbsp;&nbsp;ABORT RUN
         </NeonButton>
       </div>
+
+      <AbortRunModal
+        open={abortOpen}
+        onCancel={() => setAbortOpen(false)}
+        onConfirm={() => {
+          state.reset();
+          window.location.href = '/dashboard';
+        }}
+        stats={{
+          correct: state.correctCount,
+          wrong: state.wrongCount,
+          bonus: state.bonusCount,
+          answered: state.currentIndex,
+          total: state.queue.length,
+        }}
+      />
     </div>
   );
 }

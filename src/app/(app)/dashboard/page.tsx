@@ -1,4 +1,4 @@
-import { SkillCard } from '@/components/dashboard/SkillCard';
+import { SkillGrid } from '@/components/dashboard/SkillGrid';
 import { HunterStatusPanel } from '@/components/dashboard/HunterStatusPanel';
 import { auth } from '@/lib/auth';
 import { getDb } from '@/lib/mongo';
@@ -57,7 +57,7 @@ export default async function DashboardPage() {
           <span>HUNTER · {session!.user.email?.split('@')[0]}</span>
         </div>
 
-        <h1 className="font-display font-bold tracking-[0.14em] uppercase text-accent text-glow-lg leading-none text-[clamp(2.5rem,6vw,4.5rem)]">
+        <h1 className="font-display font-bold text-center tracking-[0.14em] uppercase text-accent text-glow-lg leading-none text-[clamp(2.5rem,6vw,4.5rem)]">
           Skill&nbsp;Matrix
         </h1>
 
@@ -83,13 +83,7 @@ export default async function DashboardPage() {
           <span className="h-px flex-1 bg-accent/25" />
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {progress.map((p, i) => (
-            <div key={p.skillId} style={{ animationDelay: `${80 + i * 60}ms` }} className="animate-scan-in">
-              <SkillCard p={p} />
-            </div>
-          ))}
-        </div>
+        <SkillGrid progress={progress} />
       </div>
     </div>
   );
