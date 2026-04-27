@@ -11,7 +11,7 @@ export function Navbar() {
         href="/dashboard"
         className="flex items-center gap-3 group"
       >
-        <Icon name="winged-dagger" size={22} className="drop-glow transition-transform group-hover:scale-110" />
+        <Icon name="winged-dagger" size={40} className="drop-glow transition-transform group-hover:scale-110" />
         <div className="leading-none">
           <div className="font-mono text-[9px] tracking-system uppercase text-text-muted">[ THE SYSTEM ]</div>
           <div className="font-display text-accent text-glow tracking-system uppercase text-sm font-bold mt-0.5">

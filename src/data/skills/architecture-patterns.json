@@ -2,6 +2,7 @@
   "skill_id": "architecture-patterns",
   "skill_name": "Architecture Patterns",
   "difficulty": "S-Rank",
+  "description": "Hexagonal, Clean, DDD, CQRS, Event Sourcing. Як організувати кодову базу великого продукту.",
   "questions": [
     {
       "id": "ap-001",

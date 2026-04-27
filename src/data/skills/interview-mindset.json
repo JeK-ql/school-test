@@ -2,6 +2,7 @@
   "skill_id": "interview-mindset",
   "skill_name": "Mindset кандидата і ринок",
   "difficulty": "D-Rank",
+  "description": "Як читати ринок праці, грейди, очікування. Психологія пошуку роботи без вигорання.",
   "questions": [
     {
       "id": "mind-001",

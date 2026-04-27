@@ -2,6 +2,7 @@
   "skill_id": "php",
   "skill_name": "PHP",
   "difficulty": "C-Rank",
+  "description": "Сучасний PHP 8+, Composer, Laravel/Symfony, OPcache. Не той PHP з 2010 року, обіцяємо.",
   "questions": [
     {
       "id": "php-001",

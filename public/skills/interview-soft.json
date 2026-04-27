@@ -2,6 +2,7 @@
   "skill_id": "interview-soft",
   "skill_name": "Soft questions (поведінкові)",
   "difficulty": "C-Rank",
+  "description": "STAR-метод, конфлікти, лідерство, провали. Як відповідати на «Розкажіть про випадок, коли…».",
   "questions": [
     {
       "id": "soft-001",

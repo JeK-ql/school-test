@@ -2,6 +2,7 @@
   "skill_id": "design-patterns",
   "skill_name": "Design Patterns & SOLID",
   "difficulty": "A-Rank",
+  "description": "GoF-патерни і SOLID-принципи. Як писати чистий, розширюваний код, який не розвалиться через рік.",
   "questions": [
     {
       "id": "dp-001",

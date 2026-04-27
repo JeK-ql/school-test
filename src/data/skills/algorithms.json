@@ -2,6 +2,7 @@
   "skill_id": "algorithms",
   "skill_name": "Algorithms & Data Structures",
   "difficulty": "A-Rank",
+  "description": "Класичні алгоритми, складність O(n), масиви, дерева, графи. База для технічних інтервʼю та LeetCode.",
   "questions": [
     {
       "id": "algo-001",

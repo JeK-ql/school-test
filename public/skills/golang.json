@@ -2,6 +2,7 @@
   "skill_id": "golang",
   "skill_name": "Go (Golang)",
   "difficulty": "B-Rank",
+  "description": "Goroutines, channels, interfaces, generics. Швидка компільована мова для cloud-native.",
   "questions": [
     {
       "id": "go-001",

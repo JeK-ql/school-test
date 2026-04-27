@@ -2,6 +2,7 @@
   "skill_id": "interview-self-presentation",
   "skill_name": "Самопрезентація на співбесіді",
   "difficulty": "C-Rank",
+  "description": "Tell me about yourself, story-arc, акценти на результатах. 3 хвилини, які вирішують все.",
   "questions": [
     {
       "id": "isp-001",

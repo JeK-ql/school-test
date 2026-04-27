@@ -25,6 +25,7 @@ export async function GET() {
       skillId: meta.skill_id,
       skillName: meta.skill_name,
       difficulty: meta.difficulty,
+      description: meta.description,
       totalXP,
       level,
       lastRunAccuracy: row?.lastRunAccuracy ?? 0,

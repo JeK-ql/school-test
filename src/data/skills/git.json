@@ -2,6 +2,7 @@
   "skill_id": "git",
   "skill_name": "Git & Version Control",
   "difficulty": "C-Rank",
+  "description": "Branching, rebase, merge, conflict resolution, workflows. Інструмент №1 у щоденній роботі.",
   "questions": [
     {
       "id": "git-001",

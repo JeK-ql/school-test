@@ -2,6 +2,7 @@
   "skill_id": "websockets",
   "skill_name": "WebSockets",
   "difficulty": "B-Rank",
+  "description": "Real-time звʼязок, heartbeat, scaling, fallback. Чати, нотифікації, live-дашборди.",
   "questions": [
     {
       "id": "ws-001",

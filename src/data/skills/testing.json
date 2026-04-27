@@ -2,6 +2,7 @@
   "skill_id": "testing",
   "skill_name": "Testing",
   "difficulty": "B-Rank",
+  "description": "Unit, integration, e2e, mocks, test pyramid, TDD. Як спати спокійно після релізу в пʼятницю.",
   "questions": [
     {
       "id": "te-001",

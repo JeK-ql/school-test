@@ -2,6 +2,7 @@
   "skill_id": "cicd",
   "skill_name": "CI/CD",
   "difficulty": "B-Rank",
+  "description": "GitHub Actions, GitLab CI, пайплайни, blue-green, canary. Автоматичний шлях коду в прод.",
   "questions": [
     {
       "id": "cicd-001",

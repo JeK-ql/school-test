@@ -2,6 +2,7 @@
   "skill_id": "interview-tech-talk",
   "skill_name": "Технічна співбесіда: як говорити",
   "difficulty": "B-Rank",
+  "description": "Думати вголос, ставити запитання, фреймити рішення. Не що знаєш, а як це показуєш.",
   "questions": [
     {
       "id": "tech-001",

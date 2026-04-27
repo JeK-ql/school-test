@@ -2,6 +2,7 @@
   "skill_id": "redis",
   "skill_name": "Redis",
   "difficulty": "B-Rank",
+  "description": "Кеш, pub/sub, черги, rate limiting, locks. In-memory швидкість для гарячих даних.",
   "questions": [
     {
       "id": "redis-001",

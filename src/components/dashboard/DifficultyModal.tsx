@@ -9,9 +9,10 @@ interface Props {
   onClose: () => void;
   skillId: string;
   skillName: string;
+  description?: string;
 }
 
-export function DifficultyModal({ open, onClose, skillId, skillName }: Props) {
+export function DifficultyModal({ open, onClose, skillId, skillName, description }: Props) {
   const router = useRouter();
 
   function start(mode: 'normal' | 'hardcore') {
@@ -20,6 +21,16 @@ export function DifficultyModal({ open, onClose, skillId, skillName }: Props) {
 
   return (
     <SystemModal open={open} onClose={onClose} title={`▶ ${skillName}`}>
+      {description && (
+        <div className="mb-5 border-l-2 border-accent/50 pl-3">
+          <div className="font-mono text-[9px] tracking-system text-accent/80 uppercase mb-1.5">
+            ◢ INTEL
+          </div>
+          <p className="font-mono text-[11px] leading-relaxed text-text">
+            {description}
+          </p>
+        </div>
+      )}
       <p className="font-mono text-[10px] tracking-system text-text-muted mb-5 uppercase">
         SELECT DIFFICULTY
       </p>
@@ -44,7 +55,7 @@ export function DifficultyModal({ open, onClose, skillId, skillName }: Props) {
             </div>
             <Icon
               name="gate-portal"
-              size={26}
+              size={40}
               className="shrink-0 drop-glow transition-transform duration-300 group-hover:translate-x-1"
             />
           </div>
@@ -73,7 +84,7 @@ export function DifficultyModal({ open, onClose, skillId, skillName }: Props) {
             </div>
             <Icon
               name="gate-portal"
-              size={26}
+              size={40}
               className="shrink-0 opacity-55 transition-[opacity,transform,filter] duration-300 group-hover:opacity-100 group-hover:translate-x-1 group-hover:[filter:drop-shadow(0_0_10px_#FF005C)]"
             />
           </div>

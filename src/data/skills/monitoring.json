@@ -2,6 +2,7 @@
   "skill_id": "monitoring",
   "skill_name": "Monitoring & Observability",
   "difficulty": "B-Rank",
+  "description": "Logs, metrics, traces, SLI/SLO, alerts. Як бачити прод і не дізнаватись про падіння від користувачів.",
   "questions": [
     {
       "id": "monitoring-001",

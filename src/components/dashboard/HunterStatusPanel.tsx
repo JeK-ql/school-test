@@ -44,7 +44,7 @@ export function HunterStatusPanel({
 
       <div className="grid gap-5 md:grid-cols-[auto_1fr] md:items-end">
         <div className="flex items-center gap-3">
-          <Icon name="rising-chart" size={36} className="drop-glow shrink-0" />
+          <Icon name="rising-chart" size={48} className="drop-glow shrink-0" />
           <div className="flex items-baseline gap-3">
             <span className="font-mono text-[10px] tracking-system text-text-muted uppercase">
               LEVEL
@@ -112,7 +112,7 @@ export function HunterStatusPanel({
           role="status"
           className="mt-5 border border-accent/40 bg-[color:var(--accent-color)]/[0.06] px-4 py-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 animate-scan-in"
         >
-          <Icon name="treasure-chest" size={22} className="drop-glow shrink-0" />
+          <Icon name="treasure-chest" size={40} className="drop-glow shrink-0" />
           <span className="font-display tracking-system uppercase text-accent text-glow text-xs">
             DAILY CHECK-IN
           </span>
@@ -162,7 +162,7 @@ function StreakCell({
       <div className="mt-1 flex items-center gap-2.5">
         <Icon
           name={iconName}
-          size={26}
+          size={40}
           className={
             'shrink-0 ' +
             (dim ? 'opacity-35 grayscale' : accent ? 'drop-glow' : 'opacity-80')
@@ -202,7 +202,7 @@ function NextBonusCell({
           NEXT BONUS
         </div>
         <div className="mt-1 flex items-center gap-2.5">
-          <Icon name="glowing-key" size={26} className="shrink-0 opacity-40 grayscale" />
+          <Icon name="glowing-key" size={40} className="shrink-0 opacity-40 grayscale" />
           <span className="font-mono text-[11px] tracking-system text-text-muted uppercase">
             BEGIN A STREAK
           </span>
@@ -222,7 +222,7 @@ function NextBonusCell({
         NEXT BONUS
       </div>
       <div className="mt-1 flex items-center gap-2.5">
-        <Icon name="glowing-key" size={26} className="shrink-0 drop-glow" />
+        <Icon name="glowing-key" size={40} className="shrink-0 drop-glow" />
         <div className="flex items-baseline gap-2">
           <span className="font-display tabular-nums leading-none text-accent text-glow text-xl">
             +{amount}

@@ -20,6 +20,7 @@ async function fetchProgress(userId: string): Promise<DashboardProgress[]> {
       skillId: meta.skill_id,
       skillName: meta.skill_name,
       difficulty: meta.difficulty,
+      description: meta.description,
       totalXP,
       level: levelFromXP(totalXP),
       lastRunAccuracy: row?.lastRunAccuracy ?? 0,

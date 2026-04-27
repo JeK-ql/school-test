@@ -2,6 +2,7 @@
   "skill_id": "http",
   "skill_name": "HTTP",
   "difficulty": "B-Rank",
+  "description": "Методи, статуси, headers, кешування, HTTP/2-3, CORS. Те, на чому стоїть весь веб.",
   "questions": [
     {
       "id": "http-001",

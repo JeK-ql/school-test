@@ -2,6 +2,7 @@
   "skill_id": "microservices",
   "skill_name": "Microservices Communication",
   "difficulty": "A-Rank",
+  "description": "Sync vs async, service mesh, circuit breakers, sagas. Як сервіси домовляються, не розвалюючи систему.",
   "questions": [
     {
       "id": "msvc-001",

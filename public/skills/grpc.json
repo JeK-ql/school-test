@@ -2,6 +2,7 @@
   "skill_id": "grpc",
   "skill_name": "gRPC",
   "difficulty": "B-Rank",
+  "description": "Protobuf, streaming, deadlines, interceptors. Швидкий бінарний RPC між сервісами.",
   "questions": [
     {
       "id": "grpc-001",

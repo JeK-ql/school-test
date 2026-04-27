@@ -2,6 +2,7 @@
   "skill_id": "interview-salary",
   "skill_name": "Зарплатні переговори",
   "difficulty": "C-Rank",
+  "description": "Як назвати число, торгуватись, рахувати оффер цілісно. Не залишити гроші на столі.",
   "questions": [
     {
       "id": "sal-001",

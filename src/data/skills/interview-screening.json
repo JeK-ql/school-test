@@ -2,6 +2,7 @@
   "skill_id": "interview-screening",
   "skill_name": "Скринінг з рекрутером",
   "difficulty": "D-Rank",
+  "description": "Як пройти першу розмову з HR, що казати про досвід, червоні прапорці. Воротар перед інтервʼю.",
   "questions": [
     {
       "id": "scr-001",

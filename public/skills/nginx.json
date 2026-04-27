@@ -2,6 +2,7 @@
   "skill_id": "nginx",
   "skill_name": "Nginx",
   "difficulty": "C-Rank",
+  "description": "Reverse proxy, load balancing, SSL, кешування, rate limiting. Парадні двері більшості бекендів.",
   "questions": [
     {
       "id": "nginx-001",

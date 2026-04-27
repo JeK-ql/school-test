@@ -2,6 +2,7 @@
   "skill_id": "ui-ux",
   "skill_name": "UI/UX",
   "difficulty": "C-Rank",
+  "description": "Контраст, типографіка, accessibility, user flow, гештальт. База, без якої фронт виглядає як 2003.",
   "questions": [
     {
       "id": "uiux-001",

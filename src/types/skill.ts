@@ -12,5 +12,6 @@ export interface Skill {
   skill_id: string;
   skill_name: string;
   difficulty: SkillRank;
+  description: string;
   questions: Question[];
 }

@@ -2,6 +2,7 @@
   "skill_id": "chatbots",
   "skill_name": "Chatbots (Telegram / Discord)",
   "difficulty": "B-Rank",
+  "description": "Bot API, webhooks, inline keyboards, state, deploy. Як зробити бота, який не падає на 100 юзерах.",
   "questions": [
     {
       "id": "chat-001",

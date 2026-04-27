@@ -37,18 +37,44 @@ interface Props {
   name: string;
   size?: number;
   className?: string;
+  tint?: boolean;
 }
 
-export function Icon({ name, size = 24, className }: Props) {
+export function Icon({ name, size = 40, className, tint = true }: Props) {
   const entry = byId.get(name);
   if (!entry) return null;
 
   const file = iconFile[entry.id];
   if (file) {
+    const src = `/icon/${file}.png`;
+    if (tint) {
+      return (
+        <span
+          role="img"
+          aria-label={entry.label}
+          title={entry.label}
+          className={className}
+          style={{
+            display: 'inline-block',
+            width: size,
+            height: size,
+            backgroundColor: 'var(--accent-color)',
+            WebkitMaskImage: `url(${src})`,
+            maskImage: `url(${src})`,
+            WebkitMaskRepeat: 'no-repeat',
+            maskRepeat: 'no-repeat',
+            WebkitMaskPosition: 'center',
+            maskPosition: 'center',
+            WebkitMaskSize: 'contain',
+            maskSize: 'contain',
+          }}
+        />
+      );
+    }
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={`/icon/${file}.png`}
+        src={src}
         alt={entry.label}
         title={entry.label}
         width={size}

@@ -2,6 +2,7 @@
   "skill_id": "security",
   "skill_name": "Application Security",
   "difficulty": "A-Rank",
+  "description": "OWASP Top 10, SQL-i, XSS, CSRF, secrets management. Як не злити дані юзерів у твіттер.",
   "questions": [
     {
       "id": "sec-001",

@@ -14,6 +14,7 @@ export interface DashboardProgress {
   skillId: string;
   skillName: string;
   difficulty: string;
+  description: string;
   totalXP: number;
   level: number;
   lastRunAccuracy: number;

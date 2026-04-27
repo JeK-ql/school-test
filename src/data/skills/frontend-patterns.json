@@ -2,6 +2,7 @@
   "skill_id": "frontend-patterns",
   "skill_name": "Frontend Patterns",
   "difficulty": "B-Rank",
+  "description": "Компонентні підходи, state management, рендер-патерни, оптимізація React/Vue застосунків.",
   "questions": [
     {
       "id": "fp-001",

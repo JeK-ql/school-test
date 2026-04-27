@@ -2,6 +2,7 @@
   "skill_id": "linux",
   "skill_name": "Linux",
   "difficulty": "C-Rank",
+  "description": "Шелл, права, процеси, systemd, мережа. Базовий інструмент серверного розробника.",
   "questions": [
     {
       "id": "linux-001",

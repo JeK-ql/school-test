@@ -2,6 +2,7 @@
   "skill_id": "system-design",
   "skill_name": "System Design",
   "difficulty": "S-Rank",
+  "description": "Проєктування великих систем: масштабування, кешування, шардинг, CAP. Сеньйор-рівень інтервʼю.",
   "questions": [
     {
       "id": "sd-001",

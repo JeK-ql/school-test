@@ -2,6 +2,7 @@
   "skill_id": "ai-fundamentals",
   "skill_name": "AI / ML Fundamentals",
   "difficulty": "B-Rank",
+  "description": "LLM, embeddings, RAG, prompt engineering, vector DB. Що питають у 2026 на будь-якому інтервʼю.",
   "questions": [
     {
       "id": "ai-001",

@@ -2,6 +2,7 @@
   "skill_id": "agile",
   "skill_name": "Agile & Scrum",
   "difficulty": "D-Rank",
+  "description": "Спринти, рітроспективи, story points, Kanban. Як працюють команди в нормальних компаніях.",
   "questions": [
     {
       "id": "agile-001",

@@ -2,6 +2,7 @@
   "skill_id": "production-pitfalls",
   "skill_name": "Production Pitfalls",
   "difficulty": "A-Rank",
+  "description": "Типові факапи в проді: race conditions, мемлік, retry storms, cascading failures. Чужий біль, твій досвід.",
   "questions": [
     {
       "id": "pp-001",

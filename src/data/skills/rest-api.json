@@ -2,6 +2,7 @@
   "skill_id": "rest-api",
   "skill_name": "REST API Design",
   "difficulty": "B-Rank",
+  "description": "Ресурси, версіонування, ідемпотентність, пагінація, помилки. Як не зробити API, яким соромно користуватись.",
   "questions": [
     {
       "id": "rest-001",

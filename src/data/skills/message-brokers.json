@@ -2,6 +2,7 @@
   "skill_id": "message-brokers",
   "skill_name": "Message Brokers (Kafka / RabbitMQ)",
   "difficulty": "A-Rank",
+  "description": "Topics, partitions, exchanges, consumers, idempotency. Асинхронний хребет великих систем.",
   "questions": [
     {
       "id": "message-brokers-001",

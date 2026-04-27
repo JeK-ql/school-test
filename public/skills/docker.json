@@ -2,6 +2,7 @@
   "skill_id": "docker",
   "skill_name": "Docker",
   "difficulty": "B-Rank",
+  "description": "Контейнери, образи, Dockerfile, networks, volumes. Must-have для будь-якого бекенд-розробника.",
   "questions": [
     {
       "id": "docker-001",

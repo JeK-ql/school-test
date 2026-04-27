@@ -2,6 +2,7 @@
   "skill_id": "mongodb",
   "skill_name": "MongoDB",
   "difficulty": "B-Rank",
+  "description": "Document model, aggregation, індекси, репліки. NoSQL для гнучких схем і high-load.",
   "questions": [
     {
       "id": "mongodb-001",

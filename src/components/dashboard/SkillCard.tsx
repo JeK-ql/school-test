@@ -19,6 +19,31 @@ export function SkillCard({ p }: { p: DashboardProgress }) {
         variant="bracketed"
         className="hud-panel group relative animate-scan-in"
       >
+        {p.description && (
+          <div
+            role="tooltip"
+            className="pointer-events-none absolute left-1/2 -top-3 z-30 w-[min(22rem,90vw)] -translate-x-1/2 -translate-y-full
+                       opacity-0 group-hover:opacity-100 group-focus-within:opacity-100
+                       transition-opacity duration-150
+                       border border-accent/40 bg-bg/95 backdrop-blur-sm
+                       px-4 py-3 shadow-[0_0_24px_-6px_rgba(0,200,255,0.45)]"
+          >
+            <div className="font-mono text-[9px] tracking-system uppercase text-accent/80 mb-1.5">
+              ◢ INTEL · {p.difficulty}
+            </div>
+            <div className="font-display tracking-system uppercase text-[12px] text-accent text-glow leading-tight mb-2">
+              {p.skillName}
+            </div>
+            <p className="font-mono text-[11px] leading-relaxed text-text">
+              {p.description}
+            </p>
+            <span
+              aria-hidden
+              className="absolute left-1/2 -bottom-1.5 h-3 w-3 -translate-x-1/2 rotate-45
+                         border-r border-b border-accent/40 bg-bg/95"
+            />
+          </div>
+        )}
         <div className="flex items-start gap-4">
           <HexBadge rank={p.difficulty} />
           <div className="flex-1 min-w-0">
@@ -60,6 +85,7 @@ export function SkillCard({ p }: { p: DashboardProgress }) {
         onClose={() => setModalOpen(false)}
         skillId={p.skillId}
         skillName={p.skillName}
+        description={p.description}
       />
     </>
   );

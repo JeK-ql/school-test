@@ -2,6 +2,7 @@
   "skill_id": "sql",
   "skill_name": "SQL & Databases",
   "difficulty": "B-Rank",
+  "description": "JOIN, indexes, transactions, normalization, EXPLAIN. Як не вбити прод повільним запитом.",
   "questions": [
     {
       "id": "sql-001",

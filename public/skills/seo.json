@@ -2,6 +2,7 @@
   "skill_id": "seo",
   "skill_name": "SEO",
   "difficulty": "C-Rank",
+  "description": "Meta-теги, Core Web Vitals, schema.org, sitemap, AI Overviews. Щоб гугл і ChatGPT тебе знайшли.",
   "questions": [
     {
       "id": "seo-001",

@@ -2,6 +2,7 @@
   "skill_id": "python",
   "skill_name": "Python",
   "difficulty": "B-Rank",
+  "description": "GIL, async, generators, decorators, type hints. Мова для бекенду, скриптів і ML.",
   "questions": [
     {
       "id": "py-001",

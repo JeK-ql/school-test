@@ -13,6 +13,7 @@ export const skillSchema = z.object({
   skill_id: z.string().min(1),
   skill_name: z.string().min(1),
   difficulty: z.enum(['E-Rank', 'D-Rank', 'C-Rank', 'B-Rank', 'A-Rank', 'S-Rank']),
+  description: z.string().min(1),
   questions: z.array(questionSchema).min(1),
 });
 
