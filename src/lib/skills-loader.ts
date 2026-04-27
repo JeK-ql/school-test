@@ -43,6 +43,7 @@ export function getSkillMetadata(): Array<
     { skill_id: 'python', skill_name: 'Python', difficulty: 'B-Rank', description: 'GIL, async, generators, decorators, type hints. Мова для бекенду, скриптів і ML.' },
     { skill_id: 'golang', skill_name: 'Go (Golang)', difficulty: 'B-Rank', description: 'Goroutines, channels, interfaces, generics. Швидка компільована мова для cloud-native.' },
     { skill_id: 'php', skill_name: 'PHP', difficulty: 'C-Rank', description: 'Сучасний PHP 8+, Composer, Laravel/Symfony, OPcache. Не той PHP з 2010 року, обіцяємо.' },
+    { skill_id: 'nodejs', skill_name: 'Node.js', difficulty: 'B-Rank', description: 'Event loop, async patterns, streams, cluster vs worker_threads, error handling. JS runtime на V8 + libuv.' },
     { skill_id: 'ai-fundamentals', skill_name: 'AI / ML Fundamentals', difficulty: 'B-Rank', description: 'LLM, embeddings, RAG, prompt engineering, vector DB. Що питають у 2026 на будь-якому інтервʼю.' },
     { skill_id: 'agile', skill_name: 'Agile & Scrum', difficulty: 'D-Rank', description: 'Спринти, рітроспективи, story points, Kanban. Як працюють команди в нормальних компаніях.' },
     { skill_id: 'seo', skill_name: 'SEO', difficulty: 'C-Rank', description: 'Meta-теги, Core Web Vitals, schema.org, sitemap, AI Overviews. Щоб гугл і ChatGPT тебе знайшли.' },

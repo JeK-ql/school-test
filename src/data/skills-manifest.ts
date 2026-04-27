@@ -26,6 +26,7 @@ export const SKILL_IDS = [
   'python',
   'golang',
   'php',
+  'nodejs',
   'ai-fundamentals',
   'agile',
   'seo',
